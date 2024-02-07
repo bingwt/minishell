@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/06 19:34:47 by btan             ###   ########.fr        #
+#    Updated: 2024/02/07 17:39:25 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,4 +41,4 @@ re: fclean all
 debug: CFLAGS += -g -fsanitize=thread
 debug: re
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug
