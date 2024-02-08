@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/07 17:39:25 by xlow             ###   ########.fr        #
+#    Updated: 2024/02/08 19:59:42 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME = minishell
 
 INCLUDES = .
 
-SRCS = main.c
+SRCS = utils.c \
+	   builtins.c \
+	   main.c
 
 CC = cc
 

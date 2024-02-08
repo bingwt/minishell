@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/08 16:56:58 by btan             ###   ########.fr       */
+/*   Created: 2024/02/08 16:25:03 by btan              #+#    #+#             */
+/*   Updated: 2024/02/08 17:37:19 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	ft_echo(const char *str)
 {
-	char	*buffer;
-
-	while (1)
-	{
-		printf("minibing> ");
-		buffer = readline(0);
-		//printf("output: %s\n", buffer);
-		if (!strncmp("echo", buffer, 4))
-			ft_echo(buffer + 5);
-	}
-	return (0);
+	if (!ft_strncmp("-n", str, 2))
+		printf("%s", str + 3);
+	else
+		printf("%s\n", str);
 }
