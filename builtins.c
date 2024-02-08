@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:25:03 by btan              #+#    #+#             */
-/*   Updated: 2024/02/08 17:37:19 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/08 22:24:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,22 @@ void	ft_echo(const char *str)
 		printf("%s", str + 3);
 	else
 		printf("%s\n", str);
+}
+
+void	ft_cd(const char *path)
+{
+	chdir(path);
+}
+
+void	ft_pwd(void)
+{
+	char	*path;
+
+	path = malloc(PATH_MAX + 1 * (sizeof(char)));
+	if (!path)
+		return ;
+	path[PATH_MAX] = '\0';
+	getcwd(path, PATH_MAX);
+	printf("%s\n", path);
+	free(path);
 }
