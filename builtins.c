@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:25:03 by btan              #+#    #+#             */
-/*   Updated: 2024/02/09 15:34:50 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/09 16:15:15 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,5 @@ char	*ft_pwd(void)
 		return (NULL);
 	path[PATH_MAX] = '\0';
 	getcwd(path, PATH_MAX);
-	//printf("%s\n", path);
-	//free(path);
 	return (path);
 }

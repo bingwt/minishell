@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:53:54 by btan              #+#    #+#             */
-/*   Updated: 2024/02/09 15:23:25 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/09 16:15:04 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strlen(const char *str)
 {
-	char *ptr;
+	char	*ptr;
 
 	ptr = (char *) str;
 	while (*ptr)
