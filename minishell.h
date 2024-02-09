@@ -6,13 +6,14 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/09 16:08:30 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/09 21:50:52 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <signal.h>
 # include <limits.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -23,6 +24,8 @@
 
 int		ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+void	handle_signal(int signal);
 
 void	prompt(void);
 
