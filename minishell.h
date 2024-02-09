@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/08 22:25:07 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/09 15:33:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+int		ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+void	prompt(void);
 
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);
-void	ft_pwd(void);
+char	*ft_pwd(void);
 
 #endif
