@@ -6,13 +6,14 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/09 21:50:52 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/14 17:41:45 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
 # include <signal.h>
 # include <limits.h>
 # include <unistd.h>
@@ -21,9 +22,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
-
-int		ft_strlen(const char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 void	handle_signal(int signal);
 

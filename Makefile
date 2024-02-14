@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/09 21:51:32 by btan             ###   ########.fr        #
+#    Updated: 2024/02/14 17:44:52 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME = minishell
 
 INCLUDES = .
 
-SRCS = utils.c \
-	   signals.c \
+SRCS = signals.c \
 	   prompt.c \
 	   builtins.c \
 	   main.c
@@ -30,15 +29,19 @@ OBJECTS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
-	$(CC) $(CFLAGS) $(SRCS) -o $(NAME) -I$(INCLUDES) $(CLIBS)
+$(NAME): $(OBJECTS) libft/libft.a
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o $(NAME) -I$(INCLUDES) $(CLIBS)
+
+libft/libft.a:
+	make -C libft
 
 clean:
+	make clean -C libft
 	rm -rf $(OBJECTS) $(NAME).a
 
 fclean: clean
+	make fclean -C libft
 	rm -rf $(NAME)
-
 
 re: fclean all
 

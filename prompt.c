@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/02/09 16:23:19 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/14 17:44:15 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_hostname(void)
 	char	*ptr;
 
 	fd = open("/etc/hostname", O_RDONLY);
-	hostname = malloc(1025);
+	hostname = ft_calloc(1025, 1);
 	if (!hostname)
 		return (NULL);
 	hostname[1024] = '\0';
