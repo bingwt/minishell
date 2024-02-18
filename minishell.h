@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/14 17:41:45 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/18 20:17:16 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
-void	handle_signal(int signal);
+void	handle_signal();
 
-void	prompt(void);
+char	*init_prompt(void);
 
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);

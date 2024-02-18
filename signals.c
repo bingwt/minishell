@@ -6,20 +6,14 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:49:52 by btan              #+#    #+#             */
-/*   Updated: 2024/02/09 22:21:11 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/18 20:23:03 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_signal(int signal)
+void	handle_signal()
 {
-	//printf("Signal: %d\n", signal);
-	if (signal == 242 || signal == SIGINT)
-	{
-		printf("\n");
-		prompt();
-	}
-	if (signal == SIGQUIT)
-		prompt();
+	printf("\n");
+	rl_redisplay();
 }
