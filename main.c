@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/18 20:24:55 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/19 18:55:41 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(void)
 	{
 		prompt = init_prompt();
 		buffer = readline(prompt);
+		free(prompt);
 		add_history(buffer);
 		if (!buffer)
 		{
@@ -42,7 +43,6 @@ int	main(void)
 		}
 		if (!strncmp("exit", buffer, 4))
 			exit(0);
-		free(prompt);
 		free(buffer);
 	}
 	return (0);
