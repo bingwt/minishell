@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/02/18 20:48:51 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/19 18:42:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_hostname(void)
 	ptr = hostname;
 	while (*ptr)
 	{
-		if (*ptr == '\n')
+		if (*ptr == '.')
 			*ptr = '\0';
 		ptr++;
 	}
