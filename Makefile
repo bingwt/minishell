@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/14 17:44:52 by xlow             ###   ########.fr        #
+#    Updated: 2024/02/18 21:09:25 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ INCLUDES = .
 SRCS = signals.c \
 	   prompt.c \
 	   builtins.c \
+	   execute.c \
 	   main.c
 
 CC = cc

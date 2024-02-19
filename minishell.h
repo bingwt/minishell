@@ -6,7 +6,8 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/19 13:34:48 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/19 20:50:44 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/18 21:08:33 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +31,8 @@ char	*init_prompt(void);
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);
 char	*ft_pwd(void);
+
+int		builtin_table(char *cmd);
+void	run_cmd(char *cmd);
 
 #endif
