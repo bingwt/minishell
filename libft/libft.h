@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:53:32 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/08 21:54:52 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/19 18:32:13 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void		pf_fd_putint(int fd, int number, int *count);
 void		pf_fd_putuint(int fd, unsigned int number, int *count);
 void		pf_fd_puthex(int fd, void *ptr, int *count);
 void		pf_fd_dectohex(int f, unsigned int number, char *base, int *count);
-void		pf_fd_ullhex(int fd, unsigned long long number, char *base, int *count);
+void		pf_fd_ullhex(int fd, unsigned long long number, char *base, int *c);
 
 // gnl
 char		*get_next_line(int fd);
@@ -110,6 +110,7 @@ int			atoi_with_counter(const char *nptr, int *i, int *sign);
 double		ft_atof(const char *s);
 long		ft_atol(const char *nptr);
 int			ft_strcmp(const char *s1, const char *s2);
-void		ft_free_split(char **split);
+void		ft_free_split(char ***split);
+char		*ft_strjoin_free(char *s1, char *s2, char *og);
 
 #endif

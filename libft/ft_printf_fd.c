@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 04:39:10 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/08 21:55:23 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/19 18:37:21 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static void	placeholder(int fd, const char *str, va_list *args, int *count)
 		*count += write(fd, "%", 1);
 }
 
-void	pf_fd_ullhex(int fd, unsigned long long num, char *base, int *count)
+void	pf_fd_ullhex(int fd, unsigned long long num, char *base, int *c)
 {
 	if (num > 15)
-		pf_fd_ullhex(fd, num / 16, base, count);
-	*count += write(fd, &base[num % 16], 1);
+		pf_fd_ullhex(fd, num / 16, base, c);
+	*c += write(fd, &base[num % 16], 1);
 }
 
 int	ft_printf_fd(int fd, const char *str, ...)
