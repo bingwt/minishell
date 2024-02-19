@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/18 20:17:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/19 13:34:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
-void	handle_signal();
+void	handle_signal(int sig);
 
 char	*init_prompt(void);
 
