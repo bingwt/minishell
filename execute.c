@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/19 20:50:23 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/20 16:32:58 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ void	run_cmd(char *cmd)
 		path = get_path(cmd);
 		execve(path, args, NULL);
 	}
+	waitpid(pid, NULL, WNOHANG);
 }
