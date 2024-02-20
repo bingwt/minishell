@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/20 16:32:58 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/20 23:30:41 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	run_cmd(char *cmd)
 	pid_t	pid;
 
 	if (builtin_table(cmd))
+		return ;
+	if (!*cmd)
 		return ;
 	args = ft_split(cmd, ' ');
 	pid = fork();
