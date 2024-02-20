@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:53:32 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/19 18:32:13 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/20 22:07:35 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ long		ft_atol(const char *nptr);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_split(char ***split);
 char		*ft_strjoin_free(char *s1, char *s2, char *og);
+char		*ft_realloc_str(char *ptr, size_t size);
 
 #endif
