@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/20 23:30:41 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/21 21:28:24 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,24 +81,38 @@ int	builtin_table(char *cmd)
 	return (1);
 }
 
+void	rd_cmd(int fd, int *p_fd, int dir)
+{
+	dup2(fd, !dir);
+	close(fd);
+	dup2(p_fd[dir], dir);
+	close(p_fd[0]);
+	close(p_fd[1]);
+}
+
 void	run_cmd(char *cmd)
 {
 	char	**args;
 	char	*path;
 	pid_t	pid;
+	pid_t	p_fd[2];
 
-	if (builtin_table(cmd))
-		return ;
 	if (!*cmd)
+		return ;
+	if (builtin_table(cmd))
 		return ;
 	args = ft_split(cmd, ' ');
 	pid = fork();
 	if (!pid)
 	{
+		rd_cmd(0, p_fd, 0);
+		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
 			execve(args[0], args, NULL);
 		path = get_path(cmd);
 		execve(path, args, NULL);
+		close(0);
+		close(1);
 	}
 	waitpid(pid, NULL, WNOHANG);
 }
