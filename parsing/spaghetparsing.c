@@ -4,7 +4,7 @@
 // arg_count as we can iterate through with while (arr[i])
 // as long as we remember to set NULL after final arg
 
-int	main(int argc, char **argv)
+char	**input_parser(char *input)
 {
 	char	space_split[100][50]; // res after parsing quotes/space, up to 10 cmds of 50 char len
 	int		squote = 0;
@@ -18,10 +18,9 @@ int	main(int argc, char **argv)
 
 	// current implementation does not account for awk
 	// and for unclosed quotes
-	(void)argc;
-	while (argv[1][i])
+	while (input[i])
 	{
-		c = argv[1][i];
+		c = input[i];
 		if (c == '\'')
 			squote = !squote;
 		else if (c == '\"')
@@ -41,7 +40,6 @@ int	main(int argc, char **argv)
 		else
 			space_split[arg_index][j++] = c;
 		i++;
-	}
 	if (j > 0)
 	{
 		space_split[arg_index][j] = '\0';
