@@ -112,6 +112,6 @@ long		ft_atol(const char *nptr);
 int			ft_strcmp(const char *s1, const char *s2);
 void		ft_free_split(char ***split);
 char		*ft_strjoin_free(char *s1, char *s2, char *og);
-char		*ft_realloc_str(char *ptr, size_t size);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif
