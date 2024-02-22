@@ -6,13 +6,13 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/20 23:30:41 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/22 16:49:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
+
 void	free_strs(char **strs)
 {
 	char	**temp;
@@ -21,7 +21,7 @@ void	free_strs(char **strs)
 	while (*strs)
 		free(*(strs++));
 	free(temp);
-}*/
+}
 
 char	*get_path(char *cmd)
 {
@@ -44,6 +44,23 @@ char	*get_path(char *cmd)
 	free(program);
 	ft_free_split(&path);
 	return (program_path);
+}
+
+int	handle_error(char *vars, char *error)
+{
+	ft_putstr_fd("minibing: ", 2);
+	if (!ft_strncmp(error, "CMD_NOT_FOUND", 13))
+	{
+		ft_printf_fd(2, "command not found: %s\n", vars);
+		return (127);
+	}
+	if (!ft_strncmp(error, "NO_FILE", 7))
+		ft_putstr_fd("no such file or directory: ", 2);
+	if (!ft_strncmp(error, "NO_PERMS", 8))
+		ft_putstr_fd("permission denied: ", 2);
+	ft_putstr_fd(vars, 2);
+	ft_putchar_fd('\n', 2);
+	exit(1);
 }
 
 //void	run_cmd(char *cmd)
@@ -87,9 +104,9 @@ void	run_cmd(char *cmd)
 	char	*path;
 	pid_t	pid;
 
-	if (builtin_table(cmd))
-		return ;
 	if (!*cmd)
+		return ;
+	if (builtin_table(cmd))
 		return ;
 	args = ft_split(cmd, ' ');
 	pid = fork();
@@ -97,8 +114,15 @@ void	run_cmd(char *cmd)
 	{
 		if (!access(args[0], X_OK))
 			execve(args[0], args, NULL);
-		path = get_path(cmd);
+		path = get_path(args[0]);
+		if (!path)
+		{
+			handle_error(args[0], "CMD_NOT_FOUND");
+			free_strs(args);
+			free(path);
+			exit(127);
+		}
 		execve(path, args, NULL);
 	}
-	waitpid(pid, NULL, WNOHANG);
+	waitpid(pid, NULL, 0);
 }
