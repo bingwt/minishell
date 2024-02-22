@@ -6,13 +6,15 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/20 16:33:07 by xlow             ###   ########.fr       */
-/*   Updated: 2024/02/18 21:08:33 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/22 17:00:08 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define CYELLOW "\001\e[0;31m\002"
+# define RESET   "\001\e[0m\002"
 
 # include "libft/libft.h"
 # include <signal.h>
