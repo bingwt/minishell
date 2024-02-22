@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/02/21 20:32:49 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/22 20:59:45 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*init_prompt(void)
 
 	userhost = get_user();
 	temp = ft_pwd();
-	pwd = ft_strjoin(temp, "$ ");
+	pwd = ft_strjoin(temp, "$\001\e[0m\002 ");
 	free(temp);
 	if (!strncmp(getenv("HOME"), pwd, ft_strlen(getenv("HOME"))))
 	{
@@ -74,7 +74,5 @@ char	*init_prompt(void)
 		prompt = ft_strjoin(userhost, pwd);
 	free(userhost);
 	free(pwd);
-	temp = ft_strjoin(prompt, "\001\e[0m\002");
-	free(prompt);
-	return (temp);
+	return (prompt);
 }
