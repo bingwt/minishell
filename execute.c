@@ -6,13 +6,13 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/21 21:28:24 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/22 15:07:47 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
+
 void	free_strs(char **strs)
 {
 	char	**temp;
@@ -21,7 +21,7 @@ void	free_strs(char **strs)
 	while (*strs)
 		free(*(strs++));
 	free(temp);
-}*/
+}
 
 char	*get_path(char *cmd)
 {
@@ -44,6 +44,23 @@ char	*get_path(char *cmd)
 	free(program);
 	ft_free_split(&path);
 	return (program_path);
+}
+
+int	handle_error(char *vars, char *error)
+{
+	ft_putstr_fd("minibing: ", 2);
+	if (!ft_strncmp(error, "CMD_NOT_FOUND", 13))
+	{
+		ft_printf_fd(2, "command not found: %s\n", vars);
+		return (127);
+	}
+	if (!ft_strncmp(error, "NO_FILE", 7))
+		ft_putstr_fd("no such file or directory: ", 2);
+	if (!ft_strncmp(error, "NO_PERMS", 8))
+		ft_putstr_fd("permission denied: ", 2);
+	ft_putstr_fd(vars, 2);
+	ft_putchar_fd('\n', 2);
+	exit(1);
 }
 
 //void	run_cmd(char *cmd)
@@ -81,21 +98,11 @@ int	builtin_table(char *cmd)
 	return (1);
 }
 
-void	rd_cmd(int fd, int *p_fd, int dir)
-{
-	dup2(fd, !dir);
-	close(fd);
-	dup2(p_fd[dir], dir);
-	close(p_fd[0]);
-	close(p_fd[1]);
-}
-
 void	run_cmd(char *cmd)
 {
 	char	**args;
 	char	*path;
 	pid_t	pid;
-	pid_t	p_fd[2];
 
 	if (!*cmd)
 		return ;
@@ -105,14 +112,17 @@ void	run_cmd(char *cmd)
 	pid = fork();
 	if (!pid)
 	{
-		rd_cmd(0, p_fd, 0);
-		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
 			execve(args[0], args, NULL);
 		path = get_path(cmd);
+		if (!path)
+		{
+			handle_error(args[0], "CMD_NOT_FOUND");
+			free_strs(args);
+			free(path);
+		}
 		execve(path, args, NULL);
-		close(0);
-		close(1);
 	}
-	waitpid(pid, NULL, WNOHANG);
+	waitpid(pid, NULL, 0);
+	free_strs(args);
 }
