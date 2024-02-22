@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/22 15:07:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/22 15:20:20 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ void	run_cmd(char *cmd)
 			handle_error(args[0], "CMD_NOT_FOUND");
 			free_strs(args);
 			free(path);
+			exit(127);
 		}
 		execve(path, args, NULL);
 	}
 	waitpid(pid, NULL, 0);
-	free_strs(args);
 }
