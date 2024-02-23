@@ -6,8 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/22 21:39:25 by btan             ###   ########.fr       */
-/*   Updated: 2024/02/18 21:08:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/23 22:16:20 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +30,8 @@ int	main(int argc, char **argv)
 		else
 			buffer = readline(prompt);
 		free(prompt);
-		add_history(buffer);
+		if (buffer && *buffer)
+			add_history(buffer);
 		if (!buffer)
 		{
 			printf("exit\n");
