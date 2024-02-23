@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/22 16:49:02 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/23 17:34:04 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	builtin_table(char *cmd)
 		ft_cd(cmd + 3);
 	else if (!ft_strncmp("pwd ", cmd, 4))
 		printf("%s\n", ft_pwd());
+	else if (!ft_strncmp("export", cmd, 7))
+			printf("%s\n", "environ");
 	else if (!ft_strcmp("exit", cmd))
 		exit(0);
 	else
@@ -100,6 +102,7 @@ int	builtin_table(char *cmd)
 
 void	run_cmd(char *cmd)
 {
+	char	**env;
 	char	**args;
 	char	*path;
 	pid_t	pid;
@@ -108,21 +111,25 @@ void	run_cmd(char *cmd)
 		return ;
 	if (builtin_table(cmd))
 		return ;
+	env = init_env();
 	args = ft_split(cmd, ' ');
 	pid = fork();
 	if (!pid)
 	{
 		if (!access(args[0], X_OK))
-			execve(args[0], args, NULL);
+			execve(args[0], args, env);
 		path = get_path(args[0]);
 		if (!path)
 		{
 			handle_error(args[0], "CMD_NOT_FOUND");
 			free_strs(args);
 			free(path);
+			free_strs(env);
 			exit(127);
 		}
-		execve(path, args, NULL);
+		execve(path, args, env);
 	}
+	ft_free_split(&env);
+	ft_free_split(&args);
 	waitpid(pid, NULL, 0);
 }

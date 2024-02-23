@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/22 17:00:08 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/23 08:21:32 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <termios.h>
 
 void	handle_signal(int sig);
 
 char	*init_prompt(void);
+char	**init_env(void);
 
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);

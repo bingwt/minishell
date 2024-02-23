@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/22 15:16:14 by btan             ###   ########.fr        #
+#    Updated: 2024/02/23 08:23:49 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = minishell
 
 INCLUDES = .
 
-SRCS = signals.c \
+SRCS = env.c \
+	   signals.c \
 	   prompt.c \
 	   builtins.c \
 	   execute.c \
