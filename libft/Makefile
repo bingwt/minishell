@@ -6,7 +6,7 @@
 #    By: xlow <marvin@42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/12 17:01:50 by xlow              #+#    #+#              #
-#    Updated: 2024/02/20 22:07:45 by xlow             ###   ########.fr        #
+#    Updated: 2024/02/23 22:01:49 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 
 OBJS = $(SRCS:.c=.o)
 BOBJS = $(BSRCS:.c=.o)
-CC = cc -Wall -Wextra -Werror -c
+CC = cc -Wall -Wextra -Werror -c -g
 LIBC = ar rcs
 RM = rm -rf
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   split_by_space.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:47:50 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/22 22:08:30 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/23 22:21:22 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ int	quotes(char c, char *reset)
 	return (0);
 }
 
+char	*cmd_assign(char *cmd, int *j, char input)
+{
+	cmd = ft_realloc(cmd, *j + 1, *j + 2);
+	cmd[(*j)++] = input;
+	return (cmd);
+}
+
+char	**split_assign(char **split, int *cmd_idx, char *insert)
+{
+	split = ft_realloc(split, *cmd_idx * 8, (*cmd_idx + 1) * 8);
+	split[(*cmd_idx)++] = insert;
+	return (split);
+}
+
 char	**split_by_space(char *input)
 {
 	int		q;
@@ -58,50 +72,39 @@ char	**split_by_space(char *input)
 	{
 		if (*input == '\'' || *input == '\"')
 		{
-			q = quotes(*input, NULL); // find a way print literal quotes
+			q = quotes(*input, NULL);
 			if ((quotes('\0', NULL) == 1 && *input == '\"')
 				|| (quotes('\0', NULL) == 2 && *input == '\''))
-			{
-				cmd = ft_realloc(cmd, j + 1, j + 2);
-				cmd[j++] = *input;
-			}
+				cmd = cmd_assign(cmd, &j, *input);
 		}
 		else if (*input == ' ')
 		{
-			if (!quotes(*input,) && j > 0)
+			if (!q && j > 0)
 			{
-				split = ft_realloc(split, cmd_idx * 8, (cmd_idx + 1) * 8);
-				split[cmd_idx++] = cmd;
+				split = split_assign(split, &cmd_idx, cmd);
 				cmd = ft_calloc(1, 1);
 				j = 0;
 			}
-			else
-			{
-				cmd = ft_realloc(cmd, j + 1, j + 2); // pls test dis
-				cmd[j++] = *input;
-			}
+			else if (q)
+				cmd = cmd_assign(cmd, &j, *input);
 		}
-		else // control with else ifs and else after settling quotes
-		{
-			cmd = ft_realloc(cmd, j + 1, j + 2);
-			cmd[j++] = *input;
-		}
+		else
+			cmd = cmd_assign(cmd, &j, *input);
+		input++;
 	}
-	if (j)
+	if (quotes('\0', "reset"))
 	{
-		split = ft_realloc(split, cmd_idx * 8, (cmd_idx + 1) * 8);
-		split[cmd_idx++] = cmd;
-	}
-	else
-		free(cmd);
-	split = ft_realloc(split, cmd_idx * 8, (cmd_idx + 1) * 8);
-	split[cmd_idx] = NULL;
-	if (quotes('\0'))
-	{
+		split = split_assign(split, &cmd_idx, NULL);
 		ft_free_split(&split);
+		free(cmd);
 		perror("quotes unclosed");
 		return (NULL);
 	}
+	if (j)
+		split = split_assign(split, &cmd_idx, cmd);
+	else
+		free(cmd);
+	split = split_assign(split, &cmd_idx, NULL);
 	return (split);
 }
 
@@ -112,10 +115,13 @@ int	main(int argc, char **argv)
 	int		i = 0;
 
 	s = split_by_space(argv[1]);
-	while (s[i])
+	if (s)
 	{
-		printf("Str %d: %s\n", i, s[i]);
-		i++;
+		while (s[i])
+		{
+			printf("Str %d: %s\n", i, s[i]);
+			i++;
+		}
 	}
 	ft_free_split(&s);
 	return (0);
