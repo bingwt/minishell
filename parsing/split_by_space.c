@@ -40,6 +40,7 @@ int	quotes(char c, char *reset)
 	}
 	return (0);
 }
+
 void	cmd_assign(t_string *cmd, char input)
 {
 	cmd->s = ft_realloc(cmd->s, cmd->i + 1, cmd->i + 2);
@@ -62,10 +63,7 @@ void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q)
 		cmd->i = 0;
 	}
 	else if (q)
-	{
-		cmd->s = ft_realloc(cmd->s, cmd->i + 1, cmd-> i + 2);
-		cmd->s[cmd->i++] = ' ';
-	}
+		cmd_assign(cmd, ' ');
 }
 
 char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
@@ -85,19 +83,17 @@ char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
 	*split = split_assign(*split, cmd_idx, NULL);
 	return (*split);
 }
-
-char	**split_by_space(char *input)
+/*
+void	split_by_space(char *input, char ***split)
 {
-	int		q;
-	int		cmd_idx;
-	char	**split;
-	t_string		cmd;
+	int			q;
+	int			cmd_idx;
+	t_string	cmd;
 
 	q = 0;
 	cmd.i = 0;
 	cmd_idx = 0;
 	cmd.s = ft_calloc(1, 1);
-	split = NULL;
 	while (*input)
 	{
 		if (*input == '\'' || *input == '\"')
@@ -105,22 +101,15 @@ char	**split_by_space(char *input)
 			q = quotes(*input, NULL);
 			if ((quotes('\0', NULL) == 1 && *input == '\"')
 				|| (quotes('\0', NULL) == 2 && *input == '\''))
-			{
-				cmd.s = ft_realloc(cmd.s, cmd.i + 1, cmd.i + 2);
-				cmd.s[cmd.i++] = *input;
-			}
+				cmd_assign(&cmd, *input);
 		}
 		else if (*input == ' ')
-			handle_space(&cmd, &split, &cmd_idx, q);
+			handle_space(&cmd, split, &cmd_idx, q);
 		else
-		{
-			cmd.s = ft_realloc(cmd.s, cmd.i + 1, cmd.i + 2);
-			cmd.s[cmd.i++] = *input;
-		}
+			cmd_assign(&cmd, *input);
 		input++;
 	}
-	split = cleanup_space(&cmd, &split, &cmd_idx);
-	return (split);
+	cleanup_space(&cmd, split, &cmd_idx);
 }
 
 int	main(int argc, char **argv)
@@ -129,7 +118,8 @@ int	main(int argc, char **argv)
 	char	**s;
 	int		i = 0;
 
-	s = split_by_space(argv[1]);
+	s = NULL;
+	split_by_space(argv[1], &s);
 	if (s)
 	{
 		while (s[i])
@@ -141,7 +131,7 @@ int	main(int argc, char **argv)
 	ft_free_split(&s);
 	return (0);
 }
-/*
+
 char	**input_parser(char *input)
 {
 	char	*in;
@@ -151,7 +141,8 @@ char	**input_parser(char *input)
 	if (!input)
 		return (NULL);
 	in = input;
-	space_split = split_by_space(in);
+	space_split = NULL;
+	split_by_space(in, &space_split);
 	pipe_split = split_by_pipes(space_split);
 }
 */
