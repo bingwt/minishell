@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/23 17:34:04 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/25 03:50:24 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	run_cmd(char *cmd)
 	pid = fork();
 	if (!pid)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
 			execve(args[0], args, env);
 		path = get_path(args[0]);
@@ -129,7 +131,11 @@ void	run_cmd(char *cmd)
 		}
 		execve(path, args, env);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	ft_free_split(&env);
 	ft_free_split(&args);
 	waitpid(pid, NULL, 0);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 }
