@@ -41,11 +41,10 @@ int	quotes(char c, char *reset)
 	return (0);
 }
 
-char	*cmd_assign(char *cmd, int *j, char input)
+void	cmd_assign(t_string *cmd, char input)
 {
-	cmd = ft_realloc(cmd, *j + 1, *j + 2);
-	cmd[(*j)++] = input;
-	return (cmd);
+	cmd->s = ft_realloc(cmd->s, cmd->i + 1, cmd->i + 2);
+	cmd->s[cmd->i++] = input;
 }
 
 char	**split_assign(char **split, int *cmd_idx, char *insert)
@@ -58,15 +57,14 @@ char	**split_assign(char **split, int *cmd_idx, char *insert)
 char	**split_by_space(char *input)
 {
 	int		q;
-	int		j;
 	int		cmd_idx;
-	char	*cmd;
 	char	**split;
+	t_string		cmd;
 
 	q = 0;
-	j = 0;
+	cmd.i = 0;
 	cmd_idx = 0;
-	cmd = ft_calloc(1, 1);
+	cmd.s = ft_calloc(1, 1);
 	split = NULL;
 	while (*input)
 	{
@@ -75,35 +73,35 @@ char	**split_by_space(char *input)
 			q = quotes(*input, NULL);
 			if ((quotes('\0', NULL) == 1 && *input == '\"')
 				|| (quotes('\0', NULL) == 2 && *input == '\''))
-				cmd = cmd_assign(cmd, &j, *input);
+				cmd_assign(&cmd, *input);
 		}
 		else if (*input == ' ')
 		{
-			if (!q && j > 0)
+			if (!q && cmd.i > 0)
 			{
-				split = split_assign(split, &cmd_idx, cmd);
-				cmd = ft_calloc(1, 1);
-				j = 0;
+				split = split_assign(split, &cmd_idx, cmd.s);
+				cmd.s = ft_calloc(1, 1);
+				cmd.i = 0;
 			}
 			else if (q)
-				cmd = cmd_assign(cmd, &j, *input);
+				cmd_assign(&cmd, *input);
 		}
 		else
-			cmd = cmd_assign(cmd, &j, *input);
+			cmd_assign(&cmd, *input);
 		input++;
 	}
 	if (quotes('\0', "reset"))
 	{
 		split = split_assign(split, &cmd_idx, NULL);
 		ft_free_split(&split);
-		free(cmd);
+		free(cmd.s);
 		perror("quotes unclosed");
 		return (NULL);
 	}
-	if (j)
-		split = split_assign(split, &cmd_idx, cmd);
+	if (cmd.i)
+		split = split_assign(split, &cmd_idx, cmd.s);
 	else
-		free(cmd);
+		free(cmd.s);
 	split = split_assign(split, &cmd_idx, NULL);
 	return (split);
 }

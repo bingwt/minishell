@@ -38,7 +38,8 @@ int	main(void)
 		printf("%s\n", split[i]);
 		i++;
 	}
-	split = ft_realloc(split, 16, 32); apparently doesnt matter if oldsize 16 or 24
+	split = ft_realloc(split, 16, 32);
+	apparently doesnt matter if oldsize 16 or 24
 	i = 0;
 	split[2] = s3, split[3] = NULL;
 	while (split[i])

@@ -30,6 +30,12 @@ typedef struct s_list
 	struct s_list				*next;
 }	t_list;
 
+typedef struct s_string
+{
+	int		i;
+	char	*s;
+}	t_string;
+
 // initial libft
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
