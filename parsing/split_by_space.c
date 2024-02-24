@@ -54,6 +54,18 @@ char	**split_assign(char **split, int *cmd_idx, char *insert)
 	return (split);
 }
 
+void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q)
+{
+	if (!q && cmd->i > 0)
+	{
+		*split = split_assign(*split, cmd_idx, cmd->s);
+		cmd->s = ft_calloc(1, 1);
+		cmd->i = 0;
+	}
+	else if (q)
+		cmd_assign(cmd, ' ');
+}
+
 char	**split_by_space(char *input)
 {
 	int		q;
@@ -76,16 +88,7 @@ char	**split_by_space(char *input)
 				cmd_assign(&cmd, *input);
 		}
 		else if (*input == ' ')
-		{
-			if (!q && cmd.i > 0)
-			{
-				split = split_assign(split, &cmd_idx, cmd.s);
-				cmd.s = ft_calloc(1, 1);
-				cmd.i = 0;
-			}
-			else if (q)
-				cmd_assign(&cmd, *input);
-		}
+			handle_space(&cmd, &split, &cmd_idx, q);
 		else
 			cmd_assign(&cmd, *input);
 		input++;
