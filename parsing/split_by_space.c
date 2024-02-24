@@ -40,7 +40,6 @@ int	quotes(char c, char *reset)
 	}
 	return (0);
 }
-
 void	cmd_assign(t_string *cmd, char input)
 {
 	cmd->s = ft_realloc(cmd->s, cmd->i + 1, cmd->i + 2);
@@ -63,7 +62,28 @@ void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q)
 		cmd->i = 0;
 	}
 	else if (q)
-		cmd_assign(cmd, ' ');
+	{
+		cmd->s = ft_realloc(cmd->s, cmd->i + 1, cmd-> i + 2);
+		cmd->s[cmd->i++] = ' ';
+	}
+}
+
+char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
+{
+	if (quotes('\0', "reset"))
+	{
+		*split = split_assign(*split, cmd_idx, NULL);
+		ft_free_split(split);
+		free(cmd->s);
+		perror("Unclosed quotes");
+		return (NULL);
+	}
+	if (cmd->i)
+		*split = split_assign(*split, cmd_idx, cmd->s);
+	else
+		free(cmd->s);
+	*split = split_assign(*split, cmd_idx, NULL);
+	return (*split);
 }
 
 char	**split_by_space(char *input)
@@ -85,27 +105,21 @@ char	**split_by_space(char *input)
 			q = quotes(*input, NULL);
 			if ((quotes('\0', NULL) == 1 && *input == '\"')
 				|| (quotes('\0', NULL) == 2 && *input == '\''))
-				cmd_assign(&cmd, *input);
+			{
+				cmd.s = ft_realloc(cmd.s, cmd.i + 1, cmd.i + 2);
+				cmd.s[cmd.i++] = *input;
+			}
 		}
 		else if (*input == ' ')
 			handle_space(&cmd, &split, &cmd_idx, q);
 		else
-			cmd_assign(&cmd, *input);
+		{
+			cmd.s = ft_realloc(cmd.s, cmd.i + 1, cmd.i + 2);
+			cmd.s[cmd.i++] = *input;
+		}
 		input++;
 	}
-	if (quotes('\0', "reset"))
-	{
-		split = split_assign(split, &cmd_idx, NULL);
-		ft_free_split(&split);
-		free(cmd.s);
-		perror("quotes unclosed");
-		return (NULL);
-	}
-	if (cmd.i)
-		split = split_assign(split, &cmd_idx, cmd.s);
-	else
-		free(cmd.s);
-	split = split_assign(split, &cmd_idx, NULL);
+	split = cleanup_space(&cmd, &split, &cmd_idx);
 	return (split);
 }
 
