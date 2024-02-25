@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/25 11:57:13 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/25 16:44:31 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	handle_signal(int sig);
 
 char	*init_prompt(void);
 char	**init_envp(void);
+void	init_envll(t_list **envp);
 
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);

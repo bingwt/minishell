@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/25 11:58:26 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/25 17:09:24 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ int	main(int argc, char **argv)
 	char	*prompt;
 	char	*buffer;
 	char	**envp;
+	t_list	*envll;
 
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	envp = init_envp();
+	envll = NULL;
+	init_envll(&envll);
 	while (1)
 	{
 		prompt = init_prompt();
