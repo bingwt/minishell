@@ -6,13 +6,13 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/23 17:20:03 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/25 11:41:35 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**init_env(void)
+char	**init_envp(void)
 {
 	char	**env;
 

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/23 21:23:34 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/25 11:57:13 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+void	free_strs(char **strs);
+
 void	handle_signal(int sig);
 
 char	*init_prompt(void);
-char	**init_env(void);
+char	**init_envp(void);
 
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);
 char	*ft_pwd(void);
+void	ft_env(char **envp);
 
-int		builtin_table(char *cmd);
-void	run_cmd(char *cmd);
+void	run_cmd(char *cmd, char ***envp);
 
 #endif
