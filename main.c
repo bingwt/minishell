@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/25 17:09:24 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/26 23:39:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	main(int argc, char **argv)
 
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
-	envp = init_envp();
 	envll = NULL;
 	init_envll(&envll);
+	envp = list_to_array(envll);
 	while (1)
 	{
 		prompt = init_prompt();
@@ -46,5 +46,6 @@ int	main(int argc, char **argv)
 		free(buffer);
 	}
 	free_strs(envp);
+	ft_lstclear(&envll, free);
 	return (0);
 }

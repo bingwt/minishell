@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/25 16:44:13 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/26 22:57:51 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,21 @@ void	init_envll(t_list **envp)
 	env = ft_lstnew(ft_strjoin("OLDPWD=", getenv("OLDPWD")));
 	ft_lstadd_back(envp, env);
 }
+
+char	**list_to_array(t_list *lst)
+{
+	size_t	len;
+	char	**arr;
+	size_t	i;
+
+	len = ft_lstsize(lst);
+	arr = ft_calloc(len + 1, sizeof(char *));
+	i = 0;
+	while (i < len)
+	{
+		arr[i++] = (char *) lst->content;
+		lst = lst->next;
+	}
+	return (arr);
+}
+
