@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/26 23:39:49 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 00:42:37 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv)
 			printf("exit\n");
 			break ;
 		}
-		run_cmd(buffer, &envp);
+		run_cmd(buffer, &envp, envll);
 		free(buffer);
 	}
 	free_strs(envp);

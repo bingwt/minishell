@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/26 22:57:51 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 00:48:15 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	init_envll(t_list **envp)
 	ft_lstadd_back(envp, env);
 	env = ft_lstnew(ft_strjoin("OLDPWD=", getenv("OLDPWD")));
 	ft_lstadd_back(envp, env);
+	env = ft_lstnew(ft_strjoin("TEST=", "This is a test"));
+	ft_lstadd_back(envp, env);
 }
 
 char	**list_to_array(t_list *lst)
@@ -69,3 +71,29 @@ char	**list_to_array(t_list *lst)
 	return (arr);
 }
 
+char	*expand_env(char *str, t_list *envll)
+{
+	char	*start;
+	char	*end;
+	char	*token;
+	char	*env;
+
+	start = ft_strchr(str, '$');
+	end = start + 1;
+	while (isalnum(*end))
+		end++;
+	token = ft_substr(str, start - str, end - start);
+	while (envll)
+	{
+		env = (char *) envll->content;
+		if (!ft_strncmp(token + 1, env, end - start - 1))
+			break ;
+		envll = envll->next;
+	}
+	free(token);
+	if (envll) 
+		env = env + (end - start);
+	else
+		return ("\n");
+	return (env);
+}

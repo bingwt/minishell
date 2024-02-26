@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/26 23:45:30 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 00:45:22 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	handle_error(char *vars, char *error)
 
 //	proposed run_cmd with routing table
 
-static int	builtin_table(char *cmd, char **envp)
+static int	builtin_table(char *cmd, char **envp, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
 		ft_echo(cmd + 5);
@@ -95,6 +95,11 @@ static int	builtin_table(char *cmd, char **envp)
 		ft_export(envp);
 	else if (!ft_strncmp("env ", cmd, 4))
 		ft_env(envp);
+	else if (!ft_strncmp("expand $", cmd, 8))
+	{
+		printf("Raw: %s\n", cmd);
+		printf("Expanded: %s\n", expand_env(cmd, envll));
+	}
 	else if (!ft_strcmp("exit", cmd))
 		exit(0);
 	else
@@ -102,7 +107,7 @@ static int	builtin_table(char *cmd, char **envp)
 	return (1);
 }
 
-void	run_cmd(char *cmd, char ***envp)
+void	run_cmd(char *cmd, char ***envp, t_list *envll)
 {
 	char	**args;
 	char	*path;
@@ -110,7 +115,7 @@ void	run_cmd(char *cmd, char ***envp)
 
 	if (!*cmd)
 		return ;
-	if (builtin_table(cmd, *envp))
+	if (builtin_table(cmd, *envp, envll))
 		return ;
 	args = ft_split(cmd, ' ');
 	pid = fork();
