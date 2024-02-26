@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 00:48:15 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 01:38:09 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,40 @@ char	**list_to_array(t_list *lst)
 	return (arr);
 }
 
+char	**ft_strsplit(char *str, char *token)
+{
+	char	**strs;
+	char	*start;
+	char	*end;
+	size_t	i;
+	
+	strs = ft_calloc(3, sizeof(char *));
+	start = ft_strnstr(str, token, ft_strlen(str));
+	end = start + 1;
+	i = 0;
+	while ((start[i] == token[i]) && i < ft_strlen(token))
+	{
+		end++;
+		i++;
+	}
+	strs[0] = ft_substr(str, 0, start - str);
+	strs[1] = --end;
+	return (strs);
+}
+
+char	*ft_strre(char *str, char *find, char *replace)
+{
+	char	**strs;
+	char	*temp;
+	char	*new;
+
+	strs = ft_strsplit(str, find);
+	temp = ft_strjoin(strs[0], replace);
+	new = ft_strjoin(temp, strs[1]);
+	free(temp);
+	return (new);
+}
+
 char	*expand_env(char *str, t_list *envll)
 {
 	char	*start;
@@ -79,6 +113,8 @@ char	*expand_env(char *str, t_list *envll)
 	char	*env;
 
 	start = ft_strchr(str, '$');
+	if (!start)
+		return (str);
 	end = start + 1;
 	while (isalnum(*end))
 		end++;
@@ -90,10 +126,11 @@ char	*expand_env(char *str, t_list *envll)
 			break ;
 		envll = envll->next;
 	}
-	free(token);
 	if (envll) 
 		env = env + (end - start);
 	else
-		return ("\n");
+		env = "\n";
+	env = ft_strre(str, token, env);
+	free(token);
 	return (env);
 }

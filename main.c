@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 00:42:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 01:33:45 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv)
 	envll = NULL;
 	init_envll(&envll);
 	envp = list_to_array(envll);
+//	expand_env("This is $HOME, truly", envll);
 	while (1)
 	{
 		prompt = init_prompt();

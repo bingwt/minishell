@@ -6,12 +6,11 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 00:45:22 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 01:36:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	free_strs(char **strs)
 {
@@ -85,6 +84,7 @@ int	handle_error(char *vars, char *error)
 
 static int	builtin_table(char *cmd, char **envp, t_list *envll)
 {
+	cmd = expand_env(cmd, envll);
 	if (!ft_strncmp("echo ", cmd, 5))
 		ft_echo(cmd + 5);
 	else if (!ft_strncmp("cd ", cmd, 3))
