@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:25:03 by btan              #+#    #+#             */
-/*   Updated: 2024/02/25 11:46:08 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/26 23:44:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,10 @@ void	ft_env(char **envp)
 {
 	while (*envp)
 		printf("%s\n", *(envp++));
+}
+
+void	ft_export(char **envp)
+{
+	while (*envp)
+		printf("declare -x %s\n", *(envp++));
 }

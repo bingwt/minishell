@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/25 11:57:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/26 23:45:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	builtin_table(char *cmd, char **envp)
 	else if (!ft_strncmp("pwd ", cmd, 4))
 		printf("%s\n", ft_pwd());
 	else if (!ft_strncmp("export", cmd, 7))
-		printf("%s\n", "environ");
+		ft_export(envp);
 	else if (!ft_strncmp("env ", cmd, 4))
 		ft_env(envp);
 	else if (!ft_strcmp("exit", cmd))
