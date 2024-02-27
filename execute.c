@@ -6,12 +6,11 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/23 17:34:04 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/27 12:27:59 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	free_strs(char **strs)
 {
@@ -83,7 +82,7 @@ int	handle_error(char *vars, char *error)
 
 //	proposed run_cmd with routing table
 
-int	builtin_table(char *cmd)
+static int	builtin_table(char *cmd, char **envp, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
 		ft_echo(cmd + 5);
@@ -91,8 +90,15 @@ int	builtin_table(char *cmd)
 		ft_cd(cmd + 3);
 	else if (!ft_strncmp("pwd ", cmd, 4))
 		printf("%s\n", ft_pwd());
-	else if (!ft_strncmp("export", cmd, 7))
-			printf("%s\n", "environ");
+	else if (ft_strnstr(cmd, "export", 7))
+		ft_export(cmd, &envll);
+	else if (!ft_strncmp("env ", cmd, 4))
+		ft_env(envp);
+	else if (!ft_strncmp("expand $", cmd, 8))
+	{
+		printf("Raw: %s\n", cmd);
+		printf("Expanded: %s\n", expand_env(cmd, envll));
+	}
 	else if (!ft_strcmp("exit", cmd))
 		exit(0);
 	else
@@ -100,36 +106,39 @@ int	builtin_table(char *cmd)
 	return (1);
 }
 
-void	run_cmd(char *cmd)
+void	run_cmd(char *cmd, char ***envp, t_list *envll)
 {
-	char	**env;
 	char	**args;
 	char	*path;
 	pid_t	pid;
 
 	if (!*cmd)
 		return ;
-	if (builtin_table(cmd))
+	cmd = expand_env(cmd, envll);
+	if (builtin_table(cmd, *envp, envll))
 		return ;
-	env = init_env();
 	args = ft_split(cmd, ' ');
 	pid = fork();
 	if (!pid)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
-			execve(args[0], args, env);
+			execve(args[0], args, *envp);
 		path = get_path(args[0]);
 		if (!path)
 		{
 			handle_error(args[0], "CMD_NOT_FOUND");
 			free_strs(args);
 			free(path);
-			free_strs(env);
 			exit(127);
 		}
-		execve(path, args, env);
+		execve(path, args, *envp);
 	}
-	ft_free_split(&env);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	ft_free_split(&args);
 	waitpid(pid, NULL, 0);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 }
