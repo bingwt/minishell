@@ -81,7 +81,7 @@ char	**input_parser(char *input)
 {
 	char	*in;
 	char	**space_split;
-	char	**pipe_split;
+	char	***pipe_split;
 
 	in = input;
 	space_split = NULL;
