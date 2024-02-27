@@ -60,17 +60,20 @@ char	*inject_space(char *input)
 	while (input[++i])
 	{
 		q = quotes(input[i], NULL);
-		if (input[i] == '<' || input[i] == '>')
+		if ((input[i] == '<' || input[i] == '>') && !valid_redir(input + i))
 		{
-			if (!valid_redir(input + i))
-			{
-				free(res.s);
-				return (NULL);
-			}
+			free(res.s);
+			perror("invalid redirect");
+			return (NULL);
 		}
 		assign_meta(&res, q, input[i], input[i + 1]);
 	}
-	quotes(input[i], "reset");
+	if (quotes('\0', "reset"))
+	{
+		free(res.s);
+		perror("unclosed quotes");
+		return (NULL);
+	}
 	return (res.s);
 }
 

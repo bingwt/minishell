@@ -68,6 +68,7 @@ void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q)
 
 char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
 {
+	/*
 	if (quotes('\0', "reset"))
 	{
 		*split = split_assign(*split, cmd_idx, NULL);
@@ -76,6 +77,7 @@ char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
 		perror("Unclosed quotes");
 		return (NULL);
 	}
+	*/
 	if (cmd->i)
 		*split = split_assign(*split, cmd_idx, cmd->s);
 	else
