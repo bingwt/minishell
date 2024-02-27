@@ -30,7 +30,10 @@
 
 typedef struct s_arg
 {
-	int		total_processes;
+	int		last;
+	int		in_i;
+	int		out_i;
+	int		cmd_i;
 	char	**in;
 	char	**out;
 	char	**cmd;
