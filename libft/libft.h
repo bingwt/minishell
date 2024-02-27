@@ -120,5 +120,7 @@ void		ft_free_split(char ***split);
 char		*ft_strjoin_free(char *s1, char *s2, char *og);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void		ft_free_cubed(char ****cube);
+int			ft_squarelen(char **square);
+int			ft_cubelen(char ***cube);
 
 #endif

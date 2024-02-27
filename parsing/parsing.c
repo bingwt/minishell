@@ -77,11 +77,12 @@ char	**split_by_pipe(char **cmds)
 */
 
 /*
-char	**input_parser(char *input)
+t_arg	input_parser(char *input)
 {
 	char	*in;
 	char	**space_split;
 	char	***pipe_split;
+	t_arg	args;
 
 	in = input;
 	space_split = NULL;
@@ -96,5 +97,9 @@ char	**input_parser(char *input)
 	pipe_split = split_by_pipes(space_split);
 	ft_free_split(&space_split);
 	if (!pipe_split)
+		return (NULL);
+	args = rejoin_tokens(pipe_split);
+	ft_free_cube(&pipe_split);
+	if (!args)
 		return (NULL);
 }*/
