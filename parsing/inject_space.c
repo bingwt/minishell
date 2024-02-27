@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inject_space.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/27 20:10:16 by xlow              #+#    #+#             */
+/*   Updated: 2024/02/27 20:10:17 by xlow             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int	valid_redir(char *input)
+static int	valid_redir(char *input)
 {
 	int	i;
 
@@ -18,7 +30,7 @@ int	valid_redir(char *input)
 	return (1);
 }
 
-void	assign_meta(t_string *res, int q, char curr, char next)
+static void	assign_meta(t_string *res, int q, char curr, char next)
 {
 	if (!q && (curr == '<' || curr == '>' || curr == '|')
 		&& next != '<' && next != '>')
@@ -62,6 +74,7 @@ char	*inject_space(char *input)
 	return (res.s);
 }
 
+/*
 int	main(int argc, char **argv)
 {
 	(void)argc;
@@ -73,4 +86,4 @@ int	main(int argc, char **argv)
 	printf("%s\n", s);
 	free(s);
 	return (0);
-}
+}*/
