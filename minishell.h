@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 12:27:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 20:59:54 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	ft_export(char *cmd, t_list **envll);
 // EXECUTE
 char	*get_path(char *cmd);
 int		handle_error(char *vars, char *error);
-int		builtin_table(char *cmd);
 void	run_cmd(char *cmd, char ***envp, t_list *envll);
 
 // SPLIT_BY_SPACE
