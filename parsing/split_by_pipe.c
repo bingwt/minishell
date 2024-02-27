@@ -23,12 +23,17 @@ static int	valid_pipe(char **in)
 	{
 		if (!ft_strcmp(in[i], "|"))
 		{
-			if (!in[i + 1])
+			if (!in[i + 1] || ft_strcmp(in[i], "|")
+				|| ft_strchr(in[i - 1], '>') || ft_strchr(in[i - 1], '<'))
 			{
 				perror("pipe");
 				return (0);
 			}
-			if (
+		}
+		i++;
+	}
+	return (1);
+}
 
 char	**rejoin_cmds(char **in)
 {
