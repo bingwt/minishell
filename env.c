@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 11:37:25 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 16:11:44 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	init_envll(t_list **envp)
 	getenv("DBUS_SESSION_BUS_ADDRESS")));
 	ft_lstadd_back(envp, env);
 	env = ft_lstnew(ft_strjoin("OLDPWD=", getenv("OLDPWD")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("TEST=", "This is a test"));
 	ft_lstadd_back(envp, env);
 }
 
@@ -118,7 +116,7 @@ char	*expand_env(char *str, t_list *envll)
 	if (!start)
 		return (str);
 	end = start + 1;
-	while (isalnum(*end))
+	while (ft_isalnum(*end))
 		end++;
 	token = ft_substr(str, start - str, end - start);
 	while (lst)
