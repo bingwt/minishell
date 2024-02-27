@@ -81,12 +81,13 @@ char	**input_parser(char *input)
 {
 	char	*in;
 	char	**space_split;
-	char	**pipe_split;
+	char	**rejoin;
 
 	if (!input)
 		return (NULL);
 	in = input;
 	space_split = NULL;
+	rejoin = NULL;
 	in = inject_spaces(input);
 	if (!in)
 		return (NULL);
@@ -94,8 +95,8 @@ char	**input_parser(char *input)
 	free(in);
 	if (!space_split)
 		return (NULL);
-	pipe_split = split_by_pipes(space_split);
+	rejoin = split_by_pipes(space_split);
 	ft_free_split(&space_split);
-	if (!pipe_split)
+	if (!rejoin)
 		return (NULL);
 }*/

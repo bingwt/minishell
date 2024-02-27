@@ -28,6 +28,13 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+typedef struct s_arg
+{
+	char	**in;
+	char	**out;
+	char	**cmd;
+}	t_arg;
+
 // SIGNALS
 void	free_strs(char **strs);
 
