@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 01:38:09 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 11:37:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,13 @@ char	*ft_strre(char *str, char *find, char *replace)
 
 char	*expand_env(char *str, t_list *envll)
 {
+	t_list	*lst;
 	char	*start;
 	char	*end;
 	char	*token;
 	char	*env;
 
+	lst = envll;
 	start = ft_strchr(str, '$');
 	if (!start)
 		return (str);
@@ -119,18 +121,20 @@ char	*expand_env(char *str, t_list *envll)
 	while (isalnum(*end))
 		end++;
 	token = ft_substr(str, start - str, end - start);
-	while (envll)
+	while (lst)
 	{
-		env = (char *) envll->content;
+		env = (char *) lst->content;
 		if (!ft_strncmp(token + 1, env, end - start - 1))
 			break ;
-		envll = envll->next;
+		lst = lst->next;
 	}
-	if (envll) 
+	if (lst) 
 		env = env + (end - start);
 	else
 		env = "\n";
 	env = ft_strre(str, token, env);
 	free(token);
+	if (ft_strchr(env, '$'))
+		env = expand_env(env, envll);
 	return (env);
 }

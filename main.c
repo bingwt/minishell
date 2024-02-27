@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 01:33:45 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 11:52:06 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 		run_cmd(buffer, &envp, envll);
 		free(buffer);
 	}
-	free_strs(envp);
 	ft_lstclear(&envll, free);
+	free(envp);
 	return (0);
 }
