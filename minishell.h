@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 00:28:38 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 12:27:47 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_echo(const char *str);
 void	ft_cd(const char *path);
 char	*ft_pwd(void);
 void	ft_env(char **envp);
-void	ft_export(char **envp);
+void	ft_export(char *cmd, t_list **envll);
 
 void	run_cmd(char *cmd, char ***envp, t_list *envll);
 

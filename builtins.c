@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:25:03 by btan              #+#    #+#             */
-/*   Updated: 2024/02/26 23:44:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 12:31:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,22 @@ void	ft_env(char **envp)
 		printf("%s\n", *(envp++));
 }
 
-void	ft_export(char **envp)
+void	ft_export(char *cmd, t_list **envll)
 {
-	while (*envp)
-		printf("declare -x %s\n", *(envp++));
+	t_list	*env;
+
+	if (ft_strchr(cmd, '='))
+	{
+		env = ft_lstnew(cmd + 7);
+		ft_lstadd_back(envll, env);
+	}
+	else
+	{
+		env = *envll;
+		while (env)
+		{
+			printf("declare -x %s\n", (char *) env->content);
+			env = env->next;
+		}
+	}
 }
