@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 12:27:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 18:39:08 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,7 @@ char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 // PARSING
 void	split_by_space(char *input, char ***split);
 char	**input_parser(char *input);
+
+// INJECT_SPACE
+char	*inject_space(char *input);
 #endif
