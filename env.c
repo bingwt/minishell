@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 16:11:44 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 21:17:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,14 @@ char	*expand_env(char *str, t_list *envll)
 	while (lst)
 	{
 		env = (char *) lst->content;
-		if (!ft_strncmp(token + 1, env, end - start - 1))
+		if (!ft_strncmp(token + 1, env, ft_strchr(env, '=') - env))
 			break ;
 		lst = lst->next;
 	}
 	if (lst) 
 		env = env + (end - start);
 	else
-		env = "\n";
+		env = "";
 	env = ft_strre(str, token, env);
 	free(token);
 	if (ft_strchr(env, '$'))

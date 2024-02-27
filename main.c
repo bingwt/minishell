@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 14:48:21 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 21:05:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	envll = NULL;
 	init_envll(&envll);
 	envp = list_to_array(envll);
-//	expand_env("This is $HOME, truly", envll);
+	expand_env("This is $HOME, truly", envll);
 //	ft_export("export test=something", &envll);
 	while (1)
 	{
