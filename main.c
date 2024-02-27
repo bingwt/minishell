@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/19 19:33:22 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/27 14:48:21 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@ int	main(int argc, char **argv)
 {
 	char	*prompt;
 	char	*buffer;
-	char	*temp;
+	char	**envp;
+	t_list	*envll;
 
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
+	envll = NULL;
+	init_envll(&envll);
+	envp = list_to_array(envll);
+//	expand_env("This is $HOME, truly", envll);
+//	ft_export("export test=something", &envll);
 	while (1)
 	{
 		prompt = init_prompt();
@@ -31,25 +37,17 @@ int	main(int argc, char **argv)
 		else
 			buffer = readline(prompt);
 		free(prompt);
-		add_history(buffer);
+		if (buffer && *buffer)
+			add_history(buffer);
 		if (!buffer)
 		{
 			printf("exit\n");
 			break ;
 		}
-		if (!strncmp("echo", buffer, 4))
-			ft_echo(buffer + 5);
-		if (!strncmp("cd", buffer, 2))
-			ft_cd(buffer + 3);
-		if (!strncmp("pwd", buffer, 3))
-		{
-			temp = ft_pwd();
-			printf("%s\n", temp);
-			free(temp);
-		}
-		if (!strncmp("exit", buffer, 4))
-			exit(0);
+		run_cmd(buffer, &envp, envll);
 		free(buffer);
 	}
+	ft_lstclear(&envll, free);
+	free(envp);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/14 17:44:52 by xlow             ###   ########.fr        #
+#    Updated: 2024/02/25 17:04:38 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,11 @@ NAME = minishell
 
 INCLUDES = .
 
-SRCS = signals.c \
+SRCS = env.c \
+	   signals.c \
 	   prompt.c \
 	   builtins.c \
+	   execute.c \
 	   main.c
 
 CC = cc
@@ -45,7 +47,7 @@ fclean: clean
 
 re: fclean all
 
-debug: CFLAGS += -g -fsanitize=thread
+debug: CFLAGS += -g
 debug: re
 
 .PHONY: all clean fclean re debug
