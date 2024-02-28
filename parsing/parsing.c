@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/27 20:10:21 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/28 22:07:09 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	split_by_space(char *input, char ***split)
 	cleanup_space(&cmd, split, &cmd_idx);
 }
 
+/*
 int	main(int argc, char **argv)
 {
 	char	*s = argv[1];
@@ -64,6 +65,8 @@ int	main(int argc, char **argv)
 	ft_free_split(&strs);
 	return (0);
 }
+*/
+
 /*
 char	**split_by_pipe(char **cmds)
 {
@@ -76,30 +79,30 @@ char	**split_by_pipe(char **cmds)
 	ft_free_split(&cmds);
 */
 
-/*
-t_arg	input_parser(char *input)
+t_arg	*input_parser(char *input)
 {
 	char	*in;
 	char	**space_split;
 	char	***pipe_split;
-	t_arg	args;
+	t_arg	*args;
 
 	in = input;
 	space_split = NULL;
 	pipe_split = NULL;
-	in = inject_spaces(input);
+	in = inject_space(input);
 	if (!in)
 		return (NULL);
 	split_by_space(in, &space_split);
 	free(in);
 	if (!space_split)
 		return (NULL);
-	pipe_split = split_by_pipes(space_split);
+	pipe_split = split_by_pipe(space_split);
 	ft_free_split(&space_split);
 	if (!pipe_split)
 		return (NULL);
 	args = rejoin_tokens(pipe_split);
-	ft_free_cube(&pipe_split);
+	ft_free_cubed(&pipe_split);
 	if (!args)
 		return (NULL);
-}*/
+	return (args);
+}

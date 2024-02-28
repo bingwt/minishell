@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:00:11 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/27 21:06:22 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/28 21:55:39 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,40 @@ char	***split_by_pipe(char **in)
 	{
 		cmd = split_assign(cmd, &c, in[i]);
 		i++;
-		if (!ft_strcmp(in[i], "|"))
+		if (!in[i] || (in[i] && !ft_strcmp(in[i], "|")))
 		{
+			cmd[c] = NULL;
 			res[r] = cmd;
 			r++;
 			cmd = ft_calloc(1, 8);
 			c = 0;
-			i++;
+			if (in[i])
+				i++;
 		}
 	}
+	free(cmd);
 	return (res);
 }
+
+/*
+int	main(void)
+{
+	char	***piped;
+	char	*in[] = {"<", "infile", "cat", ">", "outfile", "-e",
+					"|", "<<", "eof", "cat", ">", "outfile2", NULL};
+	piped = split_by_pipe(in);
+	int	i = 0;
+	int n = 0;
+	while (piped[i])
+	{
+		while (piped[i][n])
+		{
+			printf("%s\n", piped[i][n]);
+			n++;
+		}
+		n = 0;
+		i++;
+	}
+	return (0);
+}
+*/
