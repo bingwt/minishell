@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/28 14:01:38 by btan             ###   ########.fr        #
+#    Updated: 2024/02/28 15:00:12 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS = env.c \
 	   builtins/ft_pwd.c \
 	   builtins/ft_env.c \
 	   builtins/ft_export.c \
+	   builtins/ft_unset.c \
 	   builtins/minibing.c \
 	   execute.c \
 	   main.c
