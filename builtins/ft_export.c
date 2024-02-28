@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 14:57:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/28 15:52:42 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_export(char *cmd, t_list **envll)
 	free_strs(args);
 	if (env)
 	{
-		printf("Already exists!\n");
+		env->content = ft_strdup(cmd + 7);
 		return ;
 	}
 	if (!env && ft_strchr(cmd, '='))
