@@ -52,15 +52,15 @@ t_arg	*input_parser(char *input)
 	if (!input)
 		return (NULL);
 	split_by_space(input, &space_split);
-	//free(input);
+	free(input);
 	if (!space_split)
 		return (NULL);
 	pipe_split = split_by_pipe(space_split);
-	//ft_free_split(&space_split);
+//	ft_free_split(&space_split);
 	if (!pipe_split)
 		return (NULL);
 	args = rejoin_tokens(pipe_split);
-	//ft_free_cubed(&pipe_split);
+//	ft_free_cubed(&pipe_split);
 	if (!args)
 		return (NULL);
 	return (args);
@@ -69,14 +69,13 @@ t_arg	*input_parser(char *input)
 int	main(int argc, char **argv)
 {
 	(void)argc;
-//	int	i = 0;
-//	int j = 0;
+	int	i = 0;
+	int j = 0;
 	t_arg *args;
 	args = input_parser(argv[1]);
 	if (!args)
 		return (0);
-	/*
-	while (args[i].last)
+	while (!args[i].last)
 	{
 		while (args[i].in[j])
 		{
@@ -97,6 +96,6 @@ int	main(int argc, char **argv)
 		}
 		j = 0;
 		i++;
-	}*/
+	}
 	return (0);
 }

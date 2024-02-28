@@ -30,25 +30,19 @@ static void	combine_redir(t_arg *args, char **in, int *i)
 {
 	if (!ft_strcmp(in[*i], "<") || !ft_strcmp(in[*i], "<<"))
 	{
-		args->in[args->in_i] = ft_strdup(in[*i]);
+		args->in = split_assign(args->in, &args->in_i, ft_strdup(in[*i]));
 		(*i)++;
 		args->in_i++;
-		args->in[args->in_i] = ft_strdup(in[*i]);
+		args->in = split_assign(args->in, &args->in_i, ft_strdup(in[*i]));
 	}
 	if (!ft_strcmp(in[*i], ">") || !ft_strcmp(in[*i], ">>"))
 	{
-		args->out[args->out_i] = ft_strdup(in[*i]);
+		args->out = split_assign(args->out, &args->out_i, ft_strdup(in[*i]));
 		(*i)++;
 		args->out_i++;
-		args->out[args->out_i] = ft_strdup(in[*i]);
+		args->out = split_assign(args->out, &args->out_i, ft_strdup(in[*i]));
 	}
 	(*i)++;
-}
-
-static void	combine_cmd_flags(t_arg *args, char *in)
-{
-	args->cmd[args->cmd_i] = ft_strdup(in);
-	args->cmd_i++;
 }
 
 t_arg	*rejoin_tokens(char ***in)
@@ -69,12 +63,12 @@ t_arg	*rejoin_tokens(char ***in)
 				!ft_strcmp(in[a][i], ">") || !ft_strcmp(in[a][i], ">>"))
 				combine_redir(&args[a], in[a], &i);
 			else
-				combine_cmd_flags(&args[a], in[a][i]);
+				args[a].cmd = split_assign(args[a].cmd, &args[a].cmd_i, in[a][i]);
 			i++;
 		}
-		args[a].in[args[a].in_i] = NULL;
-		args[a].out[args[a].out_i] = NULL;
-		args[a].cmd[args[a].cmd_i] = NULL;
+		args[a].in = split_assign(args[a].in, &args[a].in_i, NULL);
+		args[a].out = split_assign(args[a].out, &args[a].out_i, NULL);
+		args[a].cmd = split_assign(args[a].cmd, &args[a].cmd_i, NULL);
 	}
 	args[a].last = 1;
 	return (args);
