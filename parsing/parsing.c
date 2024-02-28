@@ -40,69 +40,63 @@ void	split_by_space(char *input, char ***split)
 	cleanup_space(&cmd, split, &cmd_idx);
 }
 
-/*
-int	main(int argc, char **argv)
-{
-	char	*s = argv[1];
-	char	**strs;
-	int		i = 0;
-
-	(void)argc;
-	strs = NULL;
-	s = inject_space(s);
-	if (!s)
-		return (0);
-	printf("%s\n", s);
-	split_by_space(s, &strs);
-	free(s);
-	if (!strs)
-		return (0);
-	while (strs[i])
-	{
-		printf("Str %d: %s\n", i, strs[i]);
-		i++;
-	}
-	ft_free_split(&strs);
-	return (0);
-}
-*/
-
-/*
-char	**split_by_pipe(char **cmds)
-{
-	int	i;
-	int	cmd_idx;
-
-	if (valid_pipes(cmds))
-	{
-	}
-	ft_free_split(&cmds);
-*/
-
 t_arg	*input_parser(char *input)
 {
-	char	*in;
 	char	**space_split;
 	char	***pipe_split;
 	t_arg	*args;
 
-	in = input;
 	space_split = NULL;
 	pipe_split = NULL;
-	in = inject_space(input);
-	if (!in)
+	input = inject_space(input);
+	if (!input)
 		return (NULL);
-	split_by_space(in, &space_split);
-	free(in);
+	split_by_space(input, &space_split);
+	//free(input);
 	if (!space_split)
 		return (NULL);
 	pipe_split = split_by_pipe(space_split);
-	ft_free_split(&space_split);
+	//ft_free_split(&space_split);
 	if (!pipe_split)
 		return (NULL);
 	args = rejoin_tokens(pipe_split);
-	ft_free_cubed(&pipe_split);
+	//ft_free_cubed(&pipe_split);
 	if (!args)
 		return (NULL);
 	return (args);
+}
+
+int	main(int argc, char **argv)
+{
+	(void)argc;
+//	int	i = 0;
+//	int j = 0;
+	t_arg *args;
+	args = input_parser(argv[1]);
+	if (!args)
+		return (0);
+	/*
+	while (args[i].last)
+	{
+		while (args[i].in[j])
+		{
+			printf("In %d: %s\n", j, args[i].in[j]);
+			j++;
+		}
+		j = 0;
+		while (args[i].out[j])
+		{
+			printf("Out %d: %s\n", j, args[i].out[j]);
+			j++;
+		}
+		j = 0;
+		while (args[i].cmd[j])
+		{
+			printf("Cmd %d: %s\n", j, args[i].cmd[j]);
+			j++;
+		}
+		j = 0;
+		i++;
+	}*/
+	return (0);
 }

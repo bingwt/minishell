@@ -75,7 +75,7 @@ char	***split_by_pipe(char **in)
 		i++;
 		if (!in[i] || (in[i] && !ft_strcmp(in[i], "|")))
 		{
-			cmd[c] = NULL;
+			cmd = split_assign(cmd, &c, NULL);
 			res[r] = cmd;
 			r++;
 			cmd = ft_calloc(1, 8);
