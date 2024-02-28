@@ -23,7 +23,8 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 			 ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstmap.c \
 			 ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 			 ft_free_split.c ft_printf_fd.c printf_fd_helpers.c \
-			 ft_strjoin_free.c ft_realloc.c
+			 ft_strjoin_free.c ft_realloc.c ft_free_cubed.c ft_squarelen.c \
+			 ft_cubelen.c
 
 OBJS = $(SRCS:.c=.o)
 BOBJS = $(BSRCS:.c=.o)

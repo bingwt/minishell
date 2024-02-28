@@ -17,7 +17,7 @@ void	ft_free_split(char ***split)
 	int	i;
 
 	i = 0;
-	if (!*split)
+	if (!split || !*split)
 		return ;
 	while ((*split)[i])
 	{
@@ -27,4 +27,10 @@ void	ft_free_split(char ***split)
 	}
 	free(*split);
 	*split = NULL;
+}
+
+int	main(void)
+{
+	ft_free_split(NULL);
+	return (0);
 }
