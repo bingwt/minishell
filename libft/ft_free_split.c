@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 20:17:33 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/19 18:35:02 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/28 16:48:58 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	ft_free_split(char ***split)
 	free(*split);
 	*split = NULL;
 }
-
-int	main(void)
-{
-	ft_free_split(NULL);
-	return (0);
-}
+//
+//int	main(void)
+//{
+//	ft_free_split(NULL);
+//	return (0);
+//}
