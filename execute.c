@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 12:27:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/28 11:57:53 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ static int	builtin_table(char *cmd, char **envp, t_list *envll)
 		printf("Raw: %s\n", cmd);
 		printf("Expanded: %s\n", expand_env(cmd, envll));
 	}
+	else if (!ft_strncmp("minibing", cmd, 8))
+		minibing();
 	else if (!ft_strcmp("exit", cmd))
 		exit(0);
 	else
