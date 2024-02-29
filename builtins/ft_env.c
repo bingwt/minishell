@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_split.c                                    :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 20:17:33 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 16:48:58 by btan             ###   ########.fr       */
+/*   Created: 2024/02/28 14:00:13 by btan              #+#    #+#             */
+/*   Updated: 2024/02/28 14:00:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_free_split(char ***split)
+void	ft_env(char **envp)
 {
-	int	i;
-
-	i = 0;
-	if (!split || !*split)
-		return ;
-	while ((*split)[i])
-	{
-		free((*split)[i]);
-		(*split)[i] = NULL;
-		i++;
-	}
-	free(*split);
-	*split = NULL;
+	while (*envp)
+		printf("%s\n", *(envp++));
 }

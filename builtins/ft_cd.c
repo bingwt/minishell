@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_split.c                                    :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 20:17:33 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 16:48:58 by btan             ###   ########.fr       */
+/*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
+/*   Updated: 2024/02/28 13:59:33 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_free_split(char ***split)
+void	ft_cd(const char *path)
 {
-	int	i;
-
-	i = 0;
-	if (!split || !*split)
-		return ;
-	while ((*split)[i])
-	{
-		free((*split)[i]);
-		(*split)[i] = NULL;
-		i++;
-	}
-	free(*split);
-	*split = NULL;
+	chdir(path);
 }

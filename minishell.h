@@ -41,7 +41,6 @@ typedef struct s_arg
 
 // SIGNALS
 void	free_strs(char **strs);
-
 void	handle_signal(int sig);
 
 // PROMPT
@@ -61,6 +60,8 @@ void	ft_cd(const char *path);
 char	*ft_pwd(void);
 void	ft_env(char **envp);
 void	ft_export(char *cmd, t_list **envll);
+void	ft_unset(char *cmd, t_list **envll);
+void	minibing(void);
 
 // EXECUTE
 char	*get_path(char *cmd);
