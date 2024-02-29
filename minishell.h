@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 21:34:50 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 04:47:01 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	array_to_list(t_list **lst, char **envp);
 
 // BUILTINS
 void	ft_echo(const char *str);
-void	ft_cd(const char *path);
+void	ft_cd(const char *path, t_list *envll);
 char	*ft_pwd(void);
 void	ft_env(t_list *envp);
 void	ft_export(char *cmd, t_list **envll);

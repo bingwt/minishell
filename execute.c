@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 04:42:02 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 04:49:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	builtin_table(char *cmd, t_list *envll)
 	if (!ft_strncmp("echo ", cmd, 5))
 		ft_echo(cmd + 5);
 	else if (!ft_strncmp("cd ", cmd, 3))
-		ft_cd(cmd + 3);
+		ft_cd(cmd + 3, envll);
 	else if (!ft_strncmp("pwd ", cmd, 4))
 		printf("%s\n", ft_pwd());
 	else if (ft_strnstr(cmd, "export", 7))
@@ -152,6 +152,7 @@ void	run_cmd(char *cmd, t_list *envll)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	ft_free_split(&args);
+	free(envp);
 	waitpid(pid, NULL, 0);
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
