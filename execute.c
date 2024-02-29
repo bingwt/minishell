@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 21:34:26 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 04:42:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ static int	builtin_table(char *cmd, t_list *envll)
 	else if (!ft_strncmp("minibing", cmd, 8))
 		minibing();
 	else if (!ft_strcmp("exit", cmd))
+	{
+		ft_lstclear(&envll, free);
 		exit(0);
+	}
 	else
 		return (0);
 	return (1);
@@ -141,6 +144,7 @@ void	run_cmd(char *cmd, t_list *envll)
 			handle_error(args[0], "CMD_NOT_FOUND");
 			free_strs(args);
 			free(path);
+			free(envp);
 			exit(127);
 		}
 		execve(path, args, envp);

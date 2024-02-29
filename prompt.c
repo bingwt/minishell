@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 21:55:22 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 04:37:47 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ char	*init_prompt(t_list *envll)
 	free(temp);
 	free(userhost);
 	free(pwd);
+	free(home);
 	return (prompt);
 }
