@@ -6,24 +6,25 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 16:52:39 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:43:49 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	char	*buffer;
-	char	**envp;
+//	char	**envp;
 	t_list	*envll;
 
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
-	init_envll(&envll);
-	envp = list_to_array(envll);
+//	init_envll(&envll);
+//	envp = list_to_array(envll);
+	array_to_list(&envll, envp);
 //	expand_env("This is $HOME, truly", envll);
 //	ft_export("export test=something", &envll);
 //	ft_export("export test=somethingelse", &envll);

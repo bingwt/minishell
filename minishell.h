@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 22:07:43 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:32:10 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	**init_envp(void);
 void	init_envll(t_list **envp);
 char	**list_to_array(t_list *lst);
 char	*expand_env(char *str, t_list *envll);
+void	array_to_list(t_list **lst, char **envp);
 
 // BUILTINS
 void	ft_echo(const char *str);

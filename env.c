@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 21:17:02 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:31:47 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,29 @@ char	**list_to_array(t_list *lst)
 		lst = lst->next;
 	}
 	return (arr);
+}
+
+int	ft_strslen(char **strs)
+{
+	char	**ptr;
+
+	ptr = strs;
+	while (*ptr)
+		ptr++;
+	return (ptr - strs);
+}
+
+void	array_to_list(t_list **lst, char **envp)
+{
+	t_list	*env;
+	size_t	len;
+
+	len = ft_strslen(envp);
+	while (len--)
+	{
+		env = ft_lstnew(envp[len]);
+		ft_lstadd_front(lst, env);
+	}
 }
 
 char	**ft_strsplit(char *str, char *token)
