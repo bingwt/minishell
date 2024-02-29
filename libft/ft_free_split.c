@@ -28,9 +28,3 @@ void	ft_free_split(char ***split)
 	free(*split);
 	*split = NULL;
 }
-//
-//int	main(void)
-//{
-//	ft_free_split(NULL);
-//	return (0);
-//}

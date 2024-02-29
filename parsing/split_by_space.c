@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:47:50 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/23 22:21:22 by xlow             ###   ########.fr       */
+/*   Updated: 2024/02/28 21:38:06 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	quotes(char c, char *reset)
 		}
 		if (c == '\'' && !dquote)
 			squote = !squote;
-		if (c == '\"' && !squote)
+		if (c == '"' && !squote)
 			dquote = !dquote;
 		return (squote | dquote);
 	}
