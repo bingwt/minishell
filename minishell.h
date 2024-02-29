@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 18:55:39 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 21:34:50 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	free_strs(char **strs);
 void	handle_signal(int sig);
 
 // PROMPT
-char	*get_hostname(void);
-char	*get_user(void);
-char	*init_prompt(void);
+char	*init_prompt(t_list *envll);
 
 // ENV
 char	**list_to_array(t_list *lst);

@@ -6,13 +6,13 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/02/22 20:59:45 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 21:55:22 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_hostname(void)
+static char	*get_hostname(void)
 {
 	int		fd;
 	char	*hostname;
@@ -35,13 +35,15 @@ char	*get_hostname(void)
 	return (hostname);
 }
 
-char	*get_user(void)
+static char	*get_user(t_list *envll)
 {
 	char	*user;
 	char	*temp;
 	char	*hostname;
 
-	temp = ft_strjoin("\033\e[46m\002", getenv("USER"));
+	user = expand_env("$USER", envll);
+	temp = ft_strjoin("\033\e[46m\002", user);
+	free(user);
 	user = ft_strjoin(temp, "@");
 	free(temp);
 	temp = get_hostname();
@@ -53,25 +55,25 @@ char	*get_user(void)
 	return (temp);
 }
 
-char	*init_prompt(void)
+char	*init_prompt(t_list *envll)
 {
 	char	*userhost;
 	char	*pwd;
+	char	*home;
 	char	*temp;
 	char	*prompt;
 
-	userhost = get_user();
+	userhost = get_user(envll);
 	temp = ft_pwd();
 	pwd = ft_strjoin(temp, "$\001\e[0m\002 ");
+	home = expand_env("$HOME", envll);
 	free(temp);
-	if (!strncmp(getenv("HOME"), pwd, ft_strlen(getenv("HOME"))))
-	{
+	if (*home == '\n')
 		temp = ft_strjoin(userhost, "~");
-		prompt = ft_strjoin(temp, pwd + ft_strlen(getenv("HOME")));
-		free(temp);
-	}
 	else
-		prompt = ft_strjoin(userhost, pwd);
+		temp = ft_strjoin(userhost, "");
+	prompt = ft_strjoin(temp, pwd + ft_strlen(home));
+	free(temp);
 	free(userhost);
 	free(pwd);
 	return (prompt);

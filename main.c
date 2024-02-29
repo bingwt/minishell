@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 17:37:04 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 21:43:05 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 //	ft_unset("unset test", &envll);
 	while (1)
 	{
-		prompt = init_prompt();
+		prompt = init_prompt(envll);
 		if (argc == 2)
 		{
 			printf("%s mode\n", argv[1]);
