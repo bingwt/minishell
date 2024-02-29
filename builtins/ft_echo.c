@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_split.c                                    :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 20:17:33 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 16:48:58 by btan             ###   ########.fr       */
+/*   Created: 2024/02/28 13:58:55 by btan              #+#    #+#             */
+/*   Updated: 2024/02/28 13:59:04 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_free_split(char ***split)
+void	ft_echo(const char *str)
 {
-	int	i;
-
-	i = 0;
-	if (!split || !*split)
-		return ;
-	while ((*split)[i])
-	{
-		free((*split)[i]);
-		(*split)[i] = NULL;
-		i++;
-	}
-	free(*split);
-	*split = NULL;
+	if (!ft_strncmp("-n", str, 2))
+		printf("%s", str + 3);
+	else
+		printf("%s\n", str);
 }
