@@ -66,6 +66,7 @@ t_arg	*input_parser(char *input)
 	return (args);
 }
 
+/*
 int	main(int argc, char **argv)
 {
 	(void)argc;
@@ -98,4 +99,4 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	return (0);
-}
+}*/

@@ -32,17 +32,14 @@ static void	combine_redir(t_arg *args, char **in, int *i)
 	{
 		args->in = split_assign(args->in, &args->in_i, ft_strdup(in[*i]));
 		(*i)++;
-		args->in_i++;
 		args->in = split_assign(args->in, &args->in_i, ft_strdup(in[*i]));
 	}
 	if (!ft_strcmp(in[*i], ">") || !ft_strcmp(in[*i], ">>"))
 	{
 		args->out = split_assign(args->out, &args->out_i, ft_strdup(in[*i]));
 		(*i)++;
-		args->out_i++;
 		args->out = split_assign(args->out, &args->out_i, ft_strdup(in[*i]));
 	}
-	(*i)++;
 }
 
 t_arg	*rejoin_tokens(char ***in)
@@ -56,9 +53,9 @@ t_arg	*rejoin_tokens(char ***in)
 	args = ft_calloc(ft_cubelen(in) + 1, sizeof(t_arg));
 	while (in[++a])
 	{
+		args[a] = init_t_arg();
 		while (in[a][i])
 		{
-			args[a] = init_t_arg();
 			if (!ft_strcmp(in[a][i], "<") || !ft_strcmp(in[a][i], "<<") ||
 				!ft_strcmp(in[a][i], ">") || !ft_strcmp(in[a][i], ">>"))
 				combine_redir(&args[a], in[a], &i);
