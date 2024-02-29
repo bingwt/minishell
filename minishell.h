@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 16:12:46 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 18:55:39 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_unset(char *cmd, t_list **envll);
 void	minibing(void);
 
 // EXECUTE
-char	*get_path(char *cmd);
+char	*get_path(char *cmd, t_list *envll);
 int		handle_error(char *vars, char *error);
 void	run_cmd(char *cmd, t_list *envll);
 

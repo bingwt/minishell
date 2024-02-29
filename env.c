@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 16:12:14 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 18:10:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	array_to_list(t_list **lst, char **envp)
 	len = ft_strslen(envp);
 	while (len--)
 	{
-		env = ft_lstnew(envp[len]);
+		env = ft_lstnew(ft_strdup(envp[len]));
 		ft_lstadd_front(lst, env);
 	}
 }
@@ -59,7 +59,7 @@ char	**ft_strsplit(char *str, char *token)
 	char	*end;
 	size_t	i;
 	
-	strs = ft_calloc(3, sizeof(char *));
+	strs = ft_calloc(2, sizeof(char *));
 	start = ft_strnstr(str, token, ft_strlen(str));
 	end = start + 1;
 	i = 0;
@@ -83,6 +83,8 @@ char	*ft_strre(char *str, char *find, char *replace)
 	temp = ft_strjoin(strs[0], replace);
 	new = ft_strjoin(temp, strs[1]);
 	free(temp);
+	free(strs[0]);
+	free(strs);
 	return (new);
 }
 
