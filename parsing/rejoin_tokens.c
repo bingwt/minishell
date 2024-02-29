@@ -48,24 +48,24 @@ t_arg	*rejoin_tokens(char ***in)
 	int		a;
 	t_arg	*arg;
 
-	i = 0;
+	i = -1;
 	a = -1;
 	arg = ft_calloc(ft_cubelen(in) + 1, sizeof(t_arg));
 	while (in[++a])
 	{
 		arg[a] = init_t_arg();
-		while (in[a][i])
+		while (in[a][++i])
 		{
 			if (!ft_strcmp(in[a][i], "<") || !ft_strcmp(in[a][i], "<<") ||
 				!ft_strcmp(in[a][i], ">") || !ft_strcmp(in[a][i], ">>"))
 				combine_redir(&arg[a], in[a], &i);
 			else
 				arg[a].cmd = split_assign(arg[a].cmd, &arg[a].cmd_i, in[a][i]);
-			i++;
 		}
 		arg[a].in = split_assign(arg[a].in, &arg[a].in_i, NULL);
 		arg[a].out = split_assign(arg[a].out, &arg[a].out_i, NULL);
 		arg[a].cmd = split_assign(arg[a].cmd, &arg[a].cmd_i, NULL);
+		i = -1;
 	}
 	arg[a].last = 1;
 	return (arg);
