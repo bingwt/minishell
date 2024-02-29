@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 15:32:10 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 16:12:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ char	*get_user(void);
 char	*init_prompt(void);
 
 // ENV
-char	**init_envp(void);
-void	init_envll(t_list **envp);
 char	**list_to_array(t_list *lst);
 char	*expand_env(char *str, t_list *envll);
 void	array_to_list(t_list **lst, char **envp);
@@ -59,7 +57,7 @@ void	array_to_list(t_list **lst, char **envp);
 void	ft_echo(const char *str);
 void	ft_cd(const char *path);
 char	*ft_pwd(void);
-void	ft_env(char **envp);
+void	ft_env(t_list *envp);
 void	ft_export(char *cmd, t_list **envll);
 void	ft_unset(char *cmd, t_list **envll);
 void	minibing(void);
@@ -67,7 +65,7 @@ void	minibing(void);
 // EXECUTE
 char	*get_path(char *cmd);
 int		handle_error(char *vars, char *error);
-void	run_cmd(char *cmd, char ***envp, t_list *envll);
+void	run_cmd(char *cmd, t_list *envll);
 
 // SPLIT_BY_SPACE
 int		quotes(char c, char *reset);

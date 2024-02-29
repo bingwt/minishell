@@ -6,14 +6,17 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:13 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 14:00:25 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 16:01:35 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(char **envp)
+void	ft_env(t_list *envll)
 {
-	while (*envp)
-		printf("%s\n", *(envp++));
+	while (envll)
+	{
+		printf("%s\n", (char *) envll->content);
+		envll = envll->next;
+	}
 }

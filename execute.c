@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 15:31:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 16:06:22 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	handle_error(char *vars, char *error)
 
 //	proposed run_cmd with routing table
 
-static int	builtin_table(char *cmd, char **envp, t_list *envll)
+static int	builtin_table(char *cmd, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
 		ft_echo(cmd + 5);
@@ -95,7 +95,7 @@ static int	builtin_table(char *cmd, char **envp, t_list *envll)
 	else if (ft_strnstr(cmd, "unset", 6))
 		ft_unset(cmd, &envll);
 	else if (!ft_strncmp("env ", cmd, 4))
-		ft_env(envp);
+		ft_env(envll);
 	else if (!ft_strncmp("expand $", cmd, 8))
 	{
 		printf("Raw: %s\n", cmd);
@@ -110,8 +110,9 @@ static int	builtin_table(char *cmd, char **envp, t_list *envll)
 	return (1);
 }
 
-void	run_cmd(char *cmd, char ***envp, t_list *envll)
+void	run_cmd(char *cmd, t_list *envll)
 {
+	char	**envp;
 	char	**args;
 	char	*path;
 	pid_t	pid;
@@ -119,8 +120,9 @@ void	run_cmd(char *cmd, char ***envp, t_list *envll)
 	if (!*cmd)
 		return ;
 	cmd = expand_env(cmd, envll);
-	if (builtin_table(cmd, *envp, envll))
+	if (builtin_table(cmd, envll))
 		return ;
+	envp = list_to_array(envll);
 	args = ft_split(cmd, ' ');
 	pid = fork();
 	if (!pid)
@@ -128,7 +130,7 @@ void	run_cmd(char *cmd, char ***envp, t_list *envll)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
-			execve(args[0], args, *envp);
+			execve(args[0], args, envp);
 		path = get_path(args[0]);
 		if (!path)
 		{
@@ -137,7 +139,7 @@ void	run_cmd(char *cmd, char ***envp, t_list *envll)
 			free(path);
 			exit(127);
 		}
-		execve(path, args, *envp);
+		execve(path, args, envp);
 	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
