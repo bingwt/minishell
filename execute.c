@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 23:58:07 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/02 00:00:55 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	run_cmd(char *cmd, t_list *envll)
 	char	**args;
 	char	*path;
 	pid_t	pid;
+	int		status;
 
 	if (!*cmd)
 		return ;
@@ -153,7 +154,8 @@ void	run_cmd(char *cmd, t_list *envll)
 	signal(SIGQUIT, SIG_IGN);
 	ft_free_split(&args);
 	free(envp);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	printf("Exit Status: %d\n", WEXITSTATUS(status));
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 }
