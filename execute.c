@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 04:49:49 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 23:47:29 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,10 @@ void	run_cmd(char *cmd, t_list *envll)
 		return ;
 	cmd = expand_env(cmd, envll);
 	if (builtin_table(cmd, envll))
+	{
+		free(cmd);
 		return ;
+	}
 	envp = list_to_array(envll);
 	args = ft_split(cmd, ' ');
 	pid = fork();
