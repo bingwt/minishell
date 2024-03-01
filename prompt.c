@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 15:57:40 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 16:22:15 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*get_user(void)
 	char	*temp;
 	char	*hostname;
 
-	temp = ft_strjoin("\033\e[46m\002", getenv("USER"));
+	temp = ft_strjoin("\001\033\e[46m\002", getenv("USER"));
 	user = ft_strjoin(temp, "@");
 	free(temp);
 	temp = get_hostname();
