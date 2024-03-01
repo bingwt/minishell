@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 04:37:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 15:23:33 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*init_prompt(t_list *envll)
 	pwd = ft_strjoin(temp, "$\001\e[0m\002 ");
 	home = expand_env("$HOME", envll);
 	free(temp);
-	if (*home == '\n')
+	if (*home)
 		temp = ft_strjoin(userhost, "~");
 	else
 		temp = ft_strjoin(userhost, "");

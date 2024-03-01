@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 05:31:17 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 15:25:05 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ void	ft_cd(const char *path, t_list *envll)
 	}
 	if (ft_strchr(path, '~') && ft_strlen(path) == 1)
 	{
-		temp = expand_env("$HOME", envll);
-		ft_cd(temp, envll);
-		free(temp);
+		ft_cd(getenv("HOME"), envll);
 		return ;
 	}
 	oldpwd = ft_pwd();
