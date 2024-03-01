@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 15:23:33 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 15:57:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ static char	*get_hostname(void)
 	return (hostname);
 }
 
-static char	*get_user(t_list *envll)
+static char	*get_user(void)
 {
 	char	*user;
 	char	*temp;
 	char	*hostname;
 
-	user = expand_env("$USER", envll);
-	temp = ft_strjoin("\033\e[46m\002", user);
-	free(user);
+	temp = ft_strjoin("\033\e[46m\002", getenv("USER"));
 	user = ft_strjoin(temp, "@");
 	free(temp);
 	temp = get_hostname();
@@ -63,7 +61,7 @@ char	*init_prompt(t_list *envll)
 	char	*temp;
 	char	*prompt;
 
-	userhost = get_user(envll);
+	userhost = get_user();
 	temp = ft_pwd();
 	pwd = ft_strjoin(temp, "$\001\e[0m\002 ");
 	home = expand_env("$HOME", envll);
