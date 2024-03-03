@@ -28,9 +28,9 @@
 # include <sys/wait.h>
 # include <termios.h>
 
-# define HERE_DOC O_CREAT | O_RDWR | O_TRUNC;
-# define TRUNC O_CREAT | O_WRONLY | O_TRUNC;
-# define APPEND O_CREAT | O_WRONLY | O_APPEND
+# define HERE_DOC 578
+# define TRUNC 577
+# define APPEND 1089
 
 typedef struct s_arg
 {
