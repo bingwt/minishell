@@ -28,12 +28,17 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+# define HERE_DOC O_CREAT | O_RDWR | O_TRUNC;
+# define TRUNC O_CREAT | O_WRONLY | O_TRUNC;
+# define APPEND O_CREAT | O_WRONLY | O_APPEND
+
 typedef struct s_arg
 {
 	int		last;
 	int		in_i;
 	int		out_i;
 	int		cmd_i;
+	int		io[2];
 	char	**in;
 	char	**out;
 	char	**cmd;
