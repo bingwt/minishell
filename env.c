@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/04 16:28:01 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/04 17:22:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,29 +92,6 @@ char	*ft_strre(char *str, char *find, char *replace)
 	return (new);
 }
 
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	val;
-	int	neg;
-
-	i = 0;
-	val = 0;
-	neg = 1;
-	while ((str[i] > 8 && str[i] < 14) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-		if (str[i++] == '-')
-			neg = -neg;
-	while (str[i] != '\0')
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (val * neg);
-		val = val * 10 + str[i++] - '0';
-	}
-	return (val * neg);
-}
-
 char	*expand_env(char *str, t_list *envll)
 {
 	t_list	*lst;
@@ -128,7 +105,7 @@ char	*expand_env(char *str, t_list *envll)
 	if (!start)
 		return (str);
 	end = start + 1;
-	while (ft_isalnum(*end))
+	while (ft_isalnum(*end) || *end == '?')
 		end++;
 	token = ft_substr(str, start - str, end - start);
 	while (lst)
@@ -141,7 +118,12 @@ char	*expand_env(char *str, t_list *envll)
 	if (lst) 
 		env = env + (end - start);
 	else
-		env = "";
+	{
+		if (!ft_strcmp(token, "$?"))
+			env = ft_itoa(get_exit_status(-1));
+		else
+			env = "";
+	}
 	env = ft_strre(str, token, env);
 	free(token);
 	if (ft_strchr(env, '$'))
