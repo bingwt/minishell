@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 18:10:40 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/04 16:28:01 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	**list_to_array(t_list *lst)
 	char	**arr;
 	size_t	i;
 
+	if (!lst)
+		return (NULL);
 	len = ft_lstsize(lst);
 	arr = ft_calloc(len + 1, sizeof(char *));
 	i = 0;
@@ -45,6 +47,8 @@ void	array_to_list(t_list **lst, char **envp)
 	size_t	len;
 
 	len = ft_strslen(envp);
+	if (!len)
+		return ;
 	while (len--)
 	{
 		env = ft_lstnew(ft_strdup(envp[len]));
@@ -86,6 +90,29 @@ char	*ft_strre(char *str, char *find, char *replace)
 	free(strs[0]);
 	free(strs);
 	return (new);
+}
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	val;
+	int	neg;
+
+	i = 0;
+	val = 0;
+	neg = 1;
+	while ((str[i] > 8 && str[i] < 14) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		if (str[i++] == '-')
+			neg = -neg;
+	while (str[i] != '\0')
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (val * neg);
+		val = val * 10 + str[i++] - '0';
+	}
+	return (val * neg);
 }
 
 char	*expand_env(char *str, t_list *envll)

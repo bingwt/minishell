@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/28 15:00:12 by btan             ###   ########.fr        #
+#    Updated: 2024/03/04 16:09:49 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ INCLUDES = .
 SRCS = env.c \
 	   signals.c \
 	   prompt.c \
+	   handle_errors.c \
 	   builtins/ft_echo.c \
 	   builtins/ft_cd.c \
 	   builtins/ft_pwd.c \

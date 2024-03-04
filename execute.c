@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/02 00:00:55 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/04 16:31:15 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,6 @@ char	*get_path(char *cmd, t_list *envll)
 	free(program);
 	ft_free_split(&path);
 	return (program_path);
-}
-
-int	handle_error(char *vars, char *error)
-{
-	ft_putstr_fd("minibing: ", 2);
-	if (!ft_strncmp(error, "CMD_NOT_FOUND", 13))
-	{
-		ft_printf_fd(2, "command not found: %s\n", vars);
-		return (127);
-	}
-	if (!ft_strncmp(error, "NO_FILE", 7))
-		ft_putstr_fd("no such file or directory: ", 2);
-	if (!ft_strncmp(error, "NO_PERMS", 8))
-		ft_putstr_fd("permission denied: ", 2);
-	ft_putstr_fd(vars, 2);
-	ft_putchar_fd('\n', 2);
-	exit(1);
 }
 
 //void	run_cmd(char *cmd)
@@ -110,6 +93,7 @@ static int	builtin_table(char *cmd, t_list *envll)
 	else if (!ft_strcmp("exit", cmd))
 	{
 		ft_lstclear(&envll, free);
+		printf("exit\n");
 		exit(0);
 	}
 	else
@@ -155,7 +139,8 @@ void	run_cmd(char *cmd, t_list *envll)
 	ft_free_split(&args);
 	free(envp);
 	waitpid(pid, &status, 0);
-	printf("Exit Status: %d\n", WEXITSTATUS(status));
+	printf("Status: %d\n", status);
+	printf("Exit Status: %d\n", get_exit_status(status));
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 }
