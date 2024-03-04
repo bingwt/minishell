@@ -74,12 +74,12 @@ void	run_single(t_arg args, char **envp, t_list *envll)
 	if (builtin_table(args, envp, envll))
 		return ;
 	if (!access(args.cmd[0], X_OK))
-		execve(args.cmd[0], args.cmd, *envp);
+		execve(args.cmd[0], args.cmd, envp);
 	path = get_path(args.cmd[0]);
 	if (!path)
-		error with errno and return;
+		perror(path), return ;
 	execve(path, args.cmd, *envp);
-	error with errno and return;
+	perror(execve), return ;
 }
 
 void	run_cmds(t_arg *args, char **envp, t_list *envll)
