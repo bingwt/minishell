@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 23:51:59 by btan              #+#    #+#             */
-/*   Updated: 2024/03/04 17:24:41 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/04 19:05:21 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	handle_error(char *vars, char *error)
 	exit(1);
 }
 
-
 int	get_exit_status(int status)
 {
 	static int	exit_status;
 
 	if (status == -1)
 		return (exit_status);
+	status = (status | 0xff00) << 8;
 	exit_status = WEXITSTATUS(status);
 	return (exit_status);
 }
