@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 15:31:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 16:02:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,18 @@ void	free_strs(char **strs)
 	free(temp);
 }
 
-char	*get_path(char *cmd)
+char	*get_path(char *cmd, t_list *envll)
 {
+	char	*temp;
 	char	*program_path;
 	char	**path;
 	char	**ptr;
 	char	*program;
 
-	path = ft_split(getenv("PATH"), ':');
+	//path = ft_split(getenv("PATH"), ':');
+	temp = expand_env("$PATH", envll);
+	path = ft_split(temp, ':');
+	free(temp);
 	ptr = path;
 	program = ft_strjoin("/", cmd);
 	while (*ptr)
@@ -82,12 +86,12 @@ int	handle_error(char *vars, char *error)
 
 //	proposed run_cmd with routing table
 
-static int	builtin_table(char *cmd, char **envp, t_list *envll)
+static int	builtin_table(char *cmd, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
 		ft_echo(cmd + 5);
 	else if (!ft_strncmp("cd ", cmd, 3))
-		ft_cd(cmd + 3);
+		ft_cd(cmd + 3, envll);
 	else if (!ft_strncmp("pwd ", cmd, 4))
 		printf("%s\n", ft_pwd());
 	else if (ft_strnstr(cmd, "export", 7))
@@ -95,7 +99,7 @@ static int	builtin_table(char *cmd, char **envp, t_list *envll)
 	else if (ft_strnstr(cmd, "unset", 6))
 		ft_unset(cmd, &envll);
 	else if (!ft_strncmp("env ", cmd, 4))
-		ft_env(envp);
+		ft_env(envll);
 	else if (!ft_strncmp("expand $", cmd, 8))
 	{
 		printf("Raw: %s\n", cmd);
@@ -103,15 +107,33 @@ static int	builtin_table(char *cmd, char **envp, t_list *envll)
 	}
 	else if (!ft_strncmp("minibing", cmd, 8))
 		minibing();
+	else if (!ft_strncmp("<< ", cmd, 3))
+	{
+		int		p_fd[2];
+		char	*buffer;
+	
+		pipe(p_fd);
+		ft_heredoc(cmd + 3, p_fd[1]);
+		close(p_fd[1]);
+		buffer = ft_calloc(PIPE_BUF + 1, sizeof(char));
+		while (read(p_fd[0], buffer, PIPE_BUF) > 0);
+		printf("%s", buffer);
+		free(buffer);
+		close(p_fd[0]);
+	}
 	else if (!ft_strcmp("exit", cmd))
+	{
+		ft_lstclear(&envll, free);
 		exit(0);
+	}
 	else
 		return (0);
 	return (1);
 }
 
-void	run_cmd(char *cmd, char ***envp, t_list *envll)
+void	run_cmd(char *cmd, t_list *envll)
 {
+	char	**envp;
 	char	**args;
 	char	*path;
 	pid_t	pid;
@@ -119,8 +141,9 @@ void	run_cmd(char *cmd, char ***envp, t_list *envll)
 	if (!*cmd)
 		return ;
 	cmd = expand_env(cmd, envll);
-	if (builtin_table(cmd, *envp, envll))
+	if (builtin_table(cmd, envll))
 		return ;
+	envp = list_to_array(envll);
 	args = ft_split(cmd, ' ');
 	pid = fork();
 	if (!pid)
@@ -128,20 +151,22 @@ void	run_cmd(char *cmd, char ***envp, t_list *envll)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
-			execve(args[0], args, *envp);
-		path = get_path(args[0]);
+			execve(args[0], args, envp);
+		path = get_path(args[0], envll);
 		if (!path)
 		{
 			handle_error(args[0], "CMD_NOT_FOUND");
 			free_strs(args);
 			free(path);
+			free(envp);
 			exit(127);
 		}
-		execve(path, args, *envp);
+		execve(path, args, envp);
 	}
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	ft_free_split(&args);
+	free(envp);
 	waitpid(pid, NULL, 0);
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);

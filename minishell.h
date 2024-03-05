@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 22:07:43 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/05 16:01:53 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,26 @@ void	free_strs(char **strs);
 void	handle_signal(int sig);
 
 // PROMPT
-char	*get_hostname(void);
-char	*get_user(void);
-char	*init_prompt(void);
+char	*init_prompt(t_list *envll);
 
 // ENV
-char	**init_envp(void);
-void	init_envll(t_list **envp);
 char	**list_to_array(t_list *lst);
 char	*expand_env(char *str, t_list *envll);
+void	array_to_list(t_list **lst, char **envp);
 
 // BUILTINS
 void	ft_echo(const char *str);
-void	ft_cd(const char *path);
+void	ft_cd(const char *path, t_list *envll);
 char	*ft_pwd(void);
-void	ft_env(char **envp);
+void	ft_env(t_list *envp);
 void	ft_export(char *cmd, t_list **envll);
 void	ft_unset(char *cmd, t_list **envll);
 void	minibing(void);
 
 // EXECUTE
-char	*get_path(char *cmd);
+char	*get_path(char *cmd, t_list *envll);
 int		handle_error(char *vars, char *error);
-void	run_cmd(char *cmd, char ***envp, t_list *envll);
+void	run_cmd(char *cmd, t_list *envll);
 
 // SPLIT_BY_SPACE
 int		quotes(char c, char *reset);
@@ -92,5 +89,8 @@ char	***split_by_pipe(char **in);
 
 // REJOIN_TOKENS
 t_arg	*rejoin_tokens(char ***in);
+
+// HEREDOC
+void	ft_heredoc(char	*eof, int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:55:23 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 15:43:21 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 17:42:23 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_unset(char *cmd, t_list **envll)
 {
 	t_list	*env;
+	t_list	*temp;
 	char	**args;
 	char	*content;
 	char	*token;
@@ -31,6 +32,10 @@ void	ft_unset(char *cmd, t_list **envll)
 	}
 	free_strs(args);
 	if (env->next)
+	{
+		temp = env->next;
 		env->next = env->next->next;
+		ft_lstdelone(temp, free);
+	}
 	return ;
 }

@@ -12,17 +12,18 @@
 
 #include "minishell.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	int		io[2];
 	char	*prompt;
 	char	*buffer;
-	char	**envp;
+//	char	**envp;
 	t_list	*envll;
 
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
+	array_to_list(&envll, envp);
 	init_envll(&envll);
 	envp = list_to_array(envll);
 	io[0] = dup(STDIN_FILENO);
@@ -33,9 +34,9 @@ int	main(int argc, char **argv)
 //	ft_unset("unset test", &envll);
 	while (1)
 	{
+		prompt = init_prompt(envll);
 		if (dup2(io[0], STDIN_FILENO) < 0 || dup2(io[1], STDOUT_FILENO) < 0)
 				perror("Dup");
-		prompt = init_prompt();
 		if (argc == 2)
 		{
 			printf("%s mode\n", argv[1]);
@@ -51,10 +52,10 @@ int	main(int argc, char **argv)
 			printf("exit\n");
 			break ;
 		}
-		run_cmd(buffer, &envp, envll);
+		run_cmd(buffer, envll);
 		free(buffer);
 	}
 	ft_lstclear(&envll, free);
-	free(envp);
+//	free(envp);
 	return (0);
 }

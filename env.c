@@ -6,51 +6,11 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/27 21:17:02 by btan             ###   ########.fr       */
+/*   Updated: 2024/02/29 18:10:40 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**init_envp(void)
-{
-	char	**env;
-
-	env = ft_calloc(9, sizeof(char *));
-	env[0] = ft_strjoin("USER=", getenv("USER"));
-	env[1] = ft_strjoin("HOME=", getenv("HOME"));
-	env[2] = ft_strjoin("PWD=", getenv("PWD"));
-	env[3] = ft_strjoin("DISPLAY=", getenv("DISPLAY"));
-	env[4] = ft_strjoin("TERM=", getenv("TERM"));
-	env[5] = ft_strjoin("PATH=", getenv("PATH"));
-	env[6] = ft_strjoin("DBUS_SESSION_BUS_ADDRESS=", \
-	getenv("DBUS_SESSION_BUS_ADDRESS"));
-	env[7] = ft_strjoin("OLDPWD=", getenv("OLDPWD"));
-	return (env);
-}
-
-void	init_envll(t_list **envp)
-{
-	t_list	*env;
-
-	env = ft_lstnew(ft_strjoin("USER=", getenv("USER")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("HOME=", getenv("HOME")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("PWD=", getenv("PWD")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("DISPLAY=", getenv("DISPLAY")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("TERM=", getenv("TERM")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("PATH=", getenv("PATH")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("DBUS_SESSION_BUS_ADDRESS=", \
-	getenv("DBUS_SESSION_BUS_ADDRESS")));
-	ft_lstadd_back(envp, env);
-	env = ft_lstnew(ft_strjoin("OLDPWD=", getenv("OLDPWD")));
-	ft_lstadd_back(envp, env);
-}
 
 char	**list_to_array(t_list *lst)
 {
@@ -69,6 +29,29 @@ char	**list_to_array(t_list *lst)
 	return (arr);
 }
 
+int	ft_strslen(char **strs)
+{
+	char	**ptr;
+
+	ptr = strs;
+	while (*ptr)
+		ptr++;
+	return (ptr - strs);
+}
+
+void	array_to_list(t_list **lst, char **envp)
+{
+	t_list	*env;
+	size_t	len;
+
+	len = ft_strslen(envp);
+	while (len--)
+	{
+		env = ft_lstnew(ft_strdup(envp[len]));
+		ft_lstadd_front(lst, env);
+	}
+}
+
 char	**ft_strsplit(char *str, char *token)
 {
 	char	**strs;
@@ -76,7 +59,7 @@ char	**ft_strsplit(char *str, char *token)
 	char	*end;
 	size_t	i;
 	
-	strs = ft_calloc(3, sizeof(char *));
+	strs = ft_calloc(2, sizeof(char *));
 	start = ft_strnstr(str, token, ft_strlen(str));
 	end = start + 1;
 	i = 0;
@@ -100,6 +83,8 @@ char	*ft_strre(char *str, char *find, char *replace)
 	temp = ft_strjoin(strs[0], replace);
 	new = ft_strjoin(temp, strs[1]);
 	free(temp);
+	free(strs[0]);
+	free(strs);
 	return (new);
 }
 

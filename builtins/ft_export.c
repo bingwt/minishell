@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/02/28 15:52:42 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/01 04:34:10 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_export(char *cmd, t_list **envll)
 	env = *envll;
 	args = ft_split(cmd, '=');
 	token = args[0];
-	while (env)
+	while ((token[0] != '\0') && env)
 	{
 		content = (char *) env->content;
 		if (!ft_strncmp(token + 7, content, ft_strchr(content, '=') - content))
@@ -37,7 +37,8 @@ void	ft_export(char *cmd, t_list **envll)
 	}
 	if (!env && ft_strchr(cmd, '='))
 	{
-		env = ft_lstnew(ft_strdup(cmd + 7));
+		token = ft_strdup(cmd + 7);
+		env = ft_lstnew(token);
 		ft_lstadd_back(envll, env);
 	}
 	else
