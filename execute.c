@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 13:52:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 16:02:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static int	builtin_table(char *cmd, t_list *envll)
 		char	*buffer;
 	
 		pipe(p_fd);
-		ft_heredoc(cmd + 3, p_fd);
+		ft_heredoc(cmd + 3, p_fd[1]);
 		close(p_fd[1]);
 		buffer = ft_calloc(PIPE_BUF + 1, sizeof(char));
 		while (read(p_fd[0], buffer, PIPE_BUF) > 0);

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:23:35 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 13:49:36 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 16:01:41 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_heredoc_w_pipe(char	*eof)
 	close(p_fd[0]);
 }
 
-void	ft_heredoc(char	*eof, int p_fd[2])
+void	ft_heredoc(char	*eof, int fd)
 {
 	char	*buffer;
 
@@ -45,8 +45,11 @@ void	ft_heredoc(char	*eof, int p_fd[2])
 		buffer = readline("heredoc> ");
 		if (!strcmp(buffer, eof))
 			return ;
-		write(p_fd[1], buffer, ft_strlen(buffer));
-		write(p_fd[1], "\n", 1);
+		if (fd >= 0)
+		{
+			write(fd, buffer, ft_strlen(buffer));
+			write(fd, "\n", 1);
+		}
 		free(buffer);
 	}
 }

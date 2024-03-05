@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 13:42:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 16:01:53 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ char	***split_by_pipe(char **in);
 t_arg	*rejoin_tokens(char ***in);
 
 // HEREDOC
-void	ft_heredoc(char	*eof, int p_fd[2]);
+void	ft_heredoc(char	*eof, int fd);
 
 #endif
