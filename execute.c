@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 14:07:44 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 14:25:44 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,12 @@ static int	builtin_table(char *cmd, t_list *envll)
 		minibing();
 	else if (!ft_strncmp("status ", cmd, 7))
 		printf("Exit Status is %d\n", get_exit_status(ft_atoi(cmd + 7)));
-	else if (!ft_strcmp("exit", cmd))
+	else if (!ft_strncmp("exit", cmd, 4))
 	{
 		ft_lstclear(&envll, free);
-		printf("exit\n");
-		exit(0);
+		if (!ft_strncmp("exit ", cmd, 5))
+			ft_exit(ft_atoi(cmd + 5));
+		ft_exit(0);
 	}
 	else
 		return (0);
