@@ -29,8 +29,7 @@ void	ft_heredoc_w_pipe(char	*eof)
 	}
 	close(p_fd[1]);
 	buffer = ft_calloc(PIPE_BUF + 1, sizeof(char));
-	while (read(p_fd[0], buffer, PIPE_BUF) > 0)
-		;
+	while (read(p_fd[0], buffer, PIPE_BUF) > 0);
 	printf("%s", buffer);
 	free(buffer);
 	close(p_fd[0]);

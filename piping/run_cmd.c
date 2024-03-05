@@ -4,7 +4,7 @@ int	builtin_table(t_arg args, char **envp, t_list *envll)
 {
 	char	*cmd;
 
-	cmd = args.cmd[0];
+	cmd = ft_strjoin_strs(args.cmd);
 	if (!ft_strcmp(cmd, "echo"))
 		ft_echo(args);
 	else if (!ft_strcmp(cmd, "cd"))
@@ -26,6 +26,21 @@ int	builtin_table(t_arg args, char **envp, t_list *envll)
 	return (1);
 }
 
+int	open_heredoc(char *eof, int last, int *io)
+{
+	int	fd[2];
+
+	if (last)
+	{
+		if (pipe(fd) < 0)
+			perror("pipe");
+		*io = fd[0];
+		ft_heredoc(eof, fd[1]);
+	}
+	else
+		ft_heredoc(eof, -1);
+}
+
 t_arg	open_files(t_arg args)
 {
 	int	i;
@@ -36,9 +51,9 @@ t_arg	open_files(t_arg args)
 		if (!ft_strcmp(args.in[i++], "<"))
 			args.io[0] = open(args.in[i], O_RDONLY);
 		else
-			args.io[0] = heredoc implementation;
+			open_heredoc(args.in[i], args.last, &args.io[0]);
 		if (args.io[0] == -1)
-			error with exit, failed open == cmd not executed;
+			perror("open");
 		i++;
 	}
 	i = 0;
@@ -49,40 +64,31 @@ t_arg	open_files(t_arg args)
 		else
 			args.io[1] = open(args.out[i++], TRUNC, 0644);
 		if (args.io[1] == -1)
-			error with exit;
+			perror("open");
 	}
 	return (args);
 }
 
 void	dup_pipes(t_arg args, int *pipe)
 {
-}
-
-void	run_single(t_arg *args, char **envp, t_list *envll)
-{
-	char	*path;
-	pid_t	pid;
-
-	args[0] = open_files(args[0]);
-	if (!args[0].cmd[0])
-		return ;
-	if (dup2(args[0].io[0], 0) < 0 || dup2(args[0].io[1], 1) < 0)
-		perror("dup2"), return ;
-	if (builtin_table(args[0], envp, envll))
-		return ;
-	pid = fork();
-	if (pid < 0)
-		perror("fork"), return ;
-	if (!pid)
+	if (args.io[0] != STDIN_FILENO)
 	{
-		if (!access(args[0].cmd[0], X_OK))
-			execve(args[0].cmd[0], args[0].cmd, envp);
-		path = get_path(args[0].cmd[0]);
-		if (!path)
-			perror("path"), exit(1) ;
-		execve(path, args[0].cmd, envp);
-		perror("execve"), free_args(args), exit(1) ;
+		if (dup2(args.io[0], STDIN_FILENO) < 0)
+			perror("dup2");
 	}
+	if (args.io[1] != STDOUT_FILENO)
+	{
+		if (dup2(args.io[1], STDOUT_FILENO) < 0)
+			perror("dup2");
+	}
+	if (close(args.io[0]) || close(args.io[1]))
+		perror("dup2");
+	if (args.io[0] != pipe[0])
+		if (close(pipe[0]))
+			perror("dup2");
+	if (args.io[1] != pipe[1])
+		if (close(pipe[1]))
+			perror("dup2");
 }
 
 void	run_cmds(t_arg *args, char **envp, t_list *envll)
@@ -100,6 +106,6 @@ void	run_cmds(t_arg *args, char **envp, t_list *envll)
 		if (!pid)
 			minishell_piping(args, envp, envll);
 		waitpid(pid, &exit_status, WNOHANG);
-		fancy schmancy errno function;
+		set errno from exitstatus;
 	}
 }
