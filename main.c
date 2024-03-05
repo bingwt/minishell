@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 04:36:06 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 15:36:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	main(int argc, char **argv, char **envp)
 //	ft_export("export test=something", &envll);
 //	ft_export("export test=somethingelse", &envll);
 //	ft_unset("unset test", &envll);
+	ft_export(ft_strjoin("export SHLVL=", \
+	ft_itoa(ft_atoi(expand_env("$SHLVL", envll)) + 1)), &envll);
 	while (1)
 	{
 		prompt = init_prompt(envll);

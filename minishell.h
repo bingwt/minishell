@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 14:23:31 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 14:54:05 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ typedef struct s_arg
 	char	**out;
 	char	**cmd;
 }	t_arg;
+
+// LIBFT
+char	**ft_strsplit(char *str, char *token);
+char	*ft_strre(char *str, char *find, char *replace);
 
 // SIGNALS
 void	free_strs(char **strs);
