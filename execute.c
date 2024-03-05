@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 23:58:07 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 13:52:59 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,20 @@ static int	builtin_table(char *cmd, t_list *envll)
 	}
 	else if (!ft_strncmp("minibing", cmd, 8))
 		minibing();
+	else if (!ft_strncmp("<< ", cmd, 3))
+	{
+		int		p_fd[2];
+		char	*buffer;
+	
+		pipe(p_fd);
+		ft_heredoc(cmd + 3, p_fd);
+		close(p_fd[1]);
+		buffer = ft_calloc(PIPE_BUF + 1, sizeof(char));
+		while (read(p_fd[0], buffer, PIPE_BUF) > 0);
+		printf("%s", buffer);
+		free(buffer);
+		close(p_fd[0]);
+	}
 	else if (!ft_strcmp("exit", cmd))
 	{
 		ft_lstclear(&envll, free);
