@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/04 16:08:46 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 14:15:06 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ t_arg	*rejoin_tokens(char ***in);
 // HANDLE_ERRORS
 int		handle_error(char *vars, char *error);
 int		get_exit_status(int status);
+int		unshift_exitcode(int status);
 
 #endif

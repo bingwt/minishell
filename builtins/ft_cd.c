@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/04 17:31:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 14:16:18 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_cd(const char *path, t_list *envll)
 		free(oldpwd);
 		ft_printf_fd(2, "minibing: cd: ");
 		perror(path);
-		get_exit_status(1);
+		get_exit_status(unshift_exitcode(1));
 		return ;
 	}
 	cwd = ft_pwd();

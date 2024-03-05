@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/04 18:46:57 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/05 14:07:44 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ void	run_cmd(char *cmd, t_list *envll)
 			free_strs(args);
 			free(path);
 			free(envp);
-			get_exit_status(127);
 			exit(127);
 		}
 		execve(path, args, envp);
