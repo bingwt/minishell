@@ -5,21 +5,21 @@ int	builtin_table(t_arg args, char **envp, t_list *envll)
 	char	*cmd;
 
 	cmd = ft_strjoin_strs(args.cmd);
-	if (!ft_strcmp(cmd, "echo"))
-		ft_echo(args);
-	else if (!ft_strcmp(cmd, "cd"))
-		ft_cd(args);
-	else if (!ft_strcmp(cmd, "pwd"))
+	if (!ft_strcmp(args.cmd[0], "echo"))
+		ft_echo(cmd + 4);
+	else if (!ft_strcmp(args.cmd[0], "cd"))
+		ft_cd(cmd + 2, envll);
+	else if (!ft_strcmp(args.cmd[0], "pwd"))
 		printf("%s\n", ft_pwd());
-	else if (!ft_strcmp(cmd, "export"))
-		ft_export(args, &envll);
-	else if (!ft_strcmp(cmd, "unset"))
-		ft_unset(args, &envll);
-	else if (!ft_strcmp(cmd, "env"))
-		ft_env(envp);
-	else if (!ft_strcmp(cmd, "minibing"))
+	else if (!ft_strcmp(args.cmd[0], "export"))
+		ft_export(cmd, &envll);
+	else if (!ft_strcmp(args.cmd[0], "unset"))
+		ft_unset(cmd, &envll);
+	else if (!ft_strcmp(args.cmd[0], "env"))
+		ft_env(envll);
+	else if (!ft_strcmp(args.cmd[0], "minibing"))
 		minibing();
-	else if (!ft_strcmp("exit", cmd))
+	else if (!ft_strcmp("exit", args.cmd[0]))
 		exit(0);
 	else
 		return (0);
