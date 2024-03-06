@@ -1,4 +1,5 @@
-#include "minishell.h"
+#include "mspiping.h"
+#include "../minishell.h"
 
 void	run_single(t_arg *args, char **envp, t_list *envll)
 {
@@ -9,12 +10,18 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	if (!args[0].cmd[0])
 		return ;
 	if (dup2(args[0].io[0], 0) < 0 || dup2(args[0].io[1], 1) < 0)
-		perror("dup2"), return ;
-	if (builtin_table(args[0], envp, envll))
+	{
+		perror("dup2");
+		return ;
+	}
+	if (builtin_table(args[0], envll))
 		return ;
 	pid = fork();
 	if (pid < 0)
-		perror("fork"), return ;
+	{
+		perror("fork");
+		return ;
+	}
 	if (!pid)
 	{
 		if (!access(args[0].cmd[0], X_OK))
@@ -31,7 +38,7 @@ static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
 {
 	char	*path;
 
-	if (builtin_table(args[i], envp, envll))
+	if (builtin_table(args[i], envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
 		execve(args[i].cmd[0], args[i].cmd, envp);
@@ -55,9 +62,9 @@ static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
 static void	recursive_piping(t_arg *args, char **envp, t_list *envll, int *fd)
 {
 	int		i;
-	char	*path;
 	pid_t	pid;
 
+	i = 0;
 	while (!args[i].last)
 		i++;
 	if (i)
@@ -87,6 +94,7 @@ void minishell_piping(t_arg *args, char **envp, t_list *envll)
 	int		fd[2];
 	pid_t	pid;
 
+	i = 0;
 	while (!args[i].last)
 		i++;
 	args[i - 1].last = 1;

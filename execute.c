@@ -86,6 +86,7 @@ int	handle_error(char *vars, char *error)
 
 //	proposed run_cmd with routing table
 
+/*
 static int	builtin_table(char *cmd, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
@@ -111,7 +112,7 @@ static int	builtin_table(char *cmd, t_list *envll)
 	{
 		int		p_fd[2];
 		char	*buffer;
-	
+
 		pipe(p_fd);
 		ft_heredoc(cmd + 3, p_fd[1]);
 		close(p_fd[1]);
@@ -171,3 +172,4 @@ void	run_cmd(char *cmd, t_list *envll)
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 }
+*/

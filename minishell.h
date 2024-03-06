@@ -79,6 +79,7 @@ char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 
 // PARSING
 void	split_by_space(char *input, char ***split);
+void	free_args(t_arg *args);
 t_arg	*input_parser(char *input);
 
 // INJECT_SPACE

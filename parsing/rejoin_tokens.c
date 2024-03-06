@@ -69,6 +69,6 @@ t_arg	*rejoin_tokens(char ***in)
 		arg[a].cmd = split_assign(arg[a].cmd, &arg[a].cmd_i, NULL);
 		i = -1;
 	}
-	arg[a].last = 1;
+	arg[a - 1].last = 1;
 	return (arg);
 }

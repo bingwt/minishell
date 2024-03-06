@@ -1,6 +1,7 @@
-#include "minishell.h"
+#include "../minishell.h"
+#include "mspiping.h"
 
-int	builtin_table(t_arg args, char **envp, t_list *envll)
+int	builtin_table(t_arg args, t_list *envll)
 {
 	char	*cmd;
 
@@ -26,7 +27,7 @@ int	builtin_table(t_arg args, char **envp, t_list *envll)
 	return (1);
 }
 
-int	open_heredoc(char *eof, int last, int *io)
+void	open_heredoc(char *eof, int last, int *io)
 {
 	int	fd[2];
 
@@ -102,10 +103,28 @@ void	run_cmds(t_arg *args, char **envp, t_list *envll)
 	{
 		pid = fork();
 		if (pid < 0)
-			perror("fork"), return ;
+		{
+			perror("fork");
+			return ;
+		}
 		if (!pid)
 			minishell_piping(args, envp, envll);
 		waitpid(pid, &exit_status, WNOHANG);
-		set errno from exitstatus;
+		//set errno from exitstatus;
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)	argc;
+	char	*str;
+	t_list	*envll;
+	t_arg	*args;
+	str = malloc(ft_strlen(argv[1]) + 1);
+	str = strcpy(str, argv[1]);
+	args = input_parser(str);
+	envll = NULL;
+	array_to_list(&envll, envp);
+	run_cmds(args, envp, envll);
+	return (0);
 }
