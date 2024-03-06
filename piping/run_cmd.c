@@ -47,7 +47,7 @@ t_arg	open_files(t_arg args)
 	int	i;
 
 	i = 0;
-	while (i <= args.in_i)
+	while (i < args.in_i - 1)
 	{
 		if (!ft_strcmp(args.in[i++], "<"))
 			args.io[0] = open(args.in[i], O_RDONLY);
@@ -58,7 +58,7 @@ t_arg	open_files(t_arg args)
 		i++;
 	}
 	i = 0;
-	while (i <= args.out_i)
+	while (i < args.out_i - 1)
 	{
 		if (!ft_strcmp(args.out[i++], ">>"))
 			args.io[1] = open(args.out[i++], APPEND, 0644);
@@ -82,8 +82,8 @@ void	dup_pipes(t_arg args, int *pipe)
 		if (dup2(args.io[1], STDOUT_FILENO) < 0)
 			perror("dup2");
 	}
-	if (close(args.io[0]) || close(args.io[1]))
-		perror("dup2");
+	//if (close(args.io[0]) || close(args.io[1]))
+	//	perror("dup2");
 	if (args.io[0] != pipe[0])
 		if (close(pipe[0]))
 			perror("dup2");
