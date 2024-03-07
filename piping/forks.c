@@ -7,8 +7,8 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	pid_t	pid;
 
 	args[0] = open_files(args[0]);
-	if (!args[0].cmd[0])
-		return ;
+	//if (!args[0].cmd[0])
+	//	return ;
 	if (dup2(args[0].io[0], 0) < 0 || dup2(args[0].io[1], 1) < 0)
 	{
 		perror("dup2");
@@ -46,7 +46,6 @@ static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
 	if (!path)
 	{
 		free_args(args);
-		ft_free_split(&envp);
 		//free envll;
 		perror("cmd not found");
 		exit(127);
@@ -71,7 +70,6 @@ static void	recursive_piping(t_arg *args, char **envp, t_list *envll, int *fd)
 		args[i - 1].last = 1;
 	if (close(fd[0]))
 		perror("close");
-	//if (i)
 	args[i].io[1] = fd[1];
 	if (pipe(fd) < 0)
 		perror("pipe");

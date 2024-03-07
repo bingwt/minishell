@@ -82,8 +82,6 @@ void	dup_pipes(t_arg args, int *pipe)
 		if (dup2(args.io[1], STDOUT_FILENO) < 0)
 			perror("dup2");
 	}
-	//if (close(args.io[0]) || close(args.io[1]))
-	//	perror("dup2");
 	if (args.io[0] != pipe[0])
 		if (close(pipe[0]))
 			perror("dup2");
@@ -114,6 +112,7 @@ void	run_cmds(t_arg *args, char **envp, t_list *envll)
 	}
 }
 
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	(void)	argc;
@@ -128,3 +127,4 @@ int	main(int argc, char **argv, char **envp)
 	run_cmds(args, envp, envll);
 	return (0);
 }
+*/
