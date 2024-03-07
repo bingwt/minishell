@@ -6,28 +6,28 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 15:29:56 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/06 20:54:47 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	cd_oldpwd(char **oldpwd, char **pwd, t_list *envll)
-{
-	char	*temp;
-
-	*oldpwd = expand_env("$OLDPWD", envll);
-	printf("%s\n", *oldpwd);
-	chdir(*oldpwd);
-	temp = ft_strjoin("export OLDPWD=", *pwd);
-	ft_export(temp, &envll);
-	free(temp);
-	*pwd = ft_pwd();
-	temp = ft_strjoin("export PWD=", *pwd);
-	ft_export(temp, &envll);
-	free(temp);
-	free(*oldpwd);
-}
+//static void	cd_oldpwd(char **oldpwd, char **pwd, t_list *envll)
+//{
+//	char	*temp;
+//
+//	*oldpwd = expand_env("$OLDPWD", envll);
+//	printf("%s\n", *oldpwd);
+//	chdir(*oldpwd);
+//	temp = ft_strjoin("export OLDPWD=", *pwd);
+//	ft_export(temp, &envll);
+//	free(temp);
+//	*pwd = ft_pwd();
+//	temp = ft_strjoin("export PWD=", *pwd);
+//	ft_export(temp, &envll);
+//	free(temp);
+//	free(*oldpwd);
+//}
 
 static void	cd_shortcut(const char *path, t_list *envll)
 {
@@ -61,11 +61,6 @@ void	ft_cd(const char *path, t_list *envll)
 	if (!*path)
 		return ;
 	pwd = ft_pwd();
-	if (ft_strchr(path, '-'))
-	{
-		cd_oldpwd(&oldpwd, &pwd, envll);
-		return ;
-	}
 	if (ft_strchr(path, '~'))
 	{
 		cd_shortcut(path, envll);
