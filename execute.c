@@ -69,6 +69,7 @@ char	*get_path(char *cmd, t_list *envll)
 
 //	proposed run_cmd with routing table
 
+/*
 static int	builtin_table(char *cmd, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
@@ -92,7 +93,22 @@ static int	builtin_table(char *cmd, t_list *envll)
 		minibing();
 	else if (!ft_strncmp("status ", cmd, 7))
 		printf("Exit Status is %d\n", get_exit_status(ft_atoi(cmd + 7)));
-	else if (!ft_strncmp("exit", cmd, 4))
+	else if (!ft_strncmp("<< ", cmd, 3))
+	{
+		int		p_fd[2];
+		char	*buffer;
+
+		pipe(p_fd);
+		ft_heredoc(cmd + 3, p_fd[1]);
+		close(p_fd[1]);
+		buffer = ft_calloc(PIPE_BUF + 1, sizeof(char));
+		while (read(p_fd[0], buffer, PIPE_BUF) > 0);
+		printf("%s", buffer);
+		free(buffer);
+		close(p_fd[0]);
+	}
+	else if (!ft_strcmp("exit", cmd))
+
 	{
 		ft_lstclear(&envll, free);
 		if (!ft_strncmp("exit ", cmd, 5))
@@ -146,3 +162,4 @@ void	run_cmd(char *cmd, t_list *envll)
 	signal(SIGINT, sigint_parent);
 	signal(SIGQUIT, SIG_IGN);
 }
+*/

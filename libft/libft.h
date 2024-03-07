@@ -122,5 +122,6 @@ void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void		ft_free_cubed(char ****cube);
 int			ft_squarelen(char **square);
 int			ft_cubelen(char ***cube);
+char		*ft_strjoin_strs(char **strs);
 
 #endif

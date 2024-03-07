@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/07 12:23:49 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/07 16:21:22 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@
 # include <sys/wait.h>
 # include <termios.h>
 
+# define HERE_DOC 578
+# define TRUNC 577
+# define APPEND 1089
+
 typedef struct s_arg
 {
 	int		last;
 	int		in_i;
 	int		out_i;
 	int		cmd_i;
+	int		io[2];
 	char	**in;
 	char	**out;
 	char	**cmd;
@@ -42,6 +47,9 @@ typedef struct s_arg
 // LIBFT
 char	**ft_strsplit(char *str, char *token);
 char	*ft_strre(char *str, char *find, char *replace);
+
+#include "parsing/msparsing.h"
+#include "piping/mspiping.h"
 
 // SIGNALS
 void	free_strs(char **strs);
@@ -70,25 +78,8 @@ void	minibing(void);
 char	*get_path(char *cmd, t_list *envll);
 void	run_cmd(char *cmd, t_list *envll);
 
-// SPLIT_BY_SPACE
-int		quotes(char c, char *reset);
-void	cmd_assign(t_string *cmd, char input);
-char	**split_assign(char **split, int *cmd_idx, char *insert);
-void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q);
-char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
-
-// PARSING
-void	split_by_space(char *input, char ***split);
-t_arg	*input_parser(char *input);
-
-// INJECT_SPACE
-char	*inject_space(char *input);
-
-// SPLIT_BY_PIPE
-char	***split_by_pipe(char **in);
-
-// REJOIN_TOKENS
-t_arg	*rejoin_tokens(char ***in);
+// HEREDOC
+void	ft_heredoc(char	*eof, int fd);
 
 // HANDLE_ERRORS
 int		handle_error(char *vars, char *error);

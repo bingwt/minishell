@@ -25,6 +25,7 @@ SRCS = env.c \
 	   builtins/ft_export.c \
 	   builtins/ft_unset.c \
 	   builtins/ft_exit.c \
+	   builtins/ft_heredoc.c \
 	   builtins/minibing.c \
 	   execute.c \
 	   main.c

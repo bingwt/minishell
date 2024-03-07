@@ -51,6 +51,14 @@ static int	count_pipe(char **in)
 	return (res);
 }
 
+static void	new_cmd_pipe(char ***cmd, int *c, char ***res)
+{
+	*cmd = split_assign(*cmd, c, NULL);
+	*res = *cmd;
+	*cmd = ft_calloc(1, 8);
+	(*c) = 0;
+}
+
 char	***split_by_pipe(char **in)
 {
 	int		i;
@@ -66,23 +74,14 @@ char	***split_by_pipe(char **in)
 		return (NULL);
 	cmd = NULL;
 	res = ft_calloc(count_pipe(in) + 2, 8);
-	if (!res)
-		return (NULL);
 	res[count_pipe(in) + 1] = NULL;
 	while (in[i])
 	{
-		cmd = split_assign(cmd, &c, in[i]);
-		i++;
+		cmd = split_assign(cmd, &c, in[i++]);
 		if (!in[i] || (in[i] && !ft_strcmp(in[i], "|")))
-		{
-			cmd = split_assign(cmd, &c, NULL);
-			res[r] = cmd;
-			r++;
-			cmd = ft_calloc(1, 8);
-			c = 0;
-			if (in[i])
-				i++;
-		}
+			new_cmd_pipe(&cmd, &c, &(res[r++]));
+		if (in[i] && !ft_strcmp(in[i], "|"))
+			i++;
 	}
 	free(cmd);
 	return (res);

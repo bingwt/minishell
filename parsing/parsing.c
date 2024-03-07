@@ -66,6 +66,24 @@ t_arg	*input_parser(char *input)
 	return (args);
 }
 
+void	free_args(t_arg *args)
+{
+	int	i;
+
+	i = 0;
+	while (!args[i].last)
+	{
+		ft_free_split(&args[i].in);
+		ft_free_split(&args[i].out);
+		ft_free_split(&args[i].cmd);
+		i++;
+	}
+	ft_free_split(&args[i].in);
+	ft_free_split(&args[i].out);
+	ft_free_split(&args[i].cmd);
+	free(args);
+}
+
 /*
 int	main(int argc, char **argv)
 {
@@ -99,4 +117,5 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	return (0);
-}*/
+}
+*/

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 //static void	cd_oldpwd(char **oldpwd, char **pwd, t_list *envll)
 //{
