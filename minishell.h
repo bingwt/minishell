@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 14:54:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/07 12:01:24 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strre(char *str, char *find, char *replace);
 
 // SIGNALS
 void	free_strs(char **strs);
-void	handle_signal(int sig);
+void	sigint_parent(int sig);
 
 // PROMPT
 char	*init_prompt(t_list *envll);

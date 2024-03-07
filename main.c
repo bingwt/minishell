@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 15:36:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/07 11:59:52 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 //	char	**envp;
 	t_list	*envll;
 
-	signal(SIGINT, handle_signal);
+	signal(SIGINT, sigint_parent);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
 	array_to_list(&envll, envp);
