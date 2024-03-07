@@ -44,12 +44,17 @@ typedef struct s_arg
 	char	**cmd;
 }	t_arg;
 
+// LIBFT
+char	**ft_strsplit(char *str, char *token);
+char	*ft_strre(char *str, char *find, char *replace);
+
 #include "parsing/msparsing.h"
 #include "piping/mspiping.h"
 
 // SIGNALS
 void	free_strs(char **strs);
-void	handle_signal(int sig);
+void	sigint_parent(int sig);
+void	sigint_child(int sig);
 
 // PROMPT
 char	*init_prompt(t_list *envll);
@@ -66,14 +71,19 @@ char	*ft_pwd(void);
 void	ft_env(t_list *envp);
 void	ft_export(char *cmd, t_list **envll);
 void	ft_unset(char *cmd, t_list **envll);
+void	ft_exit(int status);
 void	minibing(void);
 
 // EXECUTE
 char	*get_path(char *cmd, t_list *envll);
-int		handle_error(char *vars, char *error);
 void	run_cmd(char *cmd, t_list *envll);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
+
+// HANDLE_ERRORS
+int		handle_error(char *vars, char *error);
+int		get_exit_status(int status);
+int		unshift_exitcode(int status);
 
 #endif
