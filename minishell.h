@@ -70,27 +70,6 @@ char	*get_path(char *cmd, t_list *envll);
 int		handle_error(char *vars, char *error);
 void	run_cmd(char *cmd, t_list *envll);
 
-// SPLIT_BY_SPACE
-int		quotes(char c, char *reset);
-void	cmd_assign(t_string *cmd, char input);
-char	**split_assign(char **split, int *cmd_idx, char *insert);
-void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q);
-char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
-
-// PARSING
-void	split_by_space(char *input, char ***split);
-void	free_args(t_arg *args);
-t_arg	*input_parser(char *input);
-
-// INJECT_SPACE
-char	*inject_space(char *input);
-
-// SPLIT_BY_PIPE
-char	***split_by_pipe(char **in);
-
-// REJOIN_TOKENS
-t_arg	*rejoin_tokens(char ***in);
-
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
 
