@@ -1,12 +1,10 @@
 #ifndef MSPARSING_H
 # define MSPARSING_H
 
-# include "../minishell.h"
-
 // PARSING
 void	split_by_space(char *input, char ***split);
 void	free_args(t_arg *args);
-t_arg	input_parser(char *input);
+t_arg	*input_parser(char *input);
 
 // INJECT_SPACE
 char	*inject_space(char *input);

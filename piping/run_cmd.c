@@ -1,5 +1,4 @@
 #include "../minishell.h"
-#include "mspiping.h"
 
 int	builtin_table(t_arg args, t_list *envll)
 {
@@ -112,7 +111,6 @@ void	run_cmds(t_arg *args, char **envp, t_list *envll)
 	}
 }
 
-/*
 int	main(int argc, char **argv, char **envp)
 {
 	(void)	argc;
@@ -127,4 +125,3 @@ int	main(int argc, char **argv, char **envp)
 	run_cmds(args, envp, envll);
 	return (0);
 }
-*/

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/05 16:01:53 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/07 16:21:22 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ typedef struct s_arg
 	char	**out;
 	char	**cmd;
 }	t_arg;
+
+#include "parsing/msparsing.h"
+#include "piping/mspiping.h"
 
 // SIGNALS
 void	free_strs(char **strs);

@@ -1,8 +1,6 @@
 #ifndef MSPIPING_H
 # define MSPIPING_H
 
-# include "../minishell.h"
-
 // RUN_CMD
 int		builtin_table(t_arg args, t_list *envll);
 void	run_cmds(t_arg *args, char **envp, t_list *envll);
