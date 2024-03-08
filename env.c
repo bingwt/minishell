@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/04 17:22:30 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/08 13:46:18 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,14 @@ char	*ft_strre(char *str, char *find, char *replace)
 	return (new);
 }
 
+int		s_quote_expand(char *str)
+{
+	if (ft_strchr(str, '\''))
+		if (ft_strchr(str, '$'))
+			return (1);
+	return (0);
+}
+
 char	*expand_env(char *str, t_list *envll)
 {
 	t_list	*lst;
@@ -103,6 +111,8 @@ char	*expand_env(char *str, t_list *envll)
 	lst = envll;
 	start = ft_strchr(str, '$');
 	if (!start)
+		return (str);
+	if (s_quote_expand(str))
 		return (str);
 	end = start + 1;
 	while (ft_isalnum(*end) || *end == '?')
