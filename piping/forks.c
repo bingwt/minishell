@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 void	run_single(t_arg *args, char **envp, t_list *envll)
 {

@@ -1,10 +1,22 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
+/*   Updated: 2024/03/08 13:01:23 by btan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	builtin_table(t_arg args, t_list *envll)
 {
 	char	*cmd;
 
-	cmd = ft_strjoin_strs(args.cmd);
+	cmd = ft_strsjoin(args.cmd);
 	if (!ft_strcmp(args.cmd[0], "echo"))
 		ft_echo(cmd + 4);
 	else if (!ft_strcmp(args.cmd[0], "cd"))
@@ -110,18 +122,18 @@ void	run_cmds(t_arg *args, char **envp, t_list *envll)
 		//set errno from exitstatus;
 	}
 }
-
-int	main(int argc, char **argv, char **envp)
-{
-	(void)	argc;
-	char	*str;
-	t_list	*envll;
-	t_arg	*args;
-	str = malloc(ft_strlen(argv[1]) + 1);
-	str = strcpy(str, argv[1]);
-	args = input_parser(str);
-	envll = NULL;
-	array_to_list(&envll, envp);
-	run_cmds(args, envp, envll);
-	return (0);
-}
+//
+//int	main(int argc, char **argv, char **envp)
+//{
+//	(void)	argc;
+//	char	*str;
+//	t_list	*envll;
+//	t_arg	*args;
+//	str = malloc(ft_strlen(argv[1]) + 1);
+//	str = strcpy(str, argv[1]);
+//	args = input_parser(str);
+//	envll = NULL;
+//	array_to_list(&envll, envp);
+//	run_cmds(args, envp, envll);
+//	return (0);
+//}
