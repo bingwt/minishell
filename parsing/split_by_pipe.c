@@ -18,7 +18,10 @@ static int	valid_pipe(char **in)
 
 	i = 1;
 	if (!ft_strcmp(in[0], "|"))
+	{
+		perror("pipe");
 		return (0);
+	}
 	while (in[i])
 	{
 		if (!ft_strcmp(in[i], "|"))

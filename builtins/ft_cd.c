@@ -54,13 +54,13 @@ static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
 
 void	ft_cd(const char *path, t_list *envll)
 {
-	char	*pwd;
+//	char	*pwd;
 	char	*oldpwd;
 	char	*cwd;
 
 	if (!*path)
 		return ;
-	pwd = ft_pwd();
+//	pwd = ft_pwd();
 	if (ft_strchr(path, '~'))
 	{
 		cd_shortcut(path, envll);

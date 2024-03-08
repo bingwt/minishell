@@ -50,7 +50,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		prompt = expand_env(buffer, envll);
 		args = input_parser(prompt);
-		run_cmds(args, envll);
+		if (args)
+			run_cmds(args, envll);
 		free(buffer);
 	}
 	ft_lstclear(&envll, free);
