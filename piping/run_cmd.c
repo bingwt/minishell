@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/08 13:01:23 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/08 16:25:42 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	builtin_table(t_arg args, t_list *envll)
 	char	*cmd;
 
 	cmd = ft_strsjoin(args.cmd);
+	//cmd = ft_strjoin_strs(args.cmd);
+	//printf("%s\n", cmd);
 	if (!ft_strcmp(args.cmd[0], "echo"))
 		ft_echo(cmd + 4);
 	else if (!ft_strcmp(args.cmd[0], "cd"))
@@ -101,11 +103,13 @@ void	dup_pipes(t_arg args, int *pipe)
 			perror("dup2");
 }
 
-void	run_cmds(t_arg *args, char **envp, t_list *envll)
+void	run_cmds(t_arg *args, t_list *envll)
 {
 	int		exit_status;
 	pid_t	pid;
+	char	**envp;
 
+	envp = list_to_array(envll);
 	if (args[0].last)
 		run_single(args, envp, envll);
 	else

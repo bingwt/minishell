@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/08 13:08:19 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/08 16:24:18 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 // RUN_CMD
 char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
-void	run_cmds(t_arg *args, char **envp, t_list *envll);
+void	run_cmds(t_arg *args, t_list *envll);
 void	dup_pipes(t_arg args, int *pipe);
 void	open_heredoc(char *eof, int last, int *io);
 t_arg	open_files(t_arg args);
