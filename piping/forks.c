@@ -4,6 +4,7 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 {
 	char	*path;
 	pid_t	pid;
+	int		status;
 
 	args[0] = open_files(args[0]);
 	//if (!args[0].cmd[0])
@@ -21,7 +22,7 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 		perror("fork");
 		return ;
 	}
-	if (!pid)
+	if (pid == 0)
 	{
 		if (!access(args[0].cmd[0], X_OK))
 			execve(args[0].cmd[0], args[0].cmd, envp);
@@ -31,6 +32,8 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 		execve(path, args[0].cmd, envp);
 		perror("execve"), free_args(args), exit(1) ;
 	}
+	waitpid(pid, &status, 0);
+	get_exit_status(status);
 }
 
 static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
