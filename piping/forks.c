@@ -30,7 +30,11 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 			execve(args[0].cmd[0], args[0].cmd, envp);
 		path = get_path(args[0].cmd[0], envll);
 		if (!path)
-			perror("path"), exit(1) ;
+		{
+			//perror("path"), exit(1) ;
+			handle_error(args[0].cmd[0], "CMD_NOT_FOUND");
+			exit(127);
+		}
 		execve(path, args[0].cmd, envp);
 		perror("execve"), free_args(args), exit(1) ;
 	}

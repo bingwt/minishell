@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/08 13:51:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/08 14:44:03 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ int	main(int argc, char **argv, char **envp)
 	array_to_list(&envll, envp);
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
-//	expand_env("This is $HOME, truly", envll);
-//	ft_export("export test=something", &envll);
-//	ft_export("export test=somethingelse", &envll);
-//	ft_unset("unset test", &envll);
 	ft_export(ft_strjoin("export SHLVL=", \
 	ft_itoa(ft_atoi(expand_env("$SHLVL", envll)) + 1)), &envll);
 	while (1)
@@ -58,6 +54,5 @@ int	main(int argc, char **argv, char **envp)
 		free(buffer);
 	}
 	ft_lstclear(&envll, free);
-//	free(envp);
 	return (0);
 }
