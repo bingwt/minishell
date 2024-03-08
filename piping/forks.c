@@ -24,6 +24,8 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	}
 	if (pid == 0)
 	{
+		signal(SIGINT, sigint_child);
+		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0].cmd[0], X_OK))
 			execve(args[0].cmd[0], args[0].cmd, envp);
 		path = get_path(args[0].cmd[0], envll);
@@ -32,8 +34,12 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 		execve(path, args[0].cmd, envp);
 		perror("execve"), free_args(args), exit(1) ;
 	}
+	signal(SIGINT, sigint_child);
+	signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	get_exit_status(status);
+	signal(SIGINT, sigint_parent);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
