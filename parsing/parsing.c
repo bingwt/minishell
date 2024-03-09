@@ -40,12 +40,40 @@ void	split_by_space(char *input, char ***split)
 	cleanup_space(&cmd, split, &cmd_idx);
 }
 
+static t_arg	*echo_spaces(t_arg *args)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 2;
+	while (1)
+	{
+		if (args[i].cmd && !ft_strcmp(args[i].cmd[0], "echo"))
+		{
+			while (args[i].cmd_i > 2 && args[i].cmd[j])
+			{
+				args[i].cmd[j] = ft_strjoin_free(" ",
+						args[i].cmd[j], args[i].cmd[j]);
+				j++;
+			}
+		}
+		if (args[i].last)
+			break ;
+		i++;
+		j = 2;
+	}
+	return (args);
+}
+
 t_arg	*input_parser(char *input)
 {
 	char	**space_split;
 	char	***pipe_split;
 	t_arg	*args;
 
+	if (!input || !*input)
+		return (NULL);
 	space_split = NULL;
 	pipe_split = NULL;
 	input = inject_space(input);
@@ -63,6 +91,7 @@ t_arg	*input_parser(char *input)
 //	ft_free_cubed(&pipe_split);
 	if (!args)
 		return (NULL);
+	args = echo_spaces(args);
 	return (args);
 }
 
