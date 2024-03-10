@@ -66,6 +66,19 @@ static t_arg	*echo_spaces(t_arg *args)
 	return (args);
 }
 
+static void	free_pipe_split(char ***pipe_split)
+{
+	int	i;
+
+	i = 0;
+	while (pipe_split[i])
+	{
+		free(pipe_split[i]);
+		i++;
+	}
+	free(pipe_split);
+}
+
 t_arg	*input_parser(char *input)
 {
 	char	**space_split;
@@ -84,11 +97,11 @@ t_arg	*input_parser(char *input)
 	if (!space_split)
 		return (NULL);
 	pipe_split = split_by_pipe(space_split);
-//	ft_free_split(&space_split);
+	free(space_split);
 	if (!pipe_split)
 		return (NULL);
 	args = rejoin_tokens(pipe_split);
-//	ft_free_cubed(&pipe_split);
+	free_pipe_split(pipe_split);
 	if (!args)
 		return (NULL);
 	args = echo_spaces(args);
@@ -110,6 +123,7 @@ void	free_args(t_arg *args)
 	ft_free_split(&args[i].in);
 	ft_free_split(&args[i].out);
 	ft_free_split(&args[i].cmd);
+	i = 0;
 	free(args);
 }
 
@@ -145,6 +159,7 @@ int	main(int argc, char **argv)
 		j = 0;
 		i++;
 	}
+	free_args(args);
 	return (0);
 }
 */

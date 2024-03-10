@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+static void	*free_input(char **in)
+{
+	int	i;
+
+	i = 0;
+	while (in[i])
+	{
+		free(in[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 static int	valid_pipe(char **in)
 {
 	int	i;
@@ -74,7 +87,7 @@ char	***split_by_pipe(char **in)
 	c = 0;
 	r = 0;
 	if (!valid_pipe(in))
-		return (NULL);
+		return (free_input(in));
 	cmd = NULL;
 	res = ft_calloc(count_pipe(in) + 2, 8);
 	res[count_pipe(in) + 1] = NULL;
@@ -84,7 +97,10 @@ char	***split_by_pipe(char **in)
 		if (!in[i] || (in[i] && !ft_strcmp(in[i], "|")))
 			new_cmd_pipe(&cmd, &c, &(res[r++]));
 		if (in[i] && !ft_strcmp(in[i], "|"))
+		{
+			free(in[i]);
 			i++;
+		}
 	}
 	free(cmd);
 	return (res);
