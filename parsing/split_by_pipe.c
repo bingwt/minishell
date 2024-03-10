@@ -97,10 +97,7 @@ char	***split_by_pipe(char **in)
 		if (!in[i] || (in[i] && !ft_strcmp(in[i], "|")))
 			new_cmd_pipe(&cmd, &c, &(res[r++]));
 		if (in[i] && !ft_strcmp(in[i], "|"))
-		{
-			free(in[i]);
-			i++;
-		}
+			free(in[i++]);
 	}
 	free(cmd);
 	return (res);

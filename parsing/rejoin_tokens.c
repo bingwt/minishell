@@ -43,6 +43,7 @@ static void	combine_redir(t_arg *arg, char **in, int *i)
 		arg->out = split_assign(arg->out, &arg->out_i, in[*i]);
 	}
 }
+
 /*
 static void	combine_redir(t_arg *arg, char **in, int *i)
 {
@@ -60,6 +61,7 @@ static void	combine_redir(t_arg *arg, char **in, int *i)
 	}
 }
 */
+
 t_arg	*rejoin_tokens(char ***in)
 {
 	int		i;

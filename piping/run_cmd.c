@@ -36,7 +36,11 @@ int	builtin_table(t_arg args, t_list *envll)
 	else if (!ft_strcmp("exit", args.cmd[0]))
 		exit(0);
 	else
+	{
+		free(cmd);
 		return (0);
+	}
+	free(cmd);
 	return (1);
 }
 
@@ -118,11 +122,13 @@ void	run_cmds(t_arg *args, t_list *envll)
 		if (pid < 0)
 		{
 			perror("fork");
+			ft_free_split(&envp);
 			return ;
 		}
 		if (!pid)
 			minishell_piping(args, envp, envll);
 		waitpid(pid, &exit_status, WNOHANG);
+		ft_free_split(&envp);
 		//set errno from exitstatus;
 	}
 }
