@@ -6,11 +6,35 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/08 16:19:18 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/12 02:02:07 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	create_var(char *cmd, char *token, t_list **envll)
+{
+	t_list	*env;
+
+	token = ft_strdup(cmd + 6);
+	env = ft_lstnew(token);
+	ft_lstadd_back(envll, env);
+}
+
+void	print_env(t_list **envll)
+{
+	t_list	*env;
+	char	**var;
+
+	env = *envll;
+	while (env)
+	{
+		var = ft_split((char *) env->content, '=');
+		printf("declare -x %s=\"%s\"\n", var[0], var[1]);
+		env = env->next;
+		free_strs(var);
+	}
+}
 
 void	ft_export(char *cmd, t_list **envll)
 {
@@ -36,18 +60,7 @@ void	ft_export(char *cmd, t_list **envll)
 		return ;
 	}
 	if (!env && ft_strchr(cmd, '='))
-	{
-		token = ft_strdup(cmd + 6);
-		env = ft_lstnew(token);
-		ft_lstadd_back(envll, env);
-	}
+		create_var(cmd, token, envll);
 	else
-	{
-		env = *envll;
-		while (env)
-		{
-			printf("declare -x %s\n", (char *) env->content);
-			env = env->next;
-		}
-	}
+		print_env(envll);
 }

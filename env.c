@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/11 20:08:54 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/12 01:54:08 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ char	**ft_strsplit(char *str, char *token)
 	
 	strs = ft_calloc(2, sizeof(char *));
 	start = ft_strnstr(str, token, ft_strlen(str));
+	if (!start)
+	{
+		free(strs);
+		return (NULL);
+	}
 	end = start + 1;
 	i = 0;
 	while ((start[i] == token[i]) && i < ft_strlen(token))
