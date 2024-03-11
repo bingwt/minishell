@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/03/08 13:03:32 by btan             ###   ########.fr        #
+#    Updated: 2024/03/11 16:20:00 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS = env.c \
 	   signals.c \
 	   prompt.c \
 	   handle_errors.c \
+	   ft_iswhitespace.c \
 	   builtins/ft_echo.c \
 	   builtins/ft_cd.c \
 	   builtins/ft_pwd.c \
