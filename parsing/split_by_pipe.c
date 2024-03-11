@@ -10,7 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
+
+static void	*free_input(char **in)
+{
+	int	i;
+
+	i = 0;
+	while (in[i])
+	{
+		free(in[i]);
+		i++;
+	}
+	return (NULL);
+}
 
 static int	valid_pipe(char **in)
 {
@@ -18,7 +31,10 @@ static int	valid_pipe(char **in)
 
 	i = 1;
 	if (!ft_strcmp(in[0], "|"))
+	{
+		perror("pipe");
 		return (0);
+	}
 	while (in[i])
 	{
 		if (!ft_strcmp(in[i], "|"))
@@ -51,6 +67,14 @@ static int	count_pipe(char **in)
 	return (res);
 }
 
+static void	new_cmd_pipe(char ***cmd, int *c, char ***res)
+{
+	*cmd = split_assign(*cmd, c, NULL);
+	*res = *cmd;
+	*cmd = ft_calloc(1, 8);
+	(*c) = 0;
+}
+
 char	***split_by_pipe(char **in)
 {
 	int		i;
@@ -63,26 +87,17 @@ char	***split_by_pipe(char **in)
 	c = 0;
 	r = 0;
 	if (!valid_pipe(in))
-		return (NULL);
+		return (free_input(in));
 	cmd = NULL;
 	res = ft_calloc(count_pipe(in) + 2, 8);
-	if (!res)
-		return (NULL);
 	res[count_pipe(in) + 1] = NULL;
 	while (in[i])
 	{
-		cmd = split_assign(cmd, &c, in[i]);
-		i++;
+		cmd = split_assign(cmd, &c, in[i++]);
 		if (!in[i] || (in[i] && !ft_strcmp(in[i], "|")))
-		{
-			cmd = split_assign(cmd, &c, NULL);
-			res[r] = cmd;
-			r++;
-			cmd = ft_calloc(1, 8);
-			c = 0;
-			if (in[i])
-				i++;
-		}
+			new_cmd_pipe(&cmd, &c, &(res[r++]));
+		if (in[i] && !ft_strcmp(in[i], "|"))
+			free(in[i++]);
 	}
 	free(cmd);
 	return (res);

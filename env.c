@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 18:10:40 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/08 16:00:55 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	**list_to_array(t_list *lst)
 	char	**arr;
 	size_t	i;
 
+	if (!lst)
+		return (NULL);
 	len = ft_lstsize(lst);
 	arr = ft_calloc(len + 1, sizeof(char *));
 	i = 0;
@@ -45,6 +47,8 @@ void	array_to_list(t_list **lst, char **envp)
 	size_t	len;
 
 	len = ft_strslen(envp);
+	if (!len)
+		return ;
 	while (len--)
 	{
 		env = ft_lstnew(ft_strdup(envp[len]));
@@ -88,6 +92,14 @@ char	*ft_strre(char *str, char *find, char *replace)
 	return (new);
 }
 
+int		s_quote_do_not_expand(char *str)
+{
+	if (ft_strchr(str, '\''))
+		if (ft_strchr(str, '$'))
+			return (1);
+	return (0);
+}
+
 char	*expand_env(char *str, t_list *envll)
 {
 	t_list	*lst;
@@ -100,8 +112,10 @@ char	*expand_env(char *str, t_list *envll)
 	start = ft_strchr(str, '$');
 	if (!start)
 		return (str);
+	if (s_quote_do_not_expand(str))
+		return (str);
 	end = start + 1;
-	while (ft_isalnum(*end))
+	while (ft_isalnum(*end) || *end == '?')
 		end++;
 	token = ft_substr(str, start - str, end - start);
 	while (lst)
@@ -114,7 +128,12 @@ char	*expand_env(char *str, t_list *envll)
 	if (lst) 
 		env = env + (end - start);
 	else
-		env = "";
+	{
+		if (!ft_strcmp(token, "$?"))
+			env = ft_itoa(get_exit_status(-1));
+		else
+			env = "";
+	}
 	env = ft_strre(str, token, env);
 	free(token);
 	if (ft_strchr(env, '$'))

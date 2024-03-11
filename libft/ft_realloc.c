@@ -6,7 +6,8 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 
 	if (!new_size)
 	{
-		free(ptr);
+		if (ptr)
+			free(ptr);
 		return (NULL);
 	}
 	if (!ptr)

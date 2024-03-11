@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	quotes(char c, char *reset)
 {
@@ -68,16 +68,6 @@ void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q)
 
 char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
 {
-	/*
-	if (quotes('\0', "reset"))
-	{
-		*split = split_assign(*split, cmd_idx, NULL);
-		ft_free_split(split);
-		free(cmd->s);
-		perror("Unclosed quotes");
-		return (NULL);
-	}
-	*/
 	if (cmd->i)
 		*split = split_assign(*split, cmd_idx, cmd->s);
 	else

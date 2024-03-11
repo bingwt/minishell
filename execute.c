@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:00:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 23:58:07 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/07 12:28:26 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,6 @@ char	*get_path(char *cmd, t_list *envll)
 	return (program_path);
 }
 
-int	handle_error(char *vars, char *error)
-{
-	ft_putstr_fd("minibing: ", 2);
-	if (!ft_strncmp(error, "CMD_NOT_FOUND", 13))
-	{
-		ft_printf_fd(2, "command not found: %s\n", vars);
-		return (127);
-	}
-	if (!ft_strncmp(error, "NO_FILE", 7))
-		ft_putstr_fd("no such file or directory: ", 2);
-	if (!ft_strncmp(error, "NO_PERMS", 8))
-		ft_putstr_fd("permission denied: ", 2);
-	ft_putstr_fd(vars, 2);
-	ft_putchar_fd('\n', 2);
-	exit(1);
-}
-
 //void	run_cmd(char *cmd)
 //{
 //	printf("%s\n", get_path(cmd));
@@ -86,6 +69,7 @@ int	handle_error(char *vars, char *error)
 
 //	proposed run_cmd with routing table
 
+/*
 static int	builtin_table(char *cmd, t_list *envll)
 {
 	if (!ft_strncmp("echo ", cmd, 5))
@@ -107,10 +91,29 @@ static int	builtin_table(char *cmd, t_list *envll)
 	}
 	else if (!ft_strncmp("minibing", cmd, 8))
 		minibing();
+	else if (!ft_strncmp("status ", cmd, 7))
+		printf("Exit Status is %d\n", get_exit_status(ft_atoi(cmd + 7)));
+	else if (!ft_strncmp("<< ", cmd, 3))
+	{
+		int		p_fd[2];
+		char	*buffer;
+
+		pipe(p_fd);
+		ft_heredoc(cmd + 3, p_fd[1]);
+		close(p_fd[1]);
+		buffer = ft_calloc(PIPE_BUF + 1, sizeof(char));
+		while (read(p_fd[0], buffer, PIPE_BUF) > 0);
+		printf("%s", buffer);
+		free(buffer);
+		close(p_fd[0]);
+	}
 	else if (!ft_strcmp("exit", cmd))
+
 	{
 		ft_lstclear(&envll, free);
-		exit(0);
+		if (!ft_strncmp("exit ", cmd, 5))
+			ft_exit(ft_atoi(cmd + 5));
+		ft_exit(0);
 	}
 	else
 		return (0);
@@ -123,6 +126,7 @@ void	run_cmd(char *cmd, t_list *envll)
 	char	**args;
 	char	*path;
 	pid_t	pid;
+	int		status;
 
 	if (!*cmd)
 		return ;
@@ -134,7 +138,7 @@ void	run_cmd(char *cmd, t_list *envll)
 	pid = fork();
 	if (!pid)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_DFL);
 		if (!access(args[0], X_OK))
 			execve(args[0], args, envp);
@@ -149,11 +153,13 @@ void	run_cmd(char *cmd, t_list *envll)
 		}
 		execve(path, args, envp);
 	}
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, sigint_child);
 	signal(SIGQUIT, SIG_IGN);
 	ft_free_split(&args);
 	free(envp);
-	waitpid(pid, NULL, 0);
-	signal(SIGINT, handle_signal);
+	waitpid(pid, &status, 0);
+	get_exit_status(status);
+	signal(SIGINT, sigint_parent);
 	signal(SIGQUIT, SIG_IGN);
 }
+*/

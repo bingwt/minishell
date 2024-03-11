@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/02/28 15:00:12 by btan             ###   ########.fr        #
+#    Updated: 2024/03/11 16:20:00 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,14 +17,26 @@ INCLUDES = .
 SRCS = env.c \
 	   signals.c \
 	   prompt.c \
+	   handle_errors.c \
+	   ft_iswhitespace.c \
 	   builtins/ft_echo.c \
 	   builtins/ft_cd.c \
 	   builtins/ft_pwd.c \
 	   builtins/ft_env.c \
 	   builtins/ft_export.c \
 	   builtins/ft_unset.c \
+	   builtins/ft_exit.c \
+	   builtins/ft_heredoc.c \
 	   builtins/minibing.c \
 	   execute.c \
+	   parsing/inject_space.c \
+	   parsing/rejoin_tokens.c \
+	   parsing/split_by_pipe.c \
+	   parsing/split_by_space.c \
+	   parsing/parsing.c \
+	   piping/forks.c \
+	   piping/ft_strsjoin.c \
+	   piping/run_cmd.c \
 	   main.c
 
 CC = cc

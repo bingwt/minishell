@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 21:49:52 by btan              #+#    #+#             */
-/*   Updated: 2024/03/07 12:33:39 by btan             ###   ########.fr       */
+/*   Created: 2024/03/05 14:21:46 by btan              #+#    #+#             */
+/*   Updated: 2024/03/05 14:23:12 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint_parent(int sig)
+void	ft_exit(int status)
 {
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	signal(sig, sigint_parent);
-}
-
-void	sigint_child(int sig)
-{
-	write(1, "\n", 1);
-	signal(sig, sigint_parent);
+	printf("exit\n");
+	exit(status);
 }

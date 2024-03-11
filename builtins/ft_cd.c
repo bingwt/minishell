@@ -6,40 +6,65 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 15:25:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/11 14:52:10 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(const char *path, t_list *envll)
+//static void	cd_oldpwd(char **oldpwd, char **pwd, t_list *envll)
+//{
+//	char	*temp;
+//
+//	*oldpwd = expand_env("$OLDPWD", envll);
+//	printf("%s\n", *oldpwd);
+//	chdir(*oldpwd);
+//	temp = ft_strjoin("export OLDPWD=", *pwd);
+//	ft_export(temp, &envll);
+//	free(temp);
+//	*pwd = ft_pwd();
+//	temp = ft_strjoin("export PWD=", *pwd);
+//	ft_export(temp, &envll);
+//	free(temp);
+//	free(*oldpwd);
+//}
+
+static void	cd_shortcut(const char *path, t_list *envll)
 {
-	char	*pwd;
-	char	*oldpwd;
-	char	*cwd;
 	char	*temp;
 
+	temp = ft_strre((char *) path, "~", getenv("HOME"));
+	ft_cd(temp, envll);
+	free(temp);
+}
+
+static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
+{
+	char	*temp;
+
+	temp = ft_strjoin("export PWD=", *cwd);
+	ft_export(temp, &envll);
+	free(temp);
+	temp = ft_strjoin("export OLDPWD=", *oldpwd);
+	ft_export(temp, &envll);
+	free(temp);
+	free(*oldpwd);
+	free(*cwd);
+}
+
+void	ft_cd(const char *path, t_list *envll)
+{
+	char	*oldpwd;
+	char	*cwd;
+
 	if (!*path)
-		return ;
-	pwd = ft_pwd();
-	if (ft_strchr(path, '-'))
 	{
-		oldpwd = expand_env("$OLDPWD", envll);
-		printf("%s\n", oldpwd);
-		chdir(oldpwd);
-		temp = ft_strjoin("export OLDPWD=", pwd);
-		ft_export(temp, &envll);
-		free(temp);
-		pwd = ft_pwd();
-		temp = ft_strjoin("export PWD=", pwd);
-		ft_export(temp, &envll);
-		free(temp);
-		free(oldpwd);
+		cd_shortcut("~", envll);
 		return ;
 	}
-	if (ft_strchr(path, '~') && ft_strlen(path) == 1)
+	if (ft_strchr(path, '~'))
 	{
-		ft_cd(getenv("HOME"), envll);
+		cd_shortcut(path, envll);
 		return ;
 	}
 	oldpwd = ft_pwd();
@@ -48,15 +73,9 @@ void	ft_cd(const char *path, t_list *envll)
 		free(oldpwd);
 		ft_printf_fd(2, "minibing: cd: ");
 		perror(path);
+		get_exit_status(unshift_exitcode(1));
 		return ;
 	}
 	cwd = ft_pwd();
-	temp = ft_strjoin("export PWD=", cwd);
-	ft_export(temp, &envll);
-	free(temp);
-	temp = ft_strjoin("export OLDPWD=", oldpwd);
-	ft_export(temp, &envll);
-	free(temp);
-	free(oldpwd);
-	free(cwd);
+	set_oldpwd(&cwd, &oldpwd, envll);
 }
