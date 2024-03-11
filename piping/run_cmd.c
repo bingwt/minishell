@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/08 16:25:42 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/11 11:52:57 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,18 @@ void	run_cmds(t_arg *args, t_list *envll)
 			ft_free_split(&envp);
 			return ;
 		}
-		if (!pid)
+		if (pid == 0)
+		{
+			signal(SIGINT, sigint_child);
+			signal(SIGQUIT, SIG_DFL);
 			minishell_piping(args, envp, envll);
-		waitpid(pid, &exit_status, WNOHANG);
-		ft_free_split(&envp);
+		}
+		signal(SIGINT, sigint_child);
+		signal(SIGQUIT, SIG_IGN);
+		waitpid(pid, &exit_status, 0);
+		signal(SIGINT, sigint_parent);
+		signal(SIGQUIT, SIG_DFL);
+		//ft_free_split(&envp);
 		//set errno from exitstatus;
 	}
 }
