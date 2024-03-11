@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:55:23 by btan              #+#    #+#             */
-/*   Updated: 2024/02/29 17:42:23 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/12 01:20:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_unset(char *cmd, t_list **envll)
 	while (env->next)
 	{
 		content = (char *) env->next->content;
-		if (!ft_strncmp(token + 6, content, ft_strchr(content, '=') - content))
+		if (!ft_strncmp(token + 5, content, ft_strchr(content, '=') - content))
 			break ;
 		env = env->next;
 	}
