@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/06 20:54:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/11 14:52:10 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
 
 void	ft_cd(const char *path, t_list *envll)
 {
-//	char	*pwd;
 	char	*oldpwd;
 	char	*cwd;
 
 	if (!*path)
+	{
+		cd_shortcut("~", envll);
 		return ;
-//	pwd = ft_pwd();
+	}
 	if (ft_strchr(path, '~'))
 	{
 		cd_shortcut(path, envll);
