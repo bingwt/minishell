@@ -6,17 +6,24 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/12 14:42:57 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/12 15:24:56 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	s_quote_do_not_expand(char *str)
+int	is_encased(char *str, char token, char cap)
 {
-	if (ft_strchr(str, '\''))
-		if (ft_strchr(str, '$'))
-			return (1);
+	if (ft_strchr(str, cap))
+	{
+		str = ft_strchr(str, cap);
+		if (ft_strchr(str, token))
+		{
+			str = ft_strchr(str, token);
+			if (ft_strchr(str, cap))
+				return (1);
+		}
+	}
 	return (0);
 }
 
@@ -49,7 +56,7 @@ char	*expand_env(char *str, t_list *envll)
 
 	lst = envll;
 	start = ft_strchr(str, '$');
-	if (!start || (s_quote_do_not_expand(str)))
+	if (!start || (is_encased(str, '$', '\'')))
 		return (str);
 	end = start + 1;
 	while (ft_isalnum(*end) || *end == '?')
