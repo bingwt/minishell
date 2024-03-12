@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/11 19:07:24 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/13 02:55:19 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,24 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		io[2];
 	char	*prompt;
 	char	*buffer;
 	t_arg	*args;
 	t_list	*envll;
 
+	(void)argv;
+	if (argc != 1)
+		handle_error(NULL, "Too many args");
 	signal(SIGINT, sigint_parent);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
 	array_to_list(&envll, envp);
-	io[0] = dup(STDIN_FILENO);
-	io[1] = dup(STDOUT_FILENO);
-	expand_env("This is $HOME, truly", envll);
-	expand_env("This is $HOMEie, truly", envll);
 	ft_export(ft_strjoin("exportSHLVL=", \
 	ft_itoa(ft_atoi(expand_env("$SHLVL", envll)) + 1)), &envll);
 	while (1)
 	{
 		prompt = init_prompt(envll);
-		if (dup2(io[0], STDIN_FILENO) < 0 || dup2(io[1], STDOUT_FILENO) < 0)
-				perror("Dup");
-		if (argc == 2)
-		{
-			printf("%s mode\n", argv[1]);
-			buffer = readline("minibing> ");
-		}
-		else
-			buffer = readline(prompt);
+		buffer = readline(prompt);
 		free(prompt);
 		if (buffer && *buffer)
 			add_history(buffer);
@@ -52,11 +42,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		prompt = expand_env(buffer, envll);
 		args = input_parser(prompt);
+		free(prompt);
 		if (args)
-			run_cmds(args, envll);
+			run_cmds(args, envll, list_to_array(envll), 0);
 		if (args)
 			free_args(args);
-		free(buffer);
+		//free(buffer);
 	}
 	ft_lstclear(&envll, free);
 	return (0);

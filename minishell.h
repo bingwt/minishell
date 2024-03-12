@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/11 16:19:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/13 02:51:29 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_arg
 	int		out_i;
 	int		cmd_i;
 	int		io[2];
+	int		p_out;
 	char	**in;
 	char	**out;
 	char	**cmd;
@@ -75,7 +76,6 @@ void	minibing(void);
 
 // EXECUTE
 char	*get_path(char *cmd, t_list *envll);
-void	run_cmd(char *cmd, t_list *envll);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
@@ -109,13 +109,8 @@ char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 // RUN_CMD
 char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
-void	run_cmds(t_arg *args, t_list *envll);
-void	dup_pipes(t_arg args, int *pipe);
+void	run_cmds(t_arg *args, t_list *envll, char **envp, int i);
 void	open_heredoc(char *eof, int last, int *io);
 t_arg	open_files(t_arg args);
-
-// FORKS
-void	run_single(t_arg *args, char **envp, t_list *envll);
-void	minishell_piping(t_arg *args, char **envp, t_list *envll);
-
+void	execute(t_arg *args, char **envp, t_list *envll, int i);
 #endif

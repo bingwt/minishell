@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:51:29 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 22:13:13 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/13 01:08:26 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static t_arg	init_t_arg(void)
 	arg.in = NULL;
 	arg.out = NULL;
 	arg.cmd = NULL;
+	arg.p_out = -1;
 	return (arg);
 }
 
