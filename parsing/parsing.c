@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 22:07:09 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/11 16:38:26 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	split_by_space(char *input, char ***split)
 				|| (quotes('\0', NULL) == 2 && *input == '\''))
 				cmd_assign(&cmd, *input);
 		}
-		else if (*input == ' ')
+		else if (ft_iswhitespace(*input))
 			handle_space(&cmd, split, &cmd_idx, q);
 		else
 			cmd_assign(&cmd, *input);
