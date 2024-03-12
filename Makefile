@@ -19,6 +19,7 @@ SRCS = env.c \
 	   prompt.c \
 	   handle_errors.c \
 	   ft_iswhitespace.c \
+	   minishell_utils.c \
 	   builtins/ft_echo.c \
 	   builtins/ft_cd.c \
 	   builtins/ft_pwd.c \
@@ -66,5 +67,9 @@ re: fclean all
 
 debug: CFLAGS += -g
 debug: re
+
+run: all
+	clear
+	./minishell
 
 .PHONY: all clean fclean re debug
