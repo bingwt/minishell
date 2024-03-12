@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/03/12 14:27:49 by btan             ###   ########.fr        #
+#    Updated: 2024/03/12 16:49:38 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,5 +68,9 @@ re: fclean all
 
 debug: CFLAGS += -g
 debug: re
+
+run: all
+	clear
+	./minishell
 
 .PHONY: all clean fclean re debug

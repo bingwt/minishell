@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:16 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/27 20:10:17 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/12 15:59:52 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*inject_space(char *input)
 		if ((input[i] == '<' || input[i] == '>') && !valid_redir(input + i))
 		{
 			free(res.s);
-			perror("invalid redirect");
+			handle_error(input, "UNEXPECTED_TOKEN");
 			return (NULL);
 		}
 		assign_meta(&res, q, input[i], input[i + 1]);
@@ -71,7 +71,7 @@ char	*inject_space(char *input)
 	if (quotes('\0', "reset"))
 	{
 		free(res.s);
-		perror("unclosed quotes");
+		handle_error(NULL, "UNCLOSED_QUOTES");
 		return (NULL);
 	}
 	return (res.s);
