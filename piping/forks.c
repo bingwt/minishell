@@ -70,7 +70,7 @@ static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
 	exit(1); // error code
 }
 
-static void	recursive_piping(t_arg *args, char **envp, t_list *envll, int *fd)
+static void	recursive_piping(t_arg *args, t_list *envll, int *fd, int cfd)
 {
 	int		i;
 	pid_t	pid;
@@ -89,18 +89,21 @@ static void	recursive_piping(t_arg *args, char **envp, t_list *envll, int *fd)
 	if (pid < 0)
 		perror("fork");
 	if (!pid && !i)
+	{
+		close(cfd);
 		exit(0);
+	}
 	if (!pid)
-		recursive_piping(args, envp, envll, fd);
-	waitpid(pid, NULL, WNOHANG);
+		recursive_piping(args, envll, fd, cfd);
+	write_cid(pid, cfd);
 	if (i)
 		args[i].io[0] = fd[0];
 	args[i] = open_files(args[i]);
 	dup_pipes(args[i], fd);
-	parent_pipe(args, envp, envll, i);
+	parent_pipe(args, list_to_array(envll), envll, i);
 }
 
-void minishell_piping(t_arg *args, char **envp, t_list *envll)
+void minishell_piping(t_arg *args, t_list *envll, int cfd)
 {
 	int		i;
 	int		fd[2];
@@ -116,10 +119,10 @@ void minishell_piping(t_arg *args, char **envp, t_list *envll)
 	if (pid < 0)
 		perror("fork");
 	if (!pid)
-		recursive_piping(args, envp, envll, fd);
-	waitpid(pid, NULL, WNOHANG);
+		recursive_piping(args, envll, fd, cfd);
+	write_cid(pid, cfd);
 	args[i].io[0] = fd[0];
 	args[i] = open_files(args[i]);
 	dup_pipes(args[i], fd);
-	parent_pipe(args, envp, envll, i);
+	parent_pipe(args, list_to_array(envll), envll, i);
 }

@@ -110,30 +110,36 @@ void	dup_pipes(t_arg args, int *pipe)
 void	run_cmds(t_arg *args, t_list *envll)
 {
 	int		exit_status;
+	int		cfd[2];
 	pid_t	pid;
-	char	**envp;
+	pid_t	*cids;
 
-	envp = list_to_array(envll);
 	if (args[0].last)
-		run_single(args, envp, envll);
+		run_single(args, list_to_array(envll), envll);
 	else
 	{
+		if (pipe(cfd) < 0)
+			perror("pipe");
 		pid = fork();
 		if (pid < 0)
 		{
 			perror("fork");
-			ft_free_split(&envp);
 			return ;
 		}
 		if (pid == 0)
 		{
+			close(cfd[0]);
 			signal(SIGINT, sigint_child);
 			signal(SIGQUIT, SIG_DFL);
-			minishell_piping(args, envp, envll);
+			minishell_piping(args, envll, cfd[1]);
 		}
 		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_IGN);
-		waitpid(pid, &exit_status, 0);
+		cids = read_cids(args, cfd);
+		for (int i = 0; i < 2; i++)
+			ft_printf_fd(2, "%d\n", cids[i]);
+		exit_status = wait_cids(args, cids);
+		(void)exit_status;
 		signal(SIGINT, sigint_parent);
 		signal(SIGQUIT, SIG_DFL);
 		//ft_free_split(&envp);

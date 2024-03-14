@@ -38,6 +38,7 @@ SRCS = env.c \
 	   piping/forks.c \
 	   piping/ft_strsjoin.c \
 	   piping/run_cmd.c \
+	   piping/cid_utils.c \
 	   main.c
 
 CC = cc

@@ -116,6 +116,11 @@ t_arg	open_files(t_arg args);
 
 // FORKS
 void	run_single(t_arg *args, char **envp, t_list *envll);
-void	minishell_piping(t_arg *args, char **envp, t_list *envll);
+void	minishell_piping(t_arg *args, t_list *envll, int cfd);
+
+// CID_UTILS
+int		wait_cids(t_arg *args, pid_t *cids);
+pid_t	*read_cids(t_arg *args, int *pipe);
+void	write_cid(pid_t pid, int pipe);
 
 #endif
