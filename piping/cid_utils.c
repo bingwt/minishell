@@ -27,9 +27,9 @@ pid_t	*read_cids(t_arg *args, int *pipe)
 
 	close(pipe[1]);
 	i = 0;
-	while (i < 100000)
-		i++;
-	i = 0;
+//	while (i < 100000)
+//		i++;
+//	i = 0;
 	while (!args[i].last)
 		i++;
 	temp = NULL;

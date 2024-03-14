@@ -99,12 +99,10 @@ void	dup_pipes(t_arg args, int *pipe)
 		if (dup2(args.io[1], STDOUT_FILENO) < 0)
 			perror("dup2");
 	}
-	if (args.io[0] != pipe[0])
 		if (close(pipe[0]))
-			perror("dup2");
-	if (args.io[1] != pipe[1])
+			perror("close");
 		if (close(pipe[1]))
-			perror("dup2");
+			perror("close");
 }
 
 void	run_cmds(t_arg *args, t_list *envll)
@@ -146,6 +144,349 @@ void	run_cmds(t_arg *args, t_list *envll)
 		//set errno from exitstatus;
 	}
 }
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)	argc;
+	char	*str;
+	t_list	*envll;
+	t_arg	*args;
+	str = malloc(ft_strlen(argv[1]) + 1);
+	str = strcpy(str, argv[1]);
+	args = input_parser(str);
+	envll = NULL;
+	array_to_list(&envll, envp);
+	run_cmds(args, envll);
+	return (0);
+}
+/*
+void	execute(t_arg *args, char **envp, t_list *envll, int i)
+{
+	char	*path;
+
+	args[i] = open_files(args[i]);
+//	dup_fds(args, i);
+	dup2(args[i].io[0], STDIN_FILENO);
+	dup2(args[i].io[1], STDOUT_FILENO);
+	close(args[i].io[0]), close(args[i].io[1]);
+	if (builtin_table(args[i], envll))
+		exit(0);
+	if (!access(args[i].cmd[0], X_OK))
+		execve(args[i].cmd[0], args[i].cmd, envp);
+	path = get_path(args[i].cmd[0], envll);
+	if (!path)
+	{
+		handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
+		exit(127);
+	}
+	execve(path, args[i].cmd, envp);
+	perror("execve"), free_args(args), exit(1);
+}
+*/
+/*
+void	close_pipes(t_arg *args)
+{
+	int	i;
+
+	i = 0;
+	while (!args[i].last)
+	{
+		close(args[i].fd[0]);
+		close(args[i].fd[1]);
+		close(args[i].io[0]);
+		close(args[i].io[1]);
+		i++;
+	}
+	close(args[i].fd[0]);
+	close(args[i].fd[1]);
+	close(args[i].io[0]);
+	close(args[i].io[1]);
+}
+
+void	run_first(t_arg *args, char **envp, t_list *envll, int i)
+{
+	char	*path;
+
+	dup2(args[i + 1].fd[1], args[i].io[1]);
+	args[i] = open_files(args[i]);
+	dup2(args[i].io[0], STDIN_FILENO);
+	dup2(args[i].io[1], STDOUT_FILENO);
+	close_pipes(args);
+	if (builtin_table(args[i], envll))
+		exit(0);
+	if (!access(args[i].cmd[0], X_OK))
+		execve(args[i].cmd[0], args[i].cmd, envp);
+	else
+	{
+		path = get_path(args[i].cmd[0], envll);
+		if (!path)
+		{
+			handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
+			exit(127);
+		}
+		execve(path, args[i].cmd, envp);
+	}
+	perror("execve"), free_args(args), exit(1);
+}
+
+void	run_middle(t_arg *args, char **envp, t_list *envll, int i)
+{
+	char	*path;
+
+	dup2(args[i].fd[0], args[i].io[0]);
+	dup2(args[i + 1].fd[1], args[i].io[1]);
+	args[i] = open_files(args[i]);
+	dup2(args[i].io[0], STDIN_FILENO);
+	dup2(args[i].io[1], STDOUT_FILENO);
+	close_pipes(args);
+	if (builtin_table(args[i], envll))
+		exit(0);
+	if (!access(args[i].cmd[0], X_OK))
+		execve(args[i].cmd[0], args[i].cmd, envp);
+	else
+	{
+		path = get_path(args[i].cmd[0], envll);
+		if (!path)
+		{
+			handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
+			exit(127);
+		}
+		execve(path, args[i].cmd, envp);
+	}
+	perror("execve"), free_args(args), exit(1);
+}
+
+void	run_last(t_arg *args, char **envp, t_list *envll, int i)
+{
+	char	*path;
+
+	dup2(args[i].fd[0], args[i].io[0]);
+	args[i] = open_files(args[i]);
+	dup2(args[i].io[0], STDIN_FILENO);
+	dup2(args[i].io[1], STDOUT_FILENO);
+	close_pipes(args);
+	if (builtin_table(args[i], envll))
+		exit(0);
+	if (!access(args[i].cmd[0], X_OK))
+		execve(args[i].cmd[0], args[i].cmd, envp);
+	else
+	{
+		path = get_path(args[i].cmd[0], envll);
+		if (!path)
+		{
+			handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
+			exit(127);
+		}
+		execve(path, args[i].cmd, envp);
+	}
+	perror("execve"), free_args(args), exit(1);
+}
+
+void	runs(t_arg *args, char **envp, t_list *envll, int i)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (!pid)
+	{
+		if (!i)
+			run_first(args, envp, envll, i);
+		else if (args[i].last)
+			run_last(args, envp, envll, i);
+		else
+			run_middle(args, envp, envll, i);
+	}
+	close_pipes(args);
+	exit(0);
+}
+
+void	loop(t_arg *args, char **envp, t_list *envll, int i)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (!pid)
+		runs(args, envp, envll, i);
+	else if (!args[i].last)
+		loop(args, envp, envll, i + 1);
+	if (args[i].last)
+	{
+		close_pipes(args);
+		exit(0);
+	}
+	while(wait(0))
+		;
+	close_pipes(args);
+	exit(0);
+}
+
+void	forks(t_arg *args, char **envp, t_list *envll, int i)
+{
+	int		exit_status;
+	pid_t	pid;
+
+	if (args[0].last)
+		run_single(args, envp, envll);
+	else
+	{
+		pid = fork();
+		if (!pid)
+			loop(args, envp, envll, i);
+		close_pipes(args);
+		waitpid(pid, &exit_status, 0);
+	}
+}
+*/
+/*
+void	dup_fds(t_arg *args, int i)
+{
+	dup2(args[i].io[0], STDIN_FILENO);
+	dup2(args[i].io[1], STDOUT_FILENO);
+	if (args[i].io[0] != 0)
+		close(args[i].io[0]);
+	if (args[i].io[1] != 1)
+		close(args[i].io[1]);
+}
+*/
+/*
+void	run_cmds(t_arg *args, t_list *envll, char **envp, int i)
+{
+	int		exit_status;
+	pid_t	pid;
+
+	if (args[0].last)
+		run_single(args, envp, envll);
+	else
+	{
+		if (pipe(args[i].new_pipe) < 0)
+			perror("pipe");
+		pid = fork();
+		if (pid < 0)
+			perror("minibing");
+		if (!pid)
+		{
+			if (!args[i].last)
+				args[i].io[1] = args[i].new_pipe[1];
+			else
+				args[i].io[0] = args[i].old_pipe[0];
+			if (i != 0 && !args[i].last)
+				args[i].io[0] = args[i].old_pipe[0];
+			execute(args, envp, envll, i);
+		}
+		if (!args[i].last)
+		{
+			args[i + 1].old_pipe[0] = args[i].new_pipe[0];
+			args[i + 1].old_pipe[1] = args[i].new_pipe[1];
+			run_cmds(args, envll, envp, i + 1);
+		}
+		while (waitpid(-1, &exit_status, WNOHANG))
+				;
+	}
+}
+*/
+/*
+void	run_cmds(t_arg *args, t_list *envll, char **envp, int i)
+{
+	int		exit_status;
+	pid_t	pid;
+
+	if (args[0].last)
+		run_single(args, envp, envll);
+	else
+	{
+		pipe(args[i].new_pipe);
+		pid = fork();
+		if (!pid)
+		{
+			if (!i)
+			{
+				dup2(args[i].new_pipe[1], args[i].io[1]);
+				close(args[i].new_pipe[0]);
+				close(args[i].new_pipe[1]);
+				execute(args, envp, envll, i);
+			}
+			else if (args[i].last)
+			{
+				dup2(args[i].old_pipe[0], args[i].io[0]);
+				close(args[i].old_pipe[0]);
+				close(args[i].old_pipe[1]);
+				close(args[i].new_pipe[0]);
+				close(args[i].new_pipe[1]);
+				execute(args, envp, envll, i);
+			}
+			else
+			{
+				dup2(args[i].old_pipe[0], args[i].io[0]);
+				dup2(args[i].new_pipe[1], args[i].io[1]);
+				close(args[i].old_pipe[0]);
+				close(args[i].old_pipe[1]);
+				close(args[i].new_pipe[0]);
+				close(args[i].new_pipe[1]);
+				execute(args, envp, envll, i);
+			}
+		}
+		else if (!args[i].last)
+		{
+			args[i + 1].old_pipe[0] = dup(args[i].new_pipe[0]);
+			args[i + 1].old_pipe[1] = dup(args[i].new_pipe[1]);
+			run_cmds(args, envll, envp, i + 1);
+		}
+		if (!i)
+				while(waitpid(-1, &exit_status, 0))
+					;
+	}
+}*/
+/*
+void	dup_fds(t_arg *args, int *n, int i)
+{
+	dup2(n[0], args[i].io[0]);
+	dup2(args[0].fd[1], args[i].io[1]);
+	close(args[0].fd[0]);
+	close(args[0].fd[1]);
+	close(n[0]);
+	close(n[1]);
+}
+
+void	run_cmds(t_arg *args, t_list *envll, char **envp, int i)
+{
+	int		new[2];
+	int		exit_status;
+	pid_t	pid;
+
+	if (args[0].last)
+		run_single(args, envp, envll);
+	pipe(new);
+	pid = fork();
+	if (!pid)
+	{
+		if (!i)
+		{
+			dup2(new[1], args[i].io[1]);
+			close(new[0]);
+			close(new[1]);
+		}
+		else if (args[i].last)
+		{
+			dup2(args[0].fd[0], args[i].io[0]);
+			close(new[0]);
+			close(new[1]);
+			close(args[0].fd[0]);
+			close(args[0].fd[1]);
+		}
+		else
+			dup_fds(args, new, i);
+		execute(args, envp, envll, i);
+	}
+	else if (!args[i].last)
+	{
+		dup2(new[0], args[0].fd[0]);
+		dup2(new[1], args[0].fd[1]);
+		run_cmds(args, envll, envp, i + 1);
+	}
+	while (waitpid(pid, &exit_status, 0))
+		;
+}
+*/
 //
 //int	main(int argc, char **argv, char **envp)
 //{

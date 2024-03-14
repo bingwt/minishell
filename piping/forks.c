@@ -90,6 +90,7 @@ static void	recursive_piping(t_arg *args, t_list *envll, int *fd, int cfd)
 		perror("fork");
 	if (!pid && !i)
 	{
+		close(fd[0]), close(fd[1]);
 		close(cfd);
 		exit(0);
 	}
@@ -100,6 +101,7 @@ static void	recursive_piping(t_arg *args, t_list *envll, int *fd, int cfd)
 		args[i].io[0] = fd[0];
 	args[i] = open_files(args[i]);
 	dup_pipes(args[i], fd);
+	close(args[i].io[1]);
 	parent_pipe(args, list_to_array(envll), envll, i);
 }
 
