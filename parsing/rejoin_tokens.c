@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rejoin_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:51:29 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 22:13:13 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/16 03:39:29 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_arg	init_t_arg(void)
 	arg.in_i = 0;
 	arg.out_i = 0;
 	arg.cmd_i = 0;
-	arg.io[0] = 0;
+	arg.io[0] = dup(0);
 	arg.io[1] = 1;
 	arg.in = NULL;
 	arg.out = NULL;

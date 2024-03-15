@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/16 02:46:06 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/16 03:39:37 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	open_heredoc(char *eof, int last, int io)
 			perror("pipe");
 		dup2(fd[0], io);
 		ft_heredoc(eof, fd[1]);
+		close(fd[1]);
 	}
 	else
 		ft_heredoc(eof, -1);
