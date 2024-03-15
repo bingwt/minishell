@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/12 15:24:56 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/16 02:54:17 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,29 @@ char	*expand_env(char *str, t_list *envll)
 		env = env + (end - start);
 	else
 		env = "";
-	if (!ft_strcmp(token, "$?"))
+	if (!ft_strcmp(token, "$"))
+		env = "$";
+	if (!ft_strncmp(token, "$?", 2))
+	{
 		env = ft_itoa(get_exit_status(-1));
+		free(token);
+		token = ft_strdup("$?");
+	}
 	env = ft_strre(str, token, env);
-	free(token);
-	if (ft_strchr(env, '$'))
+	if (ft_strchr(env, '$') && ft_strcmp(token, "$"))
 		env = expand_env(env, envll);
+	free(token);
 	return (env);
+}
+
+void	set_shlvl(t_list **envll)
+{
+	char	*prev;
+	char	*new;
+
+	prev = expand_env("$SHLVL", *envll);
+	new = ft_itoa(ft_atoi(prev) + 1);
+	ft_export(ft_strjoin("exportSHLVL=", new), envll);
+	free(prev);
+	free(new);
 }

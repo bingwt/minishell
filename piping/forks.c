@@ -82,36 +82,14 @@ void	iterative_piping(t_arg *args, t_list *envll)
 
 	i = 0;
 	old_fd = 0;
+	exit_status = 0;
 	while (1)
 	{
 		pipe(new_fd);
 		pid = fork();
 		if (!pid)
 		{
-			if (!i)
-			{
-				dup2(new_fd[1], args[i].io[1]);
-				args[i] = open_files(args[i]);
-				dup2(args[i].io[0], STDIN_FILENO);
-				dup2(args[i].io[1], STDOUT_FILENO);
-				close(new_fd[0]), close(new_fd[1]);
-			}
-			else if (args[i].last)
-			{
-				dup2(old_fd, args[i].io[0]);
-				args[i] = open_files(args[i]);
-				dup2(args[i].io[0], STDIN_FILENO);
-				dup2(args[i].io[1], STDOUT_FILENO);
-			}
-			else
-			{
-				dup2(old_fd, args[i].io[0]);
-				dup2(new_fd[1], args[i].io[1]);
-				args[i] = open_files(args[i]);
-				dup2(args[i].io[0], STDIN_FILENO);
-				dup2(args[i].io[1], STDOUT_FILENO);
-				close(new_fd[0]);
-			}
+			args = child_dup(args, new_fd, old_fd, i);
 			execute(args, list_to_array(envll), envll, i);
 		}
 		else

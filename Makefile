@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/03/12 16:49:38 by btan             ###   ########.fr        #
+#    Updated: 2024/03/16 01:34:27 by btan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS = env.c \
 	   piping/forks.c \
 	   piping/ft_strsjoin.c \
 	   piping/run_cmd.c \
+	   piping/dups.c \
 	   main.c
 
 CC = cc

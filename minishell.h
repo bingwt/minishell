@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/11 16:19:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/16 02:46:13 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	**list_to_array(t_list *lst);
 int		ft_strslen(char **strs);
 char	*expand_env(char *str, t_list *envll);
 void	array_to_list(t_list **lst, char **envp);
+void	set_shlvl(t_list **envll);
 
 // BUILTINS
 void	ft_echo(const char *str);
@@ -111,11 +112,14 @@ char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
 void	run_cmds(t_arg *args, t_list *envll);
 void	dup_pipes(t_arg args, int *pipe);
-void	open_heredoc(char *eof, int last, int *io);
+void	open_heredoc(char *eof, int last, int io);
 t_arg	open_files(t_arg args);
 
 // FORKS
 void	run_single(t_arg *args, char **envp, t_list *envll);
 void	iterative_piping(t_arg *args, t_list *envll);
+
+// DUPS
+t_arg	*child_dup(t_arg *args, int *new, int old, int i);
 
 #endif
