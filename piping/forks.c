@@ -46,7 +46,7 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
+static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 {
 	char	*path;
 
@@ -70,6 +70,63 @@ static void	parent_pipe(t_arg *args, char **envp, t_list *envll, int i)
 	exit(1); // error code
 }
 
+void	iterative_piping(t_arg *args, t_list *envll)
+{
+	int		i;
+	int		new_fd[2];
+	int		old_fd;
+	int		exit_status;
+	pid_t	pid;
+
+	i = 0;
+	old_fd = 0;
+	while (1)
+	{
+		pipe(new_fd);
+		pid = fork();
+		if (!pid)
+		{
+			if (!i)
+			{
+				dup2(new_fd[1], args[i].io[1]);
+				args[i] = open_files(args[i]);
+				dup2(args[i].io[0], STDIN_FILENO);
+				dup2(args[i].io[1], STDOUT_FILENO);
+				close(new_fd[0]), close(new_fd[1]);
+			}
+			else if (args[i].last)
+			{
+				dup2(old_fd, args[i].io[0]);
+				args[i] = open_files(args[i]);
+				dup2(args[i].io[0], STDIN_FILENO);
+				dup2(args[i].io[1], STDOUT_FILENO);
+				//close(old_fd), close(new_fd[0]), close(new_fd[1]);
+			}
+			else
+			{
+				dup2(old_fd, args[i].io[0]);
+				dup2(new_fd[1], args[i].io[1]);
+				args[i] = open_files(args[i]);
+				dup2(args[i].io[0], STDIN_FILENO);
+				dup2(args[i].io[1], STDOUT_FILENO);
+				close(new_fd[0]);
+			}
+			execute(args, list_to_array(envll), envll, i);
+		}
+		else
+		{
+			dup2(new_fd[0], old_fd);
+			close(new_fd[0]), close(new_fd[1]);
+			if (args[i].last)
+				break ;
+		}
+		i++;
+	}
+	while (waitpid(-1, &exit_status, 0) != -1)
+		;
+	exit(exit_status);
+}
+/*
 static void	recursive_piping(t_arg *args, t_list *envll, int *fd, int cfd)
 {
 	int		i;
@@ -102,6 +159,7 @@ static void	recursive_piping(t_arg *args, t_list *envll, int *fd, int cfd)
 	args[i] = open_files(args[i]);
 	dup_pipes(args[i], fd);
 	close(args[i].io[1]);
+	waitpid(pid, NULL, 0);
 	parent_pipe(args, list_to_array(envll), envll, i);
 }
 
@@ -126,5 +184,7 @@ void minishell_piping(t_arg *args, t_list *envll, int cfd)
 	args[i].io[0] = fd[0];
 	args[i] = open_files(args[i]);
 	dup_pipes(args[i], fd);
+	waitpid(pid, NULL, 0);
 	parent_pipe(args, list_to_array(envll), envll, i);
 }
+*/

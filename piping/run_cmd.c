@@ -108,16 +108,12 @@ void	dup_pipes(t_arg args, int *pipe)
 void	run_cmds(t_arg *args, t_list *envll)
 {
 	int		exit_status;
-	int		cfd[2];
 	pid_t	pid;
-	pid_t	*cids;
 
 	if (args[0].last)
 		run_single(args, list_to_array(envll), envll);
 	else
 	{
-		if (pipe(cfd) < 0)
-			perror("pipe");
 		pid = fork();
 		if (pid < 0)
 		{
@@ -126,25 +122,20 @@ void	run_cmds(t_arg *args, t_list *envll)
 		}
 		if (pid == 0)
 		{
-			close(cfd[0]);
 			signal(SIGINT, sigint_child);
 			signal(SIGQUIT, SIG_DFL);
-			minishell_piping(args, envll, cfd[1]);
+			iterative_piping(args, envll);
 		}
 		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_IGN);
-		cids = read_cids(args, cfd);
-		for (int i = 0; i < 2; i++)
-			ft_printf_fd(2, "%d\n", cids[i]);
-		exit_status = wait_cids(args, cids);
-		(void)exit_status;
+		waitpid(pid, &exit_status, 0);
 		signal(SIGINT, sigint_parent);
 		signal(SIGQUIT, SIG_DFL);
 		//ft_free_split(&envp);
 		//set errno from exitstatus;
 	}
 }
-
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	(void)	argc;
@@ -159,6 +150,67 @@ int	main(int argc, char **argv, char **envp)
 	run_cmds(args, envll);
 	return (0);
 }
+*/
+/*
+#include "minishell.h"
+
+int	wait_cids(t_arg *args, pid_t *cids)
+{
+	int	i;
+	int	j;
+	int	exit_status;
+
+	i = 0;
+	j = 0;
+	while (!args[i].last)
+		i++;
+	while (j <= i)
+	{
+		waitpid(cids[j], &exit_status, 0);
+		j++;
+	}
+	return (exit_status);
+}
+
+pid_t	*read_cids(t_arg *args, int *pipe)
+{
+	int		i;
+	int		j;
+	pid_t	*cid;
+	char	*temp;
+
+	close(pipe[1]);
+	i = 0;
+//	while (i < 100000)
+//		i++;
+//	i = 0;
+	while (!args[i].last)
+		i++;
+	temp = NULL;
+	cid = ft_calloc(i + 1, sizeof(pid_t));
+	j = 0;
+	while (j <= i)
+	{
+		temp = get_next_line(pipe[0]);
+		cid[j] = ft_atoi(temp);
+		free(temp);
+		j++;
+	}
+	close(pipe[0]);
+	return (cid);
+}
+
+void	write_cid(pid_t pid, int pipe)
+{
+	char	*res;
+
+	res = ft_itoa(pid);
+	write(pipe, res, ft_strlen(res));
+	write(pipe, "\n", 1);
+	close(pipe);
+	free(res);
+}
+*/
 /*
 void	execute(t_arg *args, char **envp, t_list *envll, int i)
 {
