@@ -50,6 +50,8 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 {
 	char	*path;
 
+	if (!args[i].cmd[0])
+		exit(0);
 	if (builtin_table(args[i], envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
@@ -100,7 +102,6 @@ void	iterative_piping(t_arg *args, t_list *envll)
 				args[i] = open_files(args[i]);
 				dup2(args[i].io[0], STDIN_FILENO);
 				dup2(args[i].io[1], STDOUT_FILENO);
-				//close(old_fd), close(new_fd[0]), close(new_fd[1]);
 			}
 			else
 			{
@@ -122,6 +123,7 @@ void	iterative_piping(t_arg *args, t_list *envll)
 		}
 		i++;
 	}
+	close(old_fd);
 	while (waitpid(-1, &exit_status, 0) != -1)
 		;
 	exit(exit_status);

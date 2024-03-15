@@ -44,7 +44,7 @@ int	builtin_table(t_arg args, t_list *envll)
 	return (1);
 }
 
-void	open_heredoc(char *eof, int last, int *io)
+void	open_heredoc(char *eof, int last, int io)
 {
 	int	fd[2];
 
@@ -52,7 +52,8 @@ void	open_heredoc(char *eof, int last, int *io)
 	{
 		if (pipe(fd) < 0)
 			perror("pipe");
-		*io = fd[0];
+		dup2(fd[0], io);
+		//*io = fd[0];
 		ft_heredoc(eof, fd[1]);
 	}
 	else
@@ -67,9 +68,10 @@ t_arg	open_files(t_arg args)
 	while (i < args.in_i - 1)
 	{
 		if (!ft_strcmp(args.in[i++], "<"))
-			args.io[0] = open(args.in[i], O_RDONLY);
+			dup2(open(args.in[i], O_RDONLY), args.io[0]);
+			//args.io[0] = open(args.in[i], O_RDONLY);
 		else
-			open_heredoc(args.in[i], args.last, &args.io[0]);
+			open_heredoc(args.in[i], args.last, args.io[0]);
 		if (args.io[0] == -1)
 			perror("open");
 		i++;
@@ -78,9 +80,11 @@ t_arg	open_files(t_arg args)
 	while (i < args.out_i - 1)
 	{
 		if (!ft_strcmp(args.out[i++], ">>"))
-			args.io[1] = open(args.out[i++], APPEND, 0644);
+			dup2(open(args.out[i++], APPEND, 0644), args.io[1]);
+			//args.io[1] = open(args.out[i++], APPEND, 0644);
 		else
-			args.io[1] = open(args.out[i++], TRUNC, 0644);
+			dup2(open(args.out[i++], TRUNC, 0644), args.io[1]);
+			//args.io[1] = open(args.out[i++], TRUNC, 0644);
 		if (args.io[1] == -1)
 			perror("open");
 	}
