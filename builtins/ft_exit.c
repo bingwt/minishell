@@ -6,11 +6,26 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:21:46 by btan              #+#    #+#             */
-/*   Updated: 2024/03/17 01:46:56 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/17 02:23:39 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	intlen(int n)
+{
+	int	len;
+
+	len = 0;
+	if (n <= 0)
+		len++;
+	while (n != 0)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
+}
 
 void	ft_exit(char *str)
 {
@@ -21,8 +36,12 @@ void	ft_exit(char *str)
 	else
 	{
 		handle_error(str, "INVALID_EXIT");
-		status = 2;
+		exit(2);
 	}
-	printf("exit\n");
+	if (str[intlen(status)] && !ft_isdigit(str[intlen(status)]))
+	{
+		handle_error("exit", "TOO_MANY_ARGS");
+		exit(1);
+	}
 	exit(status);
 }

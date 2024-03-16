@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 23:51:59 by btan              #+#    #+#             */
-/*   Updated: 2024/03/17 02:00:03 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/17 02:12:47 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	handle_error(char *vars, char *error)
 	if (!ft_strcmp(error, "NOT_VALID_ID"))
 	{
 		ft_printf_fd(2, "export: `%s': not a valid identifier\n", vars);
+		return (1);
+	}
+	if (!ft_strcmp(error, "TOO_MANY_ARGS"))
+	{
+		ft_printf_fd(2, "%s: too many arguments\n", vars);
 		return (1);
 	}
 	if (!ft_strcmp(error, "INVALID_EXIT"))
