@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/16 02:46:13 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/16 11:58:31 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ int		ft_iswhitespace(int c);
 void	free_strs(char **strs);
 void	sigint_parent(int sig);
 void	sigint_child(int sig);
+void	sighandler_child(void);
+void	sighandler_wait(void);
+void	sighandler_parent(void);
 
 // PROMPT
 char	*init_prompt(t_list *envll);
