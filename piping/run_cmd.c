@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/16 03:39:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/17 01:40:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ int	builtin_table(t_arg args, t_list *envll)
 	else if (!ft_strcmp(args.cmd[0], "env"))
 		ft_env(envll);
 	else if (!ft_strcmp("exit", args.cmd[0]))
-		exit(0);
+		{
+			ft_lstclear(&envll, free);
+			if (ft_strlen(cmd) > 4)
+				ft_exit(cmd + 4);
+			ft_exit(0);
+		}
 	else
 	{
 		free(cmd);

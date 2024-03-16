@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/16 02:54:17 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/17 01:58:27 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_encased(char *str, char token, char cap)
 	return (0);
 }
 
-t_list	*find_token(t_list *lst, char **env, char *token)
+static t_list	*find_token(t_list *lst, char **env, char *token)
 {
 	char	*temp;
 
