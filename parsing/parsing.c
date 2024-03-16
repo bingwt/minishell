@@ -63,6 +63,7 @@ static t_arg	*echo_spaces(t_arg *args)
 		i++;
 		j = 2;
 	}
+	args = heredoc_order(args);
 	return (args);
 }
 

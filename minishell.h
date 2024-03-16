@@ -38,6 +38,7 @@ typedef struct s_arg
 	int		in_i;
 	int		out_i;
 	int		cmd_i;
+	int		heredoc;
 	int		io[2];
 	char	**in;
 	char	**out;
@@ -95,6 +96,7 @@ t_arg	*input_parser(char *input);
 char	*inject_space(char *input);
 
 // REJOIN_TOKENS
+t_arg	*heredoc_order(t_arg *args);
 t_arg	*rejoin_tokens(char ***in);
 
 // SPLIT_BY_PIPE

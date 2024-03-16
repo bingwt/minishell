@@ -20,6 +20,7 @@ static t_arg	init_t_arg(void)
 	arg.in_i = 0;
 	arg.out_i = 0;
 	arg.cmd_i = 0;
+	arg.heredoc = 0;
 	arg.io[0] = dup(0);
 	arg.io[1] = 1;
 	arg.in = NULL;
@@ -42,6 +43,34 @@ static void	combine_redir(t_arg *arg, char **in, int *i)
 		(*i)++;
 		arg->out = split_assign(arg->out, &arg->out_i, in[*i]);
 	}
+}
+
+t_arg	*heredoc_order(t_arg *args)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = -1;
+	k = 0;
+	while (!args[i].last)
+	{
+		while (++j < args[i].in_i)
+		{
+			if (!ft_strcmp(args[i].in[j], "<<"))
+			{
+				args[i].heredoc = k++;
+				break ;
+			}
+		}
+		j = -1;
+		i++;
+	}
+	while (++j < args[i].in_i)
+		if (!ft_strcmp(args[i].in[j], "<<"))
+			args[i].heredoc = k;
+	return (args);
 }
 
 /*
@@ -88,5 +117,6 @@ t_arg	*rejoin_tokens(char ***in)
 		i = -1;
 	}
 	arg[a - 1].last = 1;
+	arg = heredoc_order(arg);
 	return (arg);
 }
