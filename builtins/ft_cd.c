@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/11 14:52:10 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/17 02:04:10 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
 {
 	char	*temp;
 
-	temp = ft_strjoin("export PWD=", *cwd);
+	temp = ft_strjoin("exportPWD=", *cwd);
 	ft_export(temp, &envll);
 	free(temp);
-	temp = ft_strjoin("export OLDPWD=", *oldpwd);
+	temp = ft_strjoin("exportOLDPWD=", *oldpwd);
 	ft_export(temp, &envll);
 	free(temp);
 	free(*oldpwd);
