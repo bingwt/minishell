@@ -140,6 +140,7 @@ int	main(int argc, char **argv)
 		return (0);
 	while (!args[i].last)
 	{
+
 		while (args[i].in[j])
 		{
 			printf("In %d: %s\n", j, args[i].in[j]);

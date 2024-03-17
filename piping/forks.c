@@ -6,7 +6,7 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	pid_t	pid;
 	int		status;
 
-	args[0] = open_files(args[0]);
+	args[0] = open_files(args[0], NULL);
 	dup2(args[0].io[0], 0), dup2(args[0].io[1], 1);
 	if (builtin_table(args[0], envll))
 		return ;
@@ -65,19 +65,21 @@ void	iterative_piping(t_arg *args, t_list *envll)
 {
 	int		i;
 	int		new_fd[3];
+	int		hd_fd[2];
 	int		exit_status;
 	pid_t	pid;
 
 	i = 0;
-	new_fd[2] = 0;
+	new_fd[2] = dup(0);
 	exit_status = 0;
+	pipe(hd_fd);
 	while (1)
 	{
 		pipe(new_fd);
 		pid = fork();
 		if (!pid)
 		{
-			args = child_dup(args, new_fd, i);
+			args = child_dup(args, new_fd, i, hd_fd);
 			execute(args, list_to_array(envll), envll, i);
 		}
 		else

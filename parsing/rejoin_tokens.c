@@ -22,7 +22,7 @@ static t_arg	init_t_arg(void)
 	arg.cmd_i = 0;
 	arg.heredoc = 0;
 	arg.io[0] = dup(0);
-	arg.io[1] = 1;
+	arg.io[1] = dup(1);
 	arg.in = NULL;
 	arg.out = NULL;
 	arg.cmd = NULL;
