@@ -40,20 +40,19 @@ int	builtin_table(t_arg args, t_list *envll)
 	return (1);
 }
 
-void	open_heredoc(char *eof, int last, int io)
+void	open_heredoc(t_arg args, int i)
 {
 	int	fd[2];
 
-	if (last)
+	if (i == args.in_i - 2)
 	{
-		if (pipe(fd) < 0)
-			perror("pipe");
-		dup2(fd[0], io);
-		ft_heredoc(eof, fd[1]);
+		pipe(fd);
+		dup2(fd[0], args.io[0]);
+		ft_heredoc(args.in[i], fd[1]);
 		close(fd[1]);
 	}
 	else
-		ft_heredoc(eof, -1);
+		ft_heredoc(args.in[i], -1);
 }
 
 t_arg	open_files(t_arg args)
@@ -66,7 +65,7 @@ t_arg	open_files(t_arg args)
 		if (!ft_strcmp(args.in[i++], "<"))
 			dup2(open(args.in[i], O_RDONLY), args.io[0]);
 		else
-			open_heredoc(args.in[i], args.last, args.io[0]);
+			open_heredoc(args, i);
 		if (args.io[0] == -1)
 			perror("open");
 		i++;
@@ -83,6 +82,7 @@ t_arg	open_files(t_arg args)
 	}
 	return (args);
 }
+
 
 void	run_cmds(t_arg *args, t_list *envll)
 {

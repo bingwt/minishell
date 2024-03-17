@@ -114,7 +114,7 @@ char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
 void	run_cmds(t_arg *args, t_list *envll);
 void	dup_pipes(t_arg args, int *pipe);
-void	open_heredoc(char *eof, int last, int io);
+void	open_heredoc(t_arg args, int i);
 t_arg	open_files(t_arg args);
 
 // FORKS
@@ -122,6 +122,6 @@ void	run_single(t_arg *args, char **envp, t_list *envll);
 void	iterative_piping(t_arg *args, t_list *envll);
 
 // DUPS
-t_arg	*child_dup(t_arg *args, int *new, int old, int i);
+t_arg	*child_dup(t_arg *args, int *new_fd, int i);
 
 #endif

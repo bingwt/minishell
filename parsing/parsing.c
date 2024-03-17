@@ -157,9 +157,11 @@ int	main(int argc, char **argv)
 			printf("Cmd %d: %s\n", j, args[i].cmd[j]);
 			j++;
 		}
+		printf("Heredoc order for %d, %d", i, args[i].heredoc);
 		j = 0;
 		i++;
 	}
+	printf("Heredoc order for %d, %d", i, args[i].heredoc);
 	free_args(args);
 	return (0);
 }

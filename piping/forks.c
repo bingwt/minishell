@@ -7,21 +7,10 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	int		status;
 
 	args[0] = open_files(args[0]);
-	//if (!args[0].cmd[0])
-	//	return ;
-	if (dup2(args[0].io[0], 0) < 0 || dup2(args[0].io[1], 1) < 0)
-	{
-		perror("dup2");
-		return ;
-	}
+	dup2(args[0].io[0], 0), dup2(args[0].io[1], 1);
 	if (builtin_table(args[0], envll))
 		return ;
 	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		return ;
-	}
 	if (pid == 0)
 	{
 		signal(SIGINT, sigint_child);
@@ -75,13 +64,12 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 void	iterative_piping(t_arg *args, t_list *envll)
 {
 	int		i;
-	int		new_fd[2];
-	int		old_fd;
+	int		new_fd[3];
 	int		exit_status;
 	pid_t	pid;
 
 	i = 0;
-	old_fd = 0;
+	new_fd[2] = 0;
 	exit_status = 0;
 	while (1)
 	{
@@ -89,19 +77,19 @@ void	iterative_piping(t_arg *args, t_list *envll)
 		pid = fork();
 		if (!pid)
 		{
-			args = child_dup(args, new_fd, old_fd, i);
+			args = child_dup(args, new_fd, i);
 			execute(args, list_to_array(envll), envll, i);
 		}
 		else
 		{
-			dup2(new_fd[0], old_fd);
+			dup2(new_fd[0], new_fd[2]);
 			close(new_fd[0]), close(new_fd[1]);
 			if (args[i].last)
 				break ;
 		}
 		i++;
 	}
-	close(old_fd);
+	close(new_fd[2]);
 	while (waitpid(-1, &exit_status, 0) != -1)
 		;
 	exit(exit_status);

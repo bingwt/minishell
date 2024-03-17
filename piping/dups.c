@@ -31,9 +31,9 @@ static t_arg   *dup_last(t_arg *args, int old, int i)
     return (args);
 }
 
-static t_arg   *dup_middle(t_arg *args, int *new, int old, int i)
+static t_arg   *dup_middle(t_arg *args, int *new, int i)
 {
-    dup2(old, args[i].io[0]);
+    dup2(new[2], args[i].io[0]);
 	dup2(new[1], args[i].io[1]);
 	args[i] = open_files(args[i]);
 	dup2(args[i].io[0], STDIN_FILENO);
@@ -42,13 +42,13 @@ static t_arg   *dup_middle(t_arg *args, int *new, int old, int i)
     return (args);
 }
 
-t_arg   *child_dup(t_arg *args, int *new, int old, int i)
+t_arg   *child_dup(t_arg *args, int *new_fd, int i)
 {
     if (!i)
-        args = dup_first(args, new, i);
+        args = dup_first(args, new_fd, i);
     else if (args[i].last)
-        args = dup_last(args, old, i);
+        args = dup_last(args, new_fd[2], i);
     else
-        args = dup_middle(args, new, old, i);
+        args = dup_middle(args, new_fd, i);
     return (args);
 }
