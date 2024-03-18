@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:51:29 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/16 03:39:29 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/18 18:26:17 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,5 @@ t_arg	*rejoin_tokens(char ***in)
 		i = -1;
 	}
 	arg[a - 1].last = 1;
-	arg = heredoc_order(arg);
 	return (arg);
 }

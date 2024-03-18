@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 17:19:50 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/18 18:15:48 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,31 @@ int	builtin_table(t_arg args, t_list *envll)
 	return (1);
 }
 
+static void	heredoc_queue(int *hd_fd)
+{
+	char	*temp;
+
+	temp = NULL;
+	while (1)
+	{
+		temp = get_next_line(hd_fd[0]);
+		if (temp)
+		{
+			free(temp);
+			temp = NULL;
+			break ;
+		}
+	}
+}
+
 t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 {
 	int		fd[2];
 	char	*temp;
 
 	temp = NULL;
-	if (hd_fd)
-	{
-		if (args.heredoc)
-		{
-			while (1)
-			{
-				temp = get_next_line(hd_fd[0]);
-				if (temp)
-				{
-					free(temp);
-					temp = NULL;
-					break;
-				}
-			}
-		}
-		ft_printf_fd(2, "poo\n");
-	}
+	if (hd_fd && args.heredoc)
+		heredoc_queue(hd_fd);
 	if (i == args.in_i - 2)
 	{
 		pipe(fd);
@@ -73,7 +75,6 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 		{
 			while (i != -1)
 			{
-				ft_printf_fd(2, "");
 				write(hd_fd[1], "\n", 1);
 				i--;
 			}
@@ -139,8 +140,6 @@ void	run_cmds(t_arg *args, t_list *envll)
 		waitpid(pid, &exit_status, 0);
 		signal(SIGINT, sigint_parent);
 		signal(SIGQUIT, SIG_DFL);
-		//ft_free_split(&envp);
-		//set errno from exitstatus;
 	}
 }
 /*
