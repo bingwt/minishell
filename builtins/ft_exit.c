@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:21:46 by btan              #+#    #+#             */
-/*   Updated: 2024/03/17 02:23:39 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/18 14:01:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	ft_exit(char *str)
 {
 	int		status;
 
+	if (!str)
+		exit(0);
 	if (ft_isdigit(*str) || *str == '-' || *str == '+')
 		status = ft_atoi(str);
 	else
