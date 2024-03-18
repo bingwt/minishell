@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 19:29:36 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/18 21:23:17 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	run_cmds(t_arg *args, t_list *envll)
 	pid_t	pid;
 
 	if (args[0].last)
-		run_single(args, list_to_array(envll), envll);
+		run_single(args, envll);
 	else
 	{
 		pid = fork();

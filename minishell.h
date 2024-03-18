@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/18 18:32:18 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/18 21:22:51 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
-void	run_single(t_arg *args, char **envp, t_list *envll);
+void	run_single(t_arg *args, t_list *envll);
 void	iterative_piping(t_arg *args, t_list *envll);
 
 // DUPS

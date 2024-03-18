@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 21:05:13 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/18 21:33:29 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	path = get_path(args[i].cmd[0], envll);
 	if (!path)
 	{
-		free_args(args);
 		handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
+		free_args(args);
 		exit(127);
 	}
 	execve(path, args[i].cmd, envp);
@@ -62,7 +62,7 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	exit(1);
 }
 
-void	run_single(t_arg *args, char **envp, t_list *envll)
+void	run_single(t_arg *args, t_list *envll)
 {
 	pid_t	pid;
 	int		status;
@@ -77,7 +77,7 @@ void	run_single(t_arg *args, char **envp, t_list *envll)
 	{
 		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_DFL);
-		execute(args, envp, envll, 0);
+		execute(args, list_to_array(envll), envll, 0);
 	}
 	signal(SIGINT, sigint_child);
 	signal(SIGQUIT, SIG_IGN);
