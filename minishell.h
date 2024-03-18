@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/16 02:46:13 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/18 18:32:18 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ void	ft_export(char *cmd, t_list **envll);
 void	ft_unset(char *cmd, t_list **envll);
 void	ft_exit(int status);
 void	minibing(void);
-
-// EXECUTE
-char	*get_path(char *cmd, t_list *envll);
-void	run_cmd(char *cmd, t_list *envll);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);

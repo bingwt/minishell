@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 18:15:48 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/18 19:29:36 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,8 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 		ft_heredoc(args.in[i], fd[1]);
 		close(fd[1]);
 		if (hd_fd)
-		{
-			while (i != -1)
-			{
+			while (--i != -2)
 				write(hd_fd[1], "\n", 1);
-				i--;
-			}
-		}
 	}
 	else
 		ft_heredoc(args.in[i], -1);
@@ -112,7 +107,6 @@ t_arg	open_files(t_arg args, int *hd_fd)
 	}
 	return (args);
 }
-
 
 void	run_cmds(t_arg *args, t_list *envll)
 {
