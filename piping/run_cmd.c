@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/16 03:39:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/18 17:19:50 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,20 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 	temp = NULL;
 	if (hd_fd)
 	{
-		while (args.heredoc)
+		if (args.heredoc)
 		{
-			temp = get_next_line(hd_fd[0]);
-			if (temp)
+			while (1)
 			{
-				args.heredoc--;
-				free(temp);
-				temp = NULL;
+				temp = get_next_line(hd_fd[0]);
+				if (temp)
+				{
+					free(temp);
+					temp = NULL;
+					break;
+				}
 			}
 		}
+		ft_printf_fd(2, "poo\n");
 	}
 	if (i == args.in_i - 2)
 	{
