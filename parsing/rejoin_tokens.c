@@ -49,18 +49,16 @@ t_arg	*heredoc_order(t_arg *args)
 {
 	int	i;
 	int	j;
-	int	k;
 
-	i = 0;
+	i = 1;
 	j = -1;
-	k = 0;
-	while (!args[i].last)
+	while (!args[0].last && !args[i].last)
 	{
 		while (++j < args[i].in_i)
 		{
 			if (!ft_strcmp(args[i].in[j], "<<"))
 			{
-				args[i].heredoc = k++;
+				args[i].heredoc = 1;
 				break ;
 			}
 		}
@@ -69,7 +67,7 @@ t_arg	*heredoc_order(t_arg *args)
 	}
 	while (++j < args[i].in_i)
 		if (!ft_strcmp(args[i].in[j], "<<"))
-			args[i].heredoc = k;
+			args[i].heredoc = 1;
 	return (args);
 }
 

@@ -118,11 +118,9 @@ static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
 
 void	iterative_piping(t_arg *args, t_list *envll)
 {
-	int		i;
 	int		hd_fd[2];
 	int		exit_status;
 
-	i = 0;
 	exit_status = 0;
 	pipe(hd_fd);
 	iterative_body(args, envll, hd_fd);

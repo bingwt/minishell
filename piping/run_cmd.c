@@ -40,7 +40,7 @@ int	builtin_table(t_arg args, t_list *envll)
 	return (1);
 }
 
-static void	heredoc_queue(int *hd_fd)
+static t_arg	heredoc_queue(t_arg args, int *hd_fd)
 {
 	char	*temp;
 
@@ -52,19 +52,19 @@ static void	heredoc_queue(int *hd_fd)
 		{
 			free(temp);
 			temp = NULL;
+			args.heredoc = 0;
 			break ;
 		}
 	}
+	return (args);
 }
 
 t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 {
 	int		fd[2];
-	char	*temp;
 
-	temp = NULL;
 	if (hd_fd && args.heredoc)
-		heredoc_queue(hd_fd);
+		args = heredoc_queue(args, hd_fd);
 	if (i == args.in_i - 2)
 	{
 		pipe(fd);
@@ -72,8 +72,7 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 		ft_heredoc(args.in[i], fd[1]);
 		close(fd[1]);
 		if (hd_fd)
-			while (--i != -2)
-				write(hd_fd[1], "\n", 1);
+			write(hd_fd[1], "\n", 1);
 	}
 	else
 		ft_heredoc(args.in[i], -1);
