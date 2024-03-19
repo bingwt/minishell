@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/19 17:07:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/19 18:56:19 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*skip_squote(char *str)
 {
-	// char	*start;
 	char	*end;
+
 	while (*str)
 	{
 		if (*str == '$' && *(str + 1) != '\0')
@@ -25,7 +25,9 @@ char	*skip_squote(char *str)
 			end = ft_strchr(str + 1, '"');
 			if (ft_strchr(str, '$') < end)
 				str = ft_strchr(str, '$');
-			break;
+			else
+				str = ft_strchr(str, '\0');
+			break ;
 		}
 		if (*str == '\'')
 			str = ft_strchr(str + 1, '\'');

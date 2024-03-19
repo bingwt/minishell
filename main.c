@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/19 16:55:26 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/19 17:33:19 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	array_to_list(&envll, envp);
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
-	expand_env("This is a test \"'$HOME'\"", envll);
+	expand_env("echo \"'$HOME'\" $PWD", envll);
 	set_shlvl(&envll);
 	while (1)
 	{
