@@ -1,46 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
+/*   Updated: 2024/03/18 21:33:29 by xlow             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	run_single(t_arg *args, char **envp, t_list *envll)
+static char	*get_path(char *cmd, t_list *envll)
 {
-	char	*path;
-	pid_t	pid;
-	int		status;
+	char	*temp;
+	char	*program_path;
+	char	**path;
+	char	**ptr;
+	char	*program;
 
-	args[0] = open_files(args[0]);
-	//if (!args[0].cmd[0])
-	//	return ;
-	if (dup2(args[0].io[0], 0) < 0 || dup2(args[0].io[1], 1) < 0)
+	temp = expand_env("$PATH", envll);
+	path = ft_split(temp, ':');
+	free(temp);
+	ptr = path;
+	program = ft_strjoin("/", cmd);
+	while (*ptr)
 	{
-		perror("dup2");
-		return ;
+		program_path = ft_strjoin(*(ptr++), program);
+		if (!access(program_path, X_OK))
+			break ;
+		free(program_path);
+		program_path = NULL;
 	}
-	if (builtin_table(args[0], envll))
-		return ;
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		return ;
-	}
-	if (pid == 0)
-	{
-		sighandler_child();
-		if (!access(args[0].cmd[0], X_OK))
-			execve(args[0].cmd[0], args[0].cmd, envp);
-		path = get_path(args[0].cmd[0], envll);
-		if (!path)
-		{
-			//perror("path"), exit(1) ;
-			handle_error(args[0].cmd[0], "CMD_NOT_FOUND");
-			exit(127);
-		}
-		execve(path, args[0].cmd, envp);
-		perror("execve"), free_args(args), exit(1) ;
-	}
-	sighandler_wait();
-	waitpid(pid, &status, 0);
-	get_exit_status(status);
-	sighandler_parent();
+	free(program);
+	ft_free_split(&path);
+	return (program_path);
+
 }
 
 static void	execute(t_arg *args, char **envp, t_list *envll, int i)
@@ -56,49 +52,79 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	path = get_path(args[i].cmd[0], envll);
 	if (!path)
 	{
+		handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
 		free_args(args);
-		//free envll;
-		perror("cmd not found");
 		exit(127);
 	}
 	execve(path, args[i].cmd, envp);
 	free_args(args);
 	ft_free_split(&envp);
-	//free envll
 	perror("execve");
-	exit(1); // error code
+	exit(1);
 }
 
-void	iterative_piping(t_arg *args, t_list *envll)
+void	run_single(t_arg *args, t_list *envll)
+{
+	pid_t	pid;
+	int		status;
+
+	args[0] = open_files(args[0], NULL);
+	dup2(args[0].io[0], 0);
+	dup2(args[0].io[1], 1);
+	if (builtin_table(args[0], envll))
+		return ;
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, sigint_child);
+		signal(SIGQUIT, SIG_DFL);
+		execute(args, list_to_array(envll), envll, 0);
+	}
+	signal(SIGINT, sigint_child);
+	signal(SIGQUIT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	get_exit_status(status);
+	signal(SIGINT, sigint_parent);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
 {
 	int		i;
-	int		new_fd[2];
-	int		old_fd;
-	int		exit_status;
+	int		new_fd[3];
 	pid_t	pid;
 
 	i = 0;
-	old_fd = 0;
-	exit_status = 0;
+	new_fd[2] = dup(0);
 	while (1)
 	{
 		pipe(new_fd);
 		pid = fork();
 		if (!pid)
 		{
-			args = child_dup(args, new_fd, old_fd, i);
+			args = child_dup(args, new_fd, i, hd_fd);
 			execute(args, list_to_array(envll), envll, i);
 		}
 		else
 		{
-			dup2(new_fd[0], old_fd);
-			close(new_fd[0]), close(new_fd[1]);
+			dup2(new_fd[0], new_fd[2]);
+			close(new_fd[0]);
+			close(new_fd[1]);
 			if (args[i].last)
 				break ;
 		}
 		i++;
 	}
-	close(old_fd);
+}
+
+void	iterative_piping(t_arg *args, t_list *envll)
+{
+	int		hd_fd[2];
+	int		exit_status;
+
+	exit_status = 0;
+	pipe(hd_fd);
+	iterative_body(args, envll, hd_fd);
 	while (waitpid(-1, &exit_status, 0) != -1)
 		;
 	exit(exit_status);

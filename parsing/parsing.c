@@ -63,6 +63,7 @@ static t_arg	*echo_spaces(t_arg *args)
 		i++;
 		j = 2;
 	}
+	args = heredoc_order(args);
 	return (args);
 }
 
@@ -139,6 +140,7 @@ int	main(int argc, char **argv)
 		return (0);
 	while (!args[i].last)
 	{
+
 		while (args[i].in[j])
 		{
 			printf("In %d: %s\n", j, args[i].in[j]);
@@ -156,9 +158,11 @@ int	main(int argc, char **argv)
 			printf("Cmd %d: %s\n", j, args[i].cmd[j]);
 			j++;
 		}
+		printf("Heredoc order for %d, %d", i, args[i].heredoc);
 		j = 0;
 		i++;
 	}
+	printf("Heredoc order for %d, %d", i, args[i].heredoc);
 	free_args(args);
 	return (0);
 }

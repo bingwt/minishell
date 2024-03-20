@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:51:29 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/16 03:39:29 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/18 18:26:17 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ static t_arg	init_t_arg(void)
 	arg.in_i = 0;
 	arg.out_i = 0;
 	arg.cmd_i = 0;
+	arg.heredoc = 0;
 	arg.io[0] = dup(0);
-	arg.io[1] = 1;
+	arg.io[1] = dup(1);
 	arg.in = NULL;
 	arg.out = NULL;
 	arg.cmd = NULL;
@@ -42,6 +43,32 @@ static void	combine_redir(t_arg *arg, char **in, int *i)
 		(*i)++;
 		arg->out = split_assign(arg->out, &arg->out_i, in[*i]);
 	}
+}
+
+t_arg	*heredoc_order(t_arg *args)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	j = -1;
+	while (!args[0].last && !args[i].last)
+	{
+		while (++j < args[i].in_i)
+		{
+			if (!ft_strcmp(args[i].in[j], "<<"))
+			{
+				args[i].heredoc = 1;
+				break ;
+			}
+		}
+		j = -1;
+		i++;
+	}
+	while (++j < args[i].in_i)
+		if (!ft_strcmp(args[i].in[j], "<<"))
+			args[i].heredoc = 1;
+	return (args);
 }
 
 /*

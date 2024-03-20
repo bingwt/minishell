@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/17 01:40:02 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/18 21:23:17 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,46 @@ int	builtin_table(t_arg args, t_list *envll)
 	return (1);
 }
 
-void	open_heredoc(char *eof, int last, int io)
+static t_arg	heredoc_queue(t_arg args, int *hd_fd)
 {
-	int	fd[2];
+	char	*temp;
 
-	if (last)
+	temp = NULL;
+	while (1)
 	{
-		if (pipe(fd) < 0)
-			perror("pipe");
-		dup2(fd[0], io);
-		ft_heredoc(eof, fd[1]);
-		close(fd[1]);
+		temp = get_next_line(hd_fd[0]);
+		if (temp)
+		{
+			free(temp);
+			temp = NULL;
+			args.heredoc = 0;
+			break ;
+		}
 	}
-	else
-		ft_heredoc(eof, -1);
+	return (args);
 }
 
-t_arg	open_files(t_arg args)
+t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
+{
+	int		fd[2];
+
+	if (hd_fd && args.heredoc)
+		args = heredoc_queue(args, hd_fd);
+	if (i == args.in_i - 2)
+	{
+		pipe(fd);
+		dup2(fd[0], args.io[0]);
+		ft_heredoc(args.in[i], fd[1]);
+		close(fd[1]);
+		if (hd_fd)
+			write(hd_fd[1], "\n", 1);
+	}
+	else
+		ft_heredoc(args.in[i], -1);
+	return (args);
+}
+
+t_arg	open_files(t_arg args, int *hd_fd)
 {
 	int	i;
 
@@ -71,7 +94,7 @@ t_arg	open_files(t_arg args)
 		if (!ft_strcmp(args.in[i++], "<"))
 			dup2(open(args.in[i], O_RDONLY), args.io[0]);
 		else
-			open_heredoc(args.in[i], args.last, args.io[0]);
+			args = open_heredoc(args, i, hd_fd);
 		if (args.io[0] == -1)
 			perror("open");
 		i++;
@@ -95,7 +118,7 @@ void	run_cmds(t_arg *args, t_list *envll)
 	pid_t	pid;
 
 	if (args[0].last)
-		run_single(args, list_to_array(envll), envll);
+		run_single(args, envll);
 	else
 	{
 		pid = fork();
@@ -115,8 +138,6 @@ void	run_cmds(t_arg *args, t_list *envll)
 		waitpid(pid, &exit_status, 0);
 		signal(SIGINT, sigint_parent);
 		signal(SIGQUIT, SIG_DFL);
-		//ft_free_split(&envp);
-		//set errno from exitstatus;
 	}
 }
 /*
