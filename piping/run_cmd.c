@@ -30,7 +30,12 @@ int	builtin_table(t_arg args, t_list *envll)
 	else if (!ft_strcmp(args.cmd[0], "env"))
 		ft_env(envll);
 	else if (!ft_strcmp("exit", args.cmd[0]))
-		exit(0);
+		{
+			ft_lstclear(&envll, free);
+			if (ft_strlen(cmd) > 4)
+				ft_exit(cmd + 4);
+			ft_exit(0);
+		}
 	else
 	{
 		free(cmd);

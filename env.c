@@ -6,28 +6,39 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/16 02:54:17 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/19 18:56:19 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_encased(char *str, char token, char cap)
+char	*skip_squote(char *str)
 {
-	if (ft_strchr(str, cap))
+	char	*end;
+
+	while (*str)
 	{
-		str = ft_strchr(str, cap);
-		if (ft_strchr(str, token))
+		if (*str == '$' && *(str + 1) != '\0')
+			break ;
+		if (*str == '"')
 		{
-			str = ft_strchr(str, token);
-			if (ft_strchr(str, cap))
-				return (1);
+			end = ft_strchr(str + 1, '"');
+			if (ft_strchr(str, '$') < end)
+				str = ft_strchr(str, '$');
+			else
+				str = ft_strchr(str, '\0');
+			break ;
 		}
+		if (*str == '\'')
+			str = ft_strchr(str + 1, '\'');
+		if (!str || !*str)
+			break ;
+		str++;
 	}
-	return (0);
+	return (str);
 }
 
-t_list	*find_token(t_list *lst, char **env, char *token)
+static t_list	*find_token(t_list *lst, char **env, char *token)
 {
 	char	*temp;
 
@@ -46,6 +57,23 @@ t_list	*find_token(t_list *lst, char **env, char *token)
 	return (lst);
 }
 
+char	*replace_token(char *str, char *find, char *replace)
+{
+	char	*start;
+	char	*new;
+	char	*temp;
+
+	start = skip_squote(str);
+	if (!start || !*start)
+		return (str);
+	new = ft_substr(str, 0, start - str);
+	temp = ft_strjoin(new, replace);
+	free(new);
+	new = ft_strjoin(temp, start + ft_strlen(find));
+	free(temp);
+	return (new);
+}
+
 char	*expand_env(char *str, t_list *envll)
 {
 	t_list	*lst;
@@ -55,8 +83,8 @@ char	*expand_env(char *str, t_list *envll)
 	char	*env;
 
 	lst = envll;
-	start = ft_strchr(str, '$');
-	if (!start || (is_encased(str, '$', '\'')))
+	start = skip_squote(str);
+	if (!start || !*start)
 		return (str);
 	end = start + 1;
 	while (ft_isalnum(*end) || *end == '?')
@@ -74,7 +102,7 @@ char	*expand_env(char *str, t_list *envll)
 		free(token);
 		token = ft_strdup("$?");
 	}
-	env = ft_strre(str, token, env);
+	env = replace_token(str, token, env);
 	if (ft_strchr(env, '$') && ft_strcmp(token, "$"))
 		env = expand_env(env, envll);
 	free(token);

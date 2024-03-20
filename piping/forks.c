@@ -36,6 +36,7 @@ static char	*get_path(char *cmd, t_list *envll)
 	free(program);
 	ft_free_split(&path);
 	return (program_path);
+
 }
 
 static void	execute(t_arg *args, char **envp, t_list *envll, int i)

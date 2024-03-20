@@ -54,6 +54,9 @@ int		ft_iswhitespace(int c);
 void	free_strs(char **strs);
 void	sigint_parent(int sig);
 void	sigint_child(int sig);
+void	sighandler_child(void);
+void	sighandler_wait(void);
+void	sighandler_parent(void);
 
 // PROMPT
 char	*init_prompt(t_list *envll);
@@ -72,7 +75,7 @@ char	*ft_pwd(void);
 void	ft_env(t_list *envp);
 void	ft_export(char *cmd, t_list **envll);
 void	ft_unset(char *cmd, t_list **envll);
-void	ft_exit(int status);
+void	ft_exit(char *str);
 void	minibing(void);
 
 // HEREDOC
