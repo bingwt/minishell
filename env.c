@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/19 18:56:19 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/20 21:12:34 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ char	*skip_squote(char *str)
 	return (str);
 }
 
-static t_list	*find_token(t_list *lst, char **env, char *token)
-{
-	char	*temp;
-
-	while (lst)
-	{
-		*env = (char *) lst->content;
-		temp = ft_substr(*env, 0, ft_strchr(*env, '=') - *env);
-		if (!ft_strcmp(token + 1, temp))
-		{
-			free(temp);
-			break ;
-		}
-		lst = lst->next;
-		free(temp);
-	}
-	return (lst);
-}
+//static t_list	*find_token(t_list *lst, char **env, char *token)
+//{
+//	char	*temp;
+//
+//	while (lst)
+//	{
+//		*env = (char *) lst->content;
+//		temp = ft_substr(*env, 0, ft_strchr(*env, '=') - *env);
+//		if (!ft_strcmp(token + 1, temp))
+//		{
+//			free(temp);
+//			break ;
+//		}
+//		lst = lst->next;
+//		free(temp);
+//	}
+//	return (lst);
+//}
 
 char	*replace_token(char *str, char *find, char *replace)
 {
@@ -77,36 +77,22 @@ char	*replace_token(char *str, char *find, char *replace)
 char	*expand_env(char *str, t_list *envll)
 {
 	t_list	*lst;
-	char	*start;
-	char	*end;
-	char	*token;
-	char	*env;
+	char	*temp;
 
 	lst = envll;
-	start = skip_squote(str);
-	if (!start || !*start)
-		return (str);
-	end = start + 1;
-	while (ft_isalnum(*end) || *end == '?')
-		end++;
-	token = ft_substr(str, start - str, end - start);
-	if (find_token(lst, &env, token))
-		env = env + (end - start);
-	else
-		env = "";
-	if (!ft_strcmp(token, "$"))
-		env = "$";
-	if (!ft_strncmp(token, "$?", 2))
+	temp = str;
+	while (*temp)
 	{
-		env = ft_itoa(get_exit_status(-1));
-		free(token);
-		token = ft_strdup("$?");
+		if (*temp == '$')
+		{
+			printf("%s,\n", temp);
+			while (ft_isalnum(*temp) || *end == '?')
+				temp++;
+		}
+		printf("%s,\n", temp);
+		temp++;
 	}
-	env = replace_token(str, token, env);
-	if (ft_strchr(env, '$') && ft_strcmp(token, "$"))
-		env = expand_env(env, envll);
-	free(token);
-	return (env);
+	return (str);
 }
 
 void	set_shlvl(t_list **envll)
