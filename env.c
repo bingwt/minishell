@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/20 21:12:34 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/20 22:26:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ char	*expand_env(char *str, t_list *envll)
 		{
 			printf("%s,\n", temp);
 			while (ft_isalnum(*temp) || *end == '?')
-				temp++;
+				temp++;	
+			printf("%s,\n", temp);
 		}
-		printf("%s,\n", temp);
 		temp++;
 	}
 	return (str);
