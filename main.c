@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/20 19:54:32 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:03:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int	main(int argc, char **argv, char **envp)
 	array_to_list(&envll, envp);
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
-	expand_env("echo $USER", envll);
+	// expand_all("echo '$HOME' \"$HOME\"", envll);
+	// expand_all("echo $wfsa", envll);
+	expand_env("echo $HOME", envll);
 	set_shlvl(&envll);
 	while (1)
 	{
@@ -49,6 +51,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		prompt = expand_env(buffer, envll);
+		// prompt = "echo $HOME '$HOME' \"$HOME\" \"'$HOME'\" '\"$HOME\"'";
 		args = input_parser(prompt);
 		if (args)
 			run_cmds(args, envll);

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/18 21:22:51 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/21 04:09:36 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ char	*init_prompt(t_list *envll);
 char	**list_to_array(t_list *lst);
 int		ft_strslen(char **strs);
 char	*expand_env(char *str, t_list *envll);
+char 	*expand_all(char *str, t_list *envll);
 void	array_to_list(t_list **lst, char **envp);
 void	set_shlvl(t_list **envll);
 
 // BUILTINS
-void	ft_echo(const char *str);
+void	ft_echo(char **args);
 void	ft_cd(const char *path, t_list *envll);
 char	*ft_pwd(void);
 void	ft_env(t_list *envp);

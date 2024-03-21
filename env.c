@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/20 22:26:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:02:54 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ char	*skip_squote(char *str)
 		{
 			end = ft_strchr(str + 1, '"');
 			if (ft_strchr(str, '$') < end)
+			{
 				str = ft_strchr(str, '$');
-			else
-				str = ft_strchr(str, '\0');
-			break ;
+				break ;
+			}
 		}
 		if (*str == '\'')
 			str = ft_strchr(str + 1, '\'');
@@ -38,24 +38,34 @@ char	*skip_squote(char *str)
 	return (str);
 }
 
-//static t_list	*find_token(t_list *lst, char **env, char *token)
-//{
-//	char	*temp;
-//
-//	while (lst)
-//	{
-//		*env = (char *) lst->content;
-//		temp = ft_substr(*env, 0, ft_strchr(*env, '=') - *env);
-//		if (!ft_strcmp(token + 1, temp))
-//		{
-//			free(temp);
-//			break ;
-//		}
-//		lst = lst->next;
-//		free(temp);
-//	}
-//	return (lst);
-//}
+char	*find_end(char *start)
+{
+	char	*end;
+
+	end = start + 1;
+	while (ft_isalnum(*end) || *end == '?' || *end == '_')
+		end++;
+	return (end);
+}
+
+static t_list	*find_token(t_list *lst, char **env, char *token)
+{
+	char	*temp;
+
+	while (lst)
+	{
+		*env = (char *) lst->content;
+		temp = ft_substr(*env, 0, ft_strchr(*env, '=') - *env);
+		if (!ft_strcmp(token + 1, temp))
+		{
+			free(temp);
+			break ;
+		}
+		lst = lst->next;
+		free(temp);
+	}
+	return (lst);
+}
 
 char	*replace_token(char *str, char *find, char *replace)
 {
@@ -77,21 +87,67 @@ char	*replace_token(char *str, char *find, char *replace)
 char	*expand_env(char *str, t_list *envll)
 {
 	t_list	*lst;
-	char	*temp;
+	char	*start;
+	char	*end;
+	char	*token;
+	char	*env;
 
 	lst = envll;
-	temp = str;
-	while (*temp)
+	start = skip_squote(str);
+	if (!start || !*start)
+		return (str);
+	end = start + 1;
+	while (ft_isalnum(*end) || *end == '?')
+		end++;
+	token = ft_substr(str, start - str, end - start);
+	if (find_token(lst, &env, token))
+		env = env + (end - start);
+	else
+		env = "";
+	if (!ft_strcmp(token, "$"))
+		env = "$";
+	if (!ft_strncmp(token, "$?", 2))
 	{
-		if (*temp == '$')
-		{
-			printf("%s,\n", temp);
-			while (ft_isalnum(*temp) || *end == '?')
-				temp++;	
-			printf("%s,\n", temp);
-		}
-		temp++;
+		env = ft_itoa(get_exit_status(-1));
+		free(token);
+		token = ft_strdup("$?");
 	}
+	env = replace_token(str, token, env);
+	if (ft_strchr(env, '$') && ft_strcmp(token, "$"))
+		env = expand_env(env, envll);
+	free(token);
+	return (env);
+}char	*expand_all(char *str, t_list *envll)
+{
+	t_list	*str_list;
+	t_list	*node;
+	char	*start;
+	char	*end;
+	char	*token;
+
+	str_list = NULL;
+	printf("str: %s\n", str);
+	printf("list: %p\n", str_list);
+	if (!*str)
+		return (NULL);
+	while (*str)
+	{
+		start = skip_squote(str);
+		node = ft_lstnew(ft_substr(str, 0, start - str));
+		printf("node: %s\n", (char *) node->content);
+		ft_lstadd_back(&str_list, node);
+		end = find_end(start);
+		if (!end || !*end)
+			break ;
+		token = ft_substr(str, start - str, end - start);
+		node = ft_lstnew(expand_env(token, envll));
+		ft_lstadd_back(&str_list, node);
+		str = end;
+	}
+	printf("str_list: %s\n", (char *) str_list->content);
+	printf("size: %d\n", ft_lstsize(str_list));
+	if (ft_lstsize(str_list) > 1)
+		return (ft_strjoin_strs(list_to_array(str_list)));
 	return (str);
 }
 

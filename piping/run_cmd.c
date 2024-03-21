@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 21:23:17 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/21 02:03:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	builtin_table(t_arg args, t_list *envll)
 
 	cmd = ft_strsjoin(args.cmd);
 	if (!ft_strcmp(args.cmd[0], "echo"))
-		ft_echo(cmd + 4);
+		ft_echo(args.cmd + 1);
 	else if (!ft_strcmp(args.cmd[0], "cd"))
 		ft_cd(cmd + 2, envll);
 	else if (!ft_strcmp(args.cmd[0], "pwd"))
