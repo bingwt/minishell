@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 04:09:36 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:07:15 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	set_shlvl(t_list **envll);
 
 // BUILTINS
 void	ft_echo(char **args);
-void	ft_cd(const char *path, t_list *envll);
+void	ft_cd(char **args, t_list *envll);
 char	*ft_pwd(void);
 void	ft_env(t_list *envp);
 void	ft_export(char *cmd, t_list **envll);
