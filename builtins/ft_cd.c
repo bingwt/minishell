@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 17:12:11 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 18:16:08 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,29 @@
 
 static void	cd_shortcut(const char *path, t_list *envll)
 {
-	char	*temp;
+	char	**temp;
 
-	temp = ft_strre((char *) path, "~", getenv("HOME"));
-	ft_cd(&temp, envll);
+	temp = ft_calloc(2, sizeof(char *));
+	*temp = ft_strre((char *) path, "~", getenv("HOME"));
+	ft_cd(temp, envll);
+	free(*temp);
 	free(temp);
 }
 
 static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
 {
-	char	*temp;
+	char	**temp;
 
-	temp = ft_strjoin("exportPWD=", *cwd);
+	temp = ft_calloc(2, sizeof(char *));
+	*temp = ft_strjoin("PWD=", *cwd);
 	ft_export(temp, &envll);
-	free(temp);
-	temp = ft_strjoin("exportOLDPWD=", *oldpwd);
+	free(*temp);
+	*temp = ft_strjoin("OLDPWD=", *oldpwd);
 	ft_export(temp, &envll);
-	free(temp);
+	free(*temp);
 	free(*oldpwd);
 	free(*cwd);
+	free(temp);
 }
 
 void	ft_cd(char **args, t_list *envll)

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 17:24:06 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:54:54 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_echo(char **args);
 void	ft_cd(char **args, t_list *envll);
 char	*ft_pwd(void);
 void	ft_env(t_list *envp);
-void	ft_export(char *cmd, t_list **envll);
+void	ft_export(char **args, t_list **envll);
 void	ft_unset(char *cmd, t_list **envll);
 void	ft_exit(char *str);
 void	minibing(void);

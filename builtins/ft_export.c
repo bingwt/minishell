@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/17 01:58:57 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 18:28:59 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	create_var(char *cmd, char *token, t_list **envll)
 {
 	t_list	*env;
 
-	token = ft_strdup(cmd + 6);
+	token = ft_strdup(cmd);
 	env = ft_lstnew(token);
 	ft_lstadd_back(envll, env);
 }
@@ -67,15 +67,14 @@ static t_list	*find_token(char *cmd, char *token, t_list *env)
 	{
 		content = (char *) env->content;
 		if (ft_strchr(cmd, '='))
-			if (!ft_strncmp(token + 6, content, \
-				ft_strchr(content, '=') - content))
+			if (!ft_strcmp(token, content))
 				break ;
 		env = env->next;
 	}
 	return (env);
 }
 
-void	ft_export(char *cmd, t_list **envll)
+void	export_var(char *cmd, t_list **envll)
 {
 	t_list	*env;
 	char	**args;
@@ -84,17 +83,29 @@ void	ft_export(char *cmd, t_list **envll)
 	env = *envll;
 	args = ft_split(cmd, '=');
 	token = args[0];
-	if (!valid_token(token + 6))
+	if (!valid_token(token))
 		return ;
 	env = find_token(cmd, token, env);
 	free_strs(args);
 	if (env)
 	{
-		env->content = ft_strdup(cmd + 6);
+		env->content = ft_strdup(cmd);
 		return ;
 	}
 	if (!env && ft_strchr(cmd, '='))
 		create_var(cmd, token, envll);
-	else if (!ft_strcmp(cmd, "export"))
+}
+
+void	ft_export(char **args, t_list **envll)
+{
+	int		i;
+
+	i = 0;
+	if (!*args)
 		print_env(envll);
+	else
+	{
+		while (args[i])
+			export_var(args[i++], envll);
+	}
 }
