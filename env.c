@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 18:15:53 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 23:25:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ char	*expand_env(char *str, t_list *envll)
 		env = expand_env(env, envll);
 	free(token);
 	return (env);
-}char	*expand_all(char *str, t_list *envll)
+}
+
+char	*expand_all(char *str, t_list *envll)
 {
 	t_list	*str_list;
 	t_list	*node;
@@ -126,8 +128,6 @@ char	*expand_env(char *str, t_list *envll)
 	char	*token;
 
 	str_list = NULL;
-	printf("str: %s\n", str);
-	printf("list: %p\n", str_list);
 	if (!*str)
 		return (NULL);
 	while (*str)
@@ -144,8 +144,6 @@ char	*expand_env(char *str, t_list *envll)
 		ft_lstadd_back(&str_list, node);
 		str = end;
 	}
-	printf("str_list: %s\n", (char *) str_list->content);
-	printf("size: %d\n", ft_lstsize(str_list));
 	if (ft_lstsize(str_list) > 1)
 		return (ft_strjoin_strs(list_to_array(str_list)));
 	return (str);

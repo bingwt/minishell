@@ -6,18 +6,17 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 18:28:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 23:47:03 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	create_var(char *cmd, char *token, t_list **envll)
+void	create_var(char *cmd, t_list **envll)
 {
 	t_list	*env;
 
-	token = ft_strdup(cmd);
-	env = ft_lstnew(token);
+	env = ft_lstnew(ft_strdup(cmd));
 	ft_lstadd_back(envll, env);
 }
 
@@ -93,7 +92,7 @@ void	export_var(char *cmd, t_list **envll)
 		return ;
 	}
 	if (!env && ft_strchr(cmd, '='))
-		create_var(cmd, token, envll);
+		create_var(cmd, envll);
 }
 
 void	ft_export(char **args, t_list **envll)

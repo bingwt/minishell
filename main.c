@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 18:29:31 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 23:48:39 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	io[1] = dup(STDOUT_FILENO);
 	// expand_all("echo '$HOME' \"$HOME\"", envll);
 	// expand_all("echo $wfsa", envll);
-	expand_env("echo $HOME", envll);
+	//expand_env("echo $HOME", envll);
 	set_shlvl(&envll);
 	while (1)
 	{
