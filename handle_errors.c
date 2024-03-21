@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 23:51:59 by btan              #+#    #+#             */
-/*   Updated: 2024/03/17 02:12:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:51:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,28 @@ int	handle_error(char *vars, char *error)
 	}
 	if (!ft_strcmp(error, "CMD_NOT_FOUND"))
 	{
-		ft_printf_fd(2, "command not found: %s\n", vars);
+		ft_putstr_fd(vars, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (127);
 	}
 	if (!ft_strcmp(error, "NO_FILE"))
-		ft_putstr_fd("no such file or directory: ", 2);
+	{
+		ft_putstr_fd(vars, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (127);
+	}
 	if (!ft_strcmp(error, "NO_PERMS"))
-		ft_putstr_fd("permission denied: ", 2);
+	{
+		ft_putstr_fd(vars, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		return (126);
+	}
 	ft_putstr_fd(vars, 2);
+	if (!ft_strcmp(error, "IS_DIR"))
+	{
+		ft_putstr_fd(": Is a directory\n", 2);
+		return (126);
+	}
 	ft_putchar_fd('\n', 2);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 17:07:15 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/21 17:24:06 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <sys/stat.h>
 
 # define HERE_DOC 578
 # define TRUNC 577
