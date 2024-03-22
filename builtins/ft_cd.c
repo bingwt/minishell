@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 18:16:08 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/22 16:45:34 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ static void	cd_shortcut(const char *path, t_list *envll)
 {
 	char	**temp;
 
-	temp = ft_calloc(2, sizeof(char *));
-	*temp = ft_strre((char *) path, "~", getenv("HOME"));
+	temp = ft_calloc(3, sizeof(char *));
+	temp[0] = ft_strdup("cd");
+	temp[1] = ft_strre((char *) path, "~", getenv("HOME"));
 	ft_cd(temp, envll);
 	free(*temp);
 	free(temp);
@@ -61,27 +62,22 @@ void	ft_cd(char **args, t_list *envll)
 	char	*oldpwd;
 	char	*cwd;
 
-	if (ft_strslen(args) > 1)
+	if (ft_strslen(args) > 2)
 	{
 		get_exit_status(unshift_exitcode(handle_error("cd", "TOO_MANY_ARGS")));
 		return ;
 	}
-	if (!args[0])
+	if (!args[1] || ft_strchr(args[1], '~'))
 	{
 		cd_shortcut("~", envll);
 		return ;
 	}
-	if (ft_strchr(args[0], '~'))
-	{
-		cd_shortcut(args[0], envll);
-		return ;
-	}
 	oldpwd = ft_pwd();
-	if (chdir(args[0]))
+	if (chdir(args[1]))
 	{
 		free(oldpwd);
 		ft_printf_fd(2, "minibing: cd: ");
-		perror(args[0]);
+		perror(args[1]);
 		get_exit_status(unshift_exitcode(1));
 		return ;
 	}
