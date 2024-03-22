@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:58:55 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 02:05:10 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/22 16:08:20 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_echo(char **args)
 	int	i;
 	int	len;
 
-	i = 0;
+	i = 1;
 	len = ft_strslen(args);
 	while (i < len)
 	{
