@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/22 16:45:34 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/22 16:54:45 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static void	cd_shortcut(const char *path, t_list *envll)
 	char	**temp;
 
 	temp = ft_calloc(3, sizeof(char *));
-	temp[0] = ft_strdup("cd");
+	temp[0] = "cd";
 	temp[1] = ft_strre((char *) path, "~", getenv("HOME"));
 	ft_cd(temp, envll);
-	free(*temp);
+	free(temp[1]);
 	free(temp);
 }
 
@@ -45,13 +45,14 @@ static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
 {
 	char	**temp;
 
-	temp = ft_calloc(2, sizeof(char *));
-	*temp = ft_strjoin("PWD=", *cwd);
+	temp = ft_calloc(3, sizeof(char *));
+	temp[0] = "export";
+	temp[1] = ft_strjoin("PWD=", *cwd);
 	ft_export(temp, &envll);
-	free(*temp);
-	*temp = ft_strjoin("OLDPWD=", *oldpwd);
+	free(temp[1]);
+	temp[1] = ft_strjoin("OLDPWD=", *oldpwd);
 	ft_export(temp, &envll);
-	free(*temp);
+	free(temp[1]);
 	free(*oldpwd);
 	free(*cwd);
 	free(temp);

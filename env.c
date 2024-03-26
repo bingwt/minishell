@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 08:03:20 by btan              #+#    #+#             */
-/*   Updated: 2024/03/21 23:25:02 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/22 18:24:11 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*skip_squote(char *str)
 	return (str);
 }
 
-char	*find_end(char *start)
+static char	*find_end(char *start)
 {
 	char	*end;
 
@@ -157,11 +157,12 @@ void	set_shlvl(t_list **envll)
 
 	prev = expand_env("$SHLVL", *envll);
 	new = ft_itoa(ft_atoi(prev) + 1);
-	temp = ft_calloc(2, sizeof(char *));
-	*temp = ft_strjoin("SHLVL=", new);
+	temp = ft_calloc(3, sizeof(char *));
+	temp[0] = "export";
+	temp[1] = ft_strjoin("SHLVL=", new);
 	ft_export(temp, envll);
 	free(prev);
 	free(new);
-	free(*temp);
+	free(temp[1]);
 	free(temp);
 }
