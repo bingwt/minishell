@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/26 21:54:04 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 11:46:18 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	create_var(char *cmd, t_list **envll)
 {
 	t_list	*env;
 
-	if (!ft_strchr(cmd, '='))
-		env = ft_lstnew(ft_strjoin(cmd, "="));
-	else
-		env = ft_lstnew(ft_strdup(cmd));
+//	if (!ft_strchr(cmd, '='))
+//		env = ft_lstnew(ft_strjoin(cmd, "="));
+//	else
+//		env = ft_lstnew(ft_strdup(cmd));
+	env = ft_lstnew(ft_strdup(cmd));
 	ft_lstadd_back(envll, env);
 }
 
@@ -32,7 +33,12 @@ void	print_env(t_list **envll)
 	while (env)
 	{
 		var = ft_split((char *) env->content, '=');
-		printf("declare -x %s=\"%s\"\n", var[0], var[1]);
+		if (!ft_strchr((char *) env->content, '='))
+			printf("declare -x %s\n", var[0]);
+		else if (!var[1])
+			printf("declare -x %s=\"\"\n", var[0]);
+		else
+			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
 		env = env->next;
 		free_strs(var);
 	}
@@ -61,34 +67,31 @@ int	valid_token(char *token)
 	return (1);
 }
 
-static char	*find_end(char *start)
-{
-	char	*end;
-
-	end = start + 1;
-	while (!*end)
-		end++;
-	return (end);
-}
+//static char	*find_end(char *start)
+//{
+//	char	*end;
+//
+//	end = start + 1;
+//	while (!*end)
+//		end++;
+//	return (end);
+//}
 
 static t_list	*find_token(char *cmd, char *token, t_list *env)
 {
-	char	*content;
-	char	**env_token;
 	char	*start;
 	char	*end;
+	char	*env_token;
 
+	write(1, cmd, 0);
 	env_token = ft_calloc(3, sizeof(char *));
 	while ((token[0] != '\0') && env)
 	{
-		content = (char *) env->content;
-		start = ft_strchr(content, '=');
-		end = find_end(start);
-		env_token[0] = ft_substr(content, 0, content - start);
-		env_token[1] = ft_substr(content, start - content, end - start);
-		if (ft_strchr(cmd, '='))
-			if (!ft_strcmp(token, env_token[0]))
-				break ;
+		start = (char *) env->content;
+		end = ft_strchr(start, '=');
+		env_token = ft_substr(start, 0, end - start);
+		if (!ft_strcmp(token, env_token))
+			break ;
 		env = env->next;
 	}
 	return (env);
@@ -109,6 +112,8 @@ void	export_var(char *cmd, t_list **envll)
 	free_strs(args);
 	if (env)
 	{
+		if (!ft_strchr(cmd, '='))
+			return ;
 		env->content = ft_strdup(cmd);
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/26 21:48:36 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 11:47:54 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	main(int argc, char **argv, char **envp)
 	//expand_env("echo $HOME", envll);
 	// test_args[1] = "test=something";
 	// test_args[2] = "test2=somethingelse";
-	test_args[1] = "test";
-	ft_export(test_args, &envll);
+//	test_args[1] = "test=something";
+//	ft_export(test_args, &envll);
+//	test_args[1] = "test";
+//	ft_export(test_args, &envll);
 	set_shlvl(&envll);
 	while (1)
 	{
