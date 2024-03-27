@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 11:50:34 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 12:20:58 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	print_env(t_list **envll)
 {
 	t_list	*env;
 	char	**var;
+	int		i;
 
 	env = *envll;
 	while (env)
@@ -26,7 +27,13 @@ void	print_env(t_list **envll)
 		else if (!var[1])
 			printf("declare -x %s=\"\"\n", var[0]);
 		else
+		{
+			i = -1;
+			while (var[1][++i])
+				if (var[1][i] == '$')
+					var[1] = ft_strre(&var[1][i], "$", "\\$");
 			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
+		}
 		env = env->next;
 		free_strs(var);
 	}
@@ -110,8 +117,6 @@ void	ft_export(char **args, t_list **envll)
 	if (!args[1])
 		print_env(envll);
 	else
-	{
 		while (args[i])
 			export_var(args[i++], envll);
-	}
 }

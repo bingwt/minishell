@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 13:38:46 by btan              #+#    #+#             */
-/*   Updated: 2024/03/12 13:40:19 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 12:11:17 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*ft_strre(char *str, char *find, char *replace)
 	char	*new;
 
 	strs = ft_strsplit(str, find);
+	if (!strs)
+		return (str);
 	temp = ft_strjoin(strs[0], replace);
 	new = ft_strjoin(temp, strs[1]);
 	free(temp);
