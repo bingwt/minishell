@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 12:20:58 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 15:38:16 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,12 @@ int	valid_token(char *token)
 	return (1);
 }
 
-static t_list	*find_token(char *cmd, char *token, t_list *env)
+static t_list	*find_token(char *token, t_list *env)
 {
 	char	*start;
 	char	*end;
 	char	*env_token;
 
-	write(1, cmd, 0);
 	env_token = ft_calloc(3, sizeof(char *));
 	while ((token[0] != '\0') && env)
 	{
@@ -93,7 +92,7 @@ void	export_var(char *cmd, t_list **envll)
 	token = args[0];
 	if (!valid_token(token))
 		return ;
-	env = find_token(cmd, token, env);
+	env = find_token(token, env);
 	free_strs(args);
 	if (env)
 	{

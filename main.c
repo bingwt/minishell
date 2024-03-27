@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 12:22:22 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 15:33:20 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	main(int argc, char **argv, char **envp)
 	// test_args[2] = "test2=somethingelse";
 //	test_args[1] = "test=something";
 //	ft_export(test_args, &envll);
-//	test_args[1] = NULL;
-//	ft_export(test_args, &envll);
+//	test_args[0] = "unset";
+//	test_args[1] = "test";
+//	ft_unset(test_args, &envll);
 	set_shlvl(&envll);
 	while (1)
 	{
