@@ -6,23 +6,11 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 11:46:18 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/27 11:50:34 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	create_var(char *cmd, t_list **envll)
-{
-	t_list	*env;
-
-//	if (!ft_strchr(cmd, '='))
-//		env = ft_lstnew(ft_strjoin(cmd, "="));
-//	else
-//		env = ft_lstnew(ft_strdup(cmd));
-	env = ft_lstnew(ft_strdup(cmd));
-	ft_lstadd_back(envll, env);
-}
 
 void	print_env(t_list **envll)
 {
@@ -67,16 +55,6 @@ int	valid_token(char *token)
 	return (1);
 }
 
-//static char	*find_end(char *start)
-//{
-//	char	*end;
-//
-//	end = start + 1;
-//	while (!*end)
-//		end++;
-//	return (end);
-//}
-
 static t_list	*find_token(char *cmd, char *token, t_list *env)
 {
 	char	*start;
@@ -118,7 +96,10 @@ void	export_var(char *cmd, t_list **envll)
 		return ;
 	}
 	if (!env)
-		create_var(cmd, envll);
+	{
+		env = ft_lstnew(ft_strdup(cmd));
+		ft_lstadd_back(envll, env);
+	}
 }
 
 void	ft_export(char **args, t_list **envll)
