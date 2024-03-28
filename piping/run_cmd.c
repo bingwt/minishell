@@ -6,68 +6,68 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/27 15:24:12 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/28 18:01:09 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	exebuns(char *cmd, char **args, t_list *envll)
-// {
-// 	if (!strcmp(cmd, "echo"))
-// 		ft_echo(args);
-// 	// else if (!strcmp(cmd, "cd"))
-// 	// 	ft_cd(args, envll);
-// 	// else if (!strcmp(cmd, "pwd"))
-// 	// 	printf("%s\n", ft_pwd());
-// 	// else if (!strcmp(cmd, "export"))
-// 	// 	ft_export(args, &envll);
-// 	// else if (!strcmp(cmd, "unset"))
-// 	// 	ft_unset(args, &envll);
-// 	// else if (!strcmp(cmd, "env"))
-// 	// 	ft_env(envll);
-// 	// else if (!strcmp(cmd, "exit"))
-// 	// 	ft_exit(args);
-// 	// else if (rabbithole(cmd, args, envll))
-// 	// 	return (1);
-// 	else
-// 		return (0);
-// 	return (1);
-// }
+ int	exebuns(char *cmd, char **args, t_list *envll)
+ {
+ 	if (!strcmp(cmd, "echo"))
+ 		ft_echo(args);
+ 	 else if (!strcmp(cmd, "cd"))
+ 	 	ft_cd(args, envll);
+ 	 else if (!strcmp(cmd, "pwd"))
+ 	 	printf("%s\n", ft_pwd());
+ 	 else if (!strcmp(cmd, "export"))
+ 	 	ft_export(args, &envll);
+ 	 else if (!strcmp(cmd, "unset"))
+ 	 	ft_unset(args, &envll);
+ 	 else if (!strcmp(cmd, "env"))
+ 	 	ft_env(envll);
+ 	 else if (!strcmp(cmd, "exit"))
+ 	 	ft_exit(args);
+// 	 else if (rabbithole(cmd, args, envll))
+// 	 	return (1);
+ 	else
+ 		return (0);
+ 	return (1);
+ }
 
-int	builtin_table(t_arg args, t_list *envll)
-{
-	char	*cmd;
-
-	cmd = ft_strsjoin(args.cmd);
-	if (!ft_strcmp(args.cmd[0], "echo"))
-		ft_echo(args.cmd);
-	else if (!ft_strcmp(args.cmd[0], "cd"))
-		ft_cd(args.cmd, envll);
-	else if (!ft_strcmp(args.cmd[0], "pwd"))
-		printf("%s\n", ft_pwd());
-	else if (!ft_strcmp(args.cmd[0], "export"))
-		ft_export(args.cmd, &envll);
-	else if (!ft_strcmp(args.cmd[0], "unset"))
-		ft_unset(args.cmd, &envll);
-	else if (!ft_strcmp(args.cmd[0], "env"))
-		ft_env(envll);
-	else if (!ft_strcmp("exit", args.cmd[0]))
-		ft_exit(args.cmd);
-	//	{
-	//		ft_lstclear(&envll, free);
-	//		if (ft_strlen(cmd) > 4)
-	//			ft_exit(cmd + 4);
-	//		ft_exit(0);
-	//	}
-	else
-	{
-		free(cmd);
-		return (0);
-	}
-	free(cmd);
-	return (1);
-}
+//int	builtin_table(t_arg args, t_list *envll)
+//{
+//	char	*cmd;
+//
+//	cmd = ft_strsjoin(args.cmd);
+//	if (!ft_strcmp(args.cmd[0], "echo"))
+//		ft_echo(args.cmd);
+//	else if (!ft_strcmp(args.cmd[0], "cd"))
+//		ft_cd(args.cmd, envll);
+//	else if (!ft_strcmp(args.cmd[0], "pwd"))
+//		printf("%s\n", ft_pwd());
+//	else if (!ft_strcmp(args.cmd[0], "export"))
+//		ft_export(args.cmd, &envll);
+//	else if (!ft_strcmp(args.cmd[0], "unset"))
+//		ft_unset(args.cmd, &envll);
+//	else if (!ft_strcmp(args.cmd[0], "env"))
+//		ft_env(envll);
+//	else if (!ft_strcmp("exit", args.cmd[0]))
+//		ft_exit(args.cmd);
+//	//	{
+//	//		ft_lstclear(&envll, free);
+//	//		if (ft_strlen(cmd) > 4)
+//	//			ft_exit(cmd + 4);
+//	//		ft_exit(0);
+//	//	}
+//	else
+//	{
+//		free(cmd);
+//		return (0);
+//	}
+//	free(cmd);
+//	return (1);
+//}
 
 static t_arg	heredoc_queue(t_arg args, int *hd_fd)
 {

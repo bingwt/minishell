@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/21 17:50:29 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/28 18:06:54 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 
 	if (!args[i].cmd[0])
 		exit(0);
-	if (builtin_table(args[i], envll))
+	//if (builtin_table(args[i], envll))
+	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
 		execve(args[i].cmd[0], args[i].cmd, envp);
@@ -90,7 +91,8 @@ void	run_single(t_arg *args, t_list *envll)
 	args[0] = open_files(args[0], NULL);
 	dup2(args[0].io[0], 0);
 	dup2(args[0].io[1], 1);
-	if (builtin_table(args[0], envll))
+	//if (builtin_table(args[0], envll))
+	if (exebuns(args[0].cmd[0], args[0].cmd, envll))
 		return ;
 	pid = fork();
 	if (pid == 0)
@@ -104,7 +106,7 @@ void	run_single(t_arg *args, t_list *envll)
 	waitpid(pid, &status, 0);
 	get_exit_status(status);
 	signal(SIGINT, sigint_parent);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
