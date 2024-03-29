@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/21 02:01:56 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/29 16:30:06 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,27 @@ static void	free_pipe_split(char ***pipe_split)
 	free(pipe_split);
 }
 
+static int	only_spaces(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 t_arg	*input_parser(char *input)
 {
 	char	**space_split;
 	char	***pipe_split;
 	t_arg	*args;
 
-	if (!input || !*input)
+	if (!input || !*input || only_spaces(input))
 		return (NULL);
 	space_split = NULL;
 	pipe_split = NULL;
@@ -105,7 +119,6 @@ t_arg	*input_parser(char *input)
 	free_pipe_split(pipe_split);
 	if (!args)
 		return (NULL);
-	// args = echo_spaces(args);
 	return (args);
 }
 
