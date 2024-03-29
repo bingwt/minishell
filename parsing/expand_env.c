@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:08:51 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/29 21:07:28 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/29 21:31:59 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static char	*assign_new_token(t_string token, t_list *envll)
 {
 	char	*new_token;
 
-	if (find_token(envll, &new_token, token.s))
+	if (token.i == 2 && ft_isdigit(token.s[1]))
+		new_token = "";
+	else if (find_token(envll, &new_token, token.s))
 		new_token = new_token + token.i;
 	else if (!ft_strcmp(token.s, "$"))
 		new_token = "$";
@@ -54,8 +56,7 @@ static t_string	get_token(t_string token, char **input, t_list *envll)
 
 	cmd_assign(&token, **input);
 	(*input)++;
-	while (**input && **input != '$' && **input != ' '
-		&& **input != '\'' && **input != '"')
+	while (ft_isalnum(**input) || **input == '_' || **input == '?')
 	{
 		if (**input == '?' && token.i == 1)
 		{
@@ -67,6 +68,8 @@ static t_string	get_token(t_string token, char **input, t_list *envll)
 			break ;
 		cmd_assign(&token, **input);
 		(*input)++;
+		if (ft_isdigit(token.s[1]) && token.i == 2)
+				break ;
 	}
 	new_token = assign_new_token(token, envll);
 	free(token.s);
