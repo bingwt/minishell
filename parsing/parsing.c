@@ -80,13 +80,27 @@ static void	free_pipe_split(char ***pipe_split)
 	free(pipe_split);
 }
 
+static int	only_spaces(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 t_arg	*input_parser(char *input)
 {
 	char	**space_split;
 	char	***pipe_split;
 	t_arg	*args;
 
-	if (!input || !*input)
+	if (!input || !*input || only_spaces(input))
 		return (NULL);
 	space_split = NULL;
 	pipe_split = NULL;
