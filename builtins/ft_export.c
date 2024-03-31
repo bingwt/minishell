@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 15:38:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/31 15:24:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ void	print_env(t_list **envll)
 
 int	valid_token(char *token)
 {
+	if (!token)
+	{
+		handle_error("=", "NOT_VALID_ID");
+		get_exit_status(unshift_exitcode(1));
+		return (0);
+	}
 	if (ft_isalpha(*token) || *token == '_')
 		token++;
 	else
