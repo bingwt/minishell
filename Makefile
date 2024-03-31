@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/03/16 01:34:27 by btan             ###   ########.fr        #
+#    Updated: 2024/03/29 19:41:43 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME = minishell
 
 INCLUDES = .
 
-SRCS = env.c \
-	   signals.c \
+SRCS = signals.c \
 	   prompt.c \
 	   handle_errors.c \
 	   ft_iswhitespace.c \
@@ -35,6 +34,7 @@ SRCS = env.c \
 	   parsing/split_by_pipe.c \
 	   parsing/split_by_space.c \
 	   parsing/parsing.c \
+	   parsing/expand_env.c \
 	   piping/forks.c \
 	   piping/ft_strsjoin.c \
 	   piping/run_cmd.c \
