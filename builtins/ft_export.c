@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/31 15:24:25 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/01 12:59:01 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,17 @@ static t_list	*find_token(char *token, t_list *env)
 	char	*end;
 	char	*env_token;
 
-	env_token = ft_calloc(3, sizeof(char *));
 	while ((token[0] != '\0') && env)
 	{
 		start = (char *) env->content;
 		end = ft_strchr(start, '=');
 		env_token = ft_substr(start, 0, end - start);
 		if (!ft_strcmp(token, env_token))
+		{
+			free(env_token);
 			break ;
+		}
+		free(env_token);
 		env = env->next;
 	}
 	return (env);
