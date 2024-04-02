@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:21:46 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 12:58:25 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 14:20:38 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_exit(char **args)
 		{
 			if (!ft_isdigit(args[1][status]))
 			{
-				handle_error(args[1], "INVALID_EXIT");
+				handle_error(args[1], INVALID_EXIT);
 				get_exit_status(unshift_exitcode(2));
 				return ;
 			}
@@ -71,7 +71,7 @@ void	ft_exit(char **args)
 	}
 	if (args[2])
 	{
-		handle_error(args[0], "TOO_MANY_ARGS");
+		handle_error(args[0], TOO_MANY_ARGS);
 		get_exit_status(unshift_exitcode(1));
 		return ;
 	}

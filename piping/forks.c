@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/28 18:06:54 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 14:21:37 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	if (!path)
 	{
 		if (isDirectory(args[i].cmd[0]))
-			exit(handle_error(args[i].cmd[0], "IS_DIR"));
+			exit(handle_error(args[i].cmd[0], IS_DIR));
 		if (stat(args[i].cmd[0], &buffer) == 0)
-			exit(handle_error(args[i].cmd[0], "NO_PERMS"));
+			exit(handle_error(args[i].cmd[0], NO_PERMS));
 		else if (access(args[i].cmd[0], F_OK) && ft_strchr(args[i].cmd[0], '/'))
-			exit(handle_error(args[i].cmd[0], "NO_FILE"));
+			exit(handle_error(args[i].cmd[0], NO_FILE));
 		else
 		{
-			handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
+			handle_error(args[i].cmd[0], CMD_NOT_FOUND);
 			free_args(args);
 			exit(127);
 		}

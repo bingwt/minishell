@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/04/01 12:59:01 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 15:25:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,21 @@ int	valid_token(char *token)
 {
 	if (!token)
 	{
-		handle_error("=", "NOT_VALID_ID");
-		get_exit_status(unshift_exitcode(1));
+		handle_error("=", NOT_VALID_ID);
 		return (0);
 	}
 	if (ft_isalpha(*token) || *token == '_')
 		token++;
 	else
 	{
-		handle_error(token, "NOT_VALID_ID");
-		get_exit_status(unshift_exitcode(1));
+		handle_error(token, NOT_VALID_ID);
 		return (0);
 	}
 	while (*token)
 	{
 		if (!ft_isalnum(*token) && *token != '_')
 		{
-			handle_error(token, "NOT_VALID_ID");
-			get_exit_status(unshift_exitcode(1));
+			handle_error(token, NOT_VALID_ID);
 			return (0);
 		}
 		token++;

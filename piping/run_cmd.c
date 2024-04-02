@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/28 18:01:09 by btan             ###   ########.fr       */
+/*   Updated: 2024/03/28 19:57:17 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
  int	exebuns(char *cmd, char **args, t_list *envll)
  {
- 	if (!strcmp(cmd, "echo"))
- 		ft_echo(args);
- 	 else if (!strcmp(cmd, "cd"))
- 	 	ft_cd(args, envll);
- 	 else if (!strcmp(cmd, "pwd"))
- 	 	printf("%s\n", ft_pwd());
- 	 else if (!strcmp(cmd, "export"))
- 	 	ft_export(args, &envll);
- 	 else if (!strcmp(cmd, "unset"))
- 	 	ft_unset(args, &envll);
- 	 else if (!strcmp(cmd, "env"))
- 	 	ft_env(envll);
- 	 else if (!strcmp(cmd, "exit"))
- 	 	ft_exit(args);
+	 if (!cmd)
+		 return (0);
+	 if (!strcmp(cmd, "echo"))
+		 ft_echo(args);
+	 else if (!strcmp(cmd, "cd"))
+		 ft_cd(args, envll);
+	 else if (!strcmp(cmd, "pwd"))
+		 printf("%s\n", ft_pwd());
+	 else if (!strcmp(cmd, "export"))
+		 ft_export(args, &envll);
+	 else if (!strcmp(cmd, "unset"))
+		 ft_unset(args, &envll);
+	 else if (!strcmp(cmd, "env"))
+		 ft_env(envll);
+	 else if (!strcmp(cmd, "exit"))
+		 ft_exit(args);
 // 	 else if (rabbithole(cmd, args, envll))
 // 	 	return (1);
  	else
