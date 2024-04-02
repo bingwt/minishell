@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 23:51:59 by btan              #+#    #+#             */
-/*   Updated: 2024/04/02 15:57:06 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 17:30:48 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,26 @@ int	handle_error(char *vars, t_errors error)
 	int	status;
 
 	status = handle_status(error);
-	printf("Error: %d: %s\n", error, vars);
+	ft_putstr_fd("minibing: ", 2);
 	if (error == NOT_VALID_ID)
-		status = 1;
+		ft_printf_fd(2, "export: `%s': not a valid identifier\n", vars);
+	if (error == TOO_MANY_ARGS)
+		ft_printf_fd(2, "%s: too many arguments\n", vars);
+	if (error == UNCLOSED_QUOTES)
+		ft_putstr_fd("syntax error unclosed quotes\n", 2);
+	if (error == INVALID_EXIT)
+		ft_printf_fd(2, "exit: %s: numeric argument required\n", vars);
+	if (error == UNEXPECTED_TOKEN)
+		ft_printf_fd(2, "syntax error near unexpected token `%s'\n", vars);
+	if (error == NO_PERMS)
+		ft_printf_fd(2, "%s: Permission denied\n", vars);
+	if (error == IS_DIR)
+		ft_printf_fd(2, "%s: Is a directory\n", vars);
+	if (error == NO_FILE)
+		ft_printf_fd(2, "%s: No such file or directory\n", vars);
+	if (error == CMD_NOT_FOUND)
+		ft_printf_fd(2, "%s: command not found\n", vars);
 	get_exit_status(unshift_exitcode(status));
-//	ft_putstr_fd("minibing: ", 2);
-//	if (!vars)
-//	{}
-//	ft_putchar_fd('\n', 2);
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/02 14:21:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 17:36:22 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*get_path(char *cmd, t_list *envll)
 
 }
 
-int	isDirectory(const char *path)
+int	is_directory(const char *path)
 {
 	struct	stat statbuf;
 	
@@ -63,7 +63,7 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	path = get_path(args[i].cmd[0], envll);
 	if (!path)
 	{
-		if (isDirectory(args[i].cmd[0]))
+		if (is_directory(args[i].cmd[0]))
 			exit(handle_error(args[i].cmd[0], IS_DIR));
 		if (stat(args[i].cmd[0], &buffer) == 0)
 			exit(handle_error(args[i].cmd[0], NO_PERMS));
