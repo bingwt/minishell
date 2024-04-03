@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/02 14:17:32 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/03 20:39:38 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int		quotes(char c, char *reset);
 void	cmd_assign(t_string *cmd, char input);
 void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q);
 char	**split_assign(char **split, int *cmd_idx, char *insert);
-char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
+void	cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 
 // RUN_CMD
 char	*ft_strsjoin(char **strs);

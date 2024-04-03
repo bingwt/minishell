@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/29 19:47:09 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 20:32:22 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	split_by_space(char *input, char ***split)
 			cmd_assign(&cmd, *input);
 		input++;
 	}
+	quotes('\0', "reset");
 	cleanup_space(&cmd, split, &cmd_idx);
 }
 
@@ -80,27 +81,13 @@ static void	free_pipe_split(char ***pipe_split)
 	free(pipe_split);
 }
 
-static int	only_spaces(char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] != ' ')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 t_arg	*input_parser(char *input)
 {
 	char	**space_split;
 	char	***pipe_split;
 	t_arg	*args;
 
-	if (!input || !*input || only_spaces(input))
+	if (!input || !*input)
 		return (NULL);
 	space_split = NULL;
 	pipe_split = NULL;
@@ -137,7 +124,6 @@ void	free_args(t_arg *args)
 	ft_free_split(&args[i].in);
 	ft_free_split(&args[i].out);
 	ft_free_split(&args[i].cmd);
-	i = 0;
 	free(args);
 }
 
