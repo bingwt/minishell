@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/22 16:54:45 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 14:18:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_cd(char **args, t_list *envll)
 
 	if (ft_strslen(args) > 2)
 	{
-		get_exit_status(unshift_exitcode(handle_error("cd", "TOO_MANY_ARGS")));
+		get_exit_status(unshift_exitcode(handle_error("cd", TOO_MANY_ARGS)));
 		return ;
 	}
 	if (!args[1] || ft_strchr(args[1], '~'))

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/29 20:16:37 by xlow             ###   ########.fr       */
+/*   Updated: 2024/03/31 16:19:57 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 //	test_args[0] = "unset";
 //	test_args[1] = "test";
 //	ft_unset(test_args, &envll);
-//	set_shlvl(&envll);
+	set_shlvl(&envll);
 	while (1)
 	{
 		prompt = init_prompt(envll);

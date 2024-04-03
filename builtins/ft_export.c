@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/03/27 15:38:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 15:25:30 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,23 @@ void	print_env(t_list **envll)
 
 int	valid_token(char *token)
 {
+	if (!token)
+	{
+		handle_error("=", NOT_VALID_ID);
+		return (0);
+	}
 	if (ft_isalpha(*token) || *token == '_')
 		token++;
 	else
 	{
-		handle_error(token, "NOT_VALID_ID");
-		get_exit_status(unshift_exitcode(1));
+		handle_error(token, NOT_VALID_ID);
 		return (0);
 	}
 	while (*token)
 	{
 		if (!ft_isalnum(*token) && *token != '_')
 		{
-			handle_error(token, "NOT_VALID_ID");
-			get_exit_status(unshift_exitcode(1));
+			handle_error(token, NOT_VALID_ID);
 			return (0);
 		}
 		token++;
@@ -68,14 +71,17 @@ static t_list	*find_token(char *token, t_list *env)
 	char	*end;
 	char	*env_token;
 
-	env_token = ft_calloc(3, sizeof(char *));
 	while ((token[0] != '\0') && env)
 	{
 		start = (char *) env->content;
 		end = ft_strchr(start, '=');
 		env_token = ft_substr(start, 0, end - start);
 		if (!ft_strcmp(token, env_token))
+		{
+			free(env_token);
 			break ;
+		}
+		free(env_token);
 		env = env->next;
 	}
 	return (env);
