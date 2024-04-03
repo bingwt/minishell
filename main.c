@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 //	test_args[0] = "unset";
 //	test_args[1] = "test";
 //	ft_unset(test_args, &envll);
-//	set_shlvl(&envll);
+	set_shlvl(&envll);
 	while (1)
 	{
 		prompt = init_prompt(envll);

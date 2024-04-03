@@ -46,6 +46,19 @@ typedef struct s_arg
 	char	**cmd;
 }	t_arg;
 
+typedef enum e_errors
+{
+	NOT_VALID_ID,
+	TOO_MANY_ARGS,
+	UNCLOSED_QUOTES,
+	INVALID_EXIT,
+	UNEXPECTED_TOKEN,
+	NO_PERMS,
+	IS_DIR,
+	NO_FILE,
+	CMD_NOT_FOUND
+}	t_errors;
+
 // LIBFT
 char	**ft_strsplit(char *str, char *token);
 char	*ft_strre(char *str, char *find, char *replace);
@@ -84,7 +97,7 @@ void	minibing(void);
 void	ft_heredoc(char	*eof, int fd);
 
 // HANDLE_ERRORS
-int		handle_error(char *vars, char *error);
+int		handle_error(char *vars, t_errors error);
 int		get_exit_status(int status);
 int		unshift_exitcode(int status);
 

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/22 16:54:45 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 17:49:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_cd(char **args, t_list *envll)
 
 	if (ft_strslen(args) > 2)
 	{
-		get_exit_status(unshift_exitcode(handle_error("cd", "TOO_MANY_ARGS")));
+		handle_error("cd", TOO_MANY_ARGS);
 		return ;
 	}
 	if (!args[1] || ft_strchr(args[1], '~'))
@@ -77,7 +77,7 @@ void	ft_cd(char **args, t_list *envll)
 	if (chdir(args[1]))
 	{
 		free(oldpwd);
-		ft_printf_fd(2, "minibing: cd: ");
+		ft_putstr_fd("minibing: cd: ", 2);
 		perror(args[1]);
 		get_exit_status(unshift_exitcode(1));
 		return ;

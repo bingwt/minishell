@@ -36,25 +36,23 @@ static char	*get_path(char *cmd, t_list *envll)
 	free(program);
 	ft_free_split(&path);
 	return (program_path);
-
 }
 
-int	isDirectory(const char *path)
+void	is_dir(t_arg *args, int i)
 {
-	struct	stat statbuf;
-
-	if (stat(path, &statbuf) != 0)
-		return 0;
-	return S_ISDIR(statbuf.st_mode);
+	if (!access(args[i].cmd[0], F_OK))
+		exit(handle_error(args[i].cmd[0], IS_DIR));
+	else
+		exit(handle_error(args[i].cmd[0], NO_FILE));
 }
 
 static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 {
 	char		*path;
-	struct stat	buffer;
 
 	if (!args[i].cmd[0])
 		exit(0);
+	printf("arg: %s\n", args[i].cmd[0]);
 	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
@@ -62,18 +60,11 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	path = get_path(args[i].cmd[0], envll);
 	if (!path)
 	{
-		if (isDirectory(args[i].cmd[0]))
-			exit(handle_error(args[i].cmd[0], "IS_DIR"));
-		if (stat(args[i].cmd[0], &buffer) == 0)
-			exit(handle_error(args[i].cmd[0], "NO_PERMS"));
-		else if (access(args[i].cmd[0], F_OK) && ft_strchr(args[i].cmd[0], '/'))
-			exit(handle_error(args[i].cmd[0], "NO_FILE"));
-		else
-		{
-			handle_error(args[i].cmd[0], "CMD_NOT_FOUND");
-			free_args(args);
-			exit(127);
-		}
+		if (strchr(args[i].cmd[0], '/'))
+			is_dir(args, i);
+		handle_error(args[i].cmd[0], CMD_NOT_FOUND);
+		free_args(args);
+		exit(127);
 	}
 	execve(path, args[i].cmd, envp);
 	free_args(args);
