@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/28 18:06:54 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/03 17:42:47 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*get_path(char *cmd, t_list *envll)
 int	isDirectory(const char *path)
 {
 	struct	stat statbuf;
-	
+
 	if (stat(path, &statbuf) != 0)
 		return 0;
 	return S_ISDIR(statbuf.st_mode);
@@ -55,7 +55,6 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 
 	if (!args[i].cmd[0])
 		exit(0);
-	//if (builtin_table(args[i], envll))
 	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
@@ -89,6 +88,8 @@ void	run_single(t_arg *args, t_list *envll)
 	int		status;
 
 	args[0] = open_files(args[0], NULL);
+	if (args[0].io[0] == -1 || args[0].io[1] == -1)
+		return ;
 	dup2(args[0].io[0], 0);
 	dup2(args[0].io[1], 1);
 	//if (builtin_table(args[0], envll))

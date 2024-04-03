@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 01:13:10 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 19:24:15 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 17:44:39 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ t_arg	*child_dup(t_arg *args, int *new_fd, int i, int *hd_fd)
 		args = dup_last(args, new_fd[2], i, hd_fd);
 	else
 		args = dup_middle(args, new_fd, i, hd_fd);
+	if (args[i].io[0] == -1 || args[i].io[1] == -1)
+		exit(0);
 	return (args);
 }
