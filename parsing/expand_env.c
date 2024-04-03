@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:08:51 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/29 21:31:59 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 18:02:25 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static t_string	get_token(t_string token, char **input, t_list *envll)
 		cmd_assign(&token, **input);
 		(*input)++;
 		if (ft_isdigit(token.s[1]) && token.i == 2)
-				break ;
+			break ;
 	}
 	new_token = assign_new_token(token, envll);
 	free(token.s);
@@ -102,6 +102,7 @@ char	*expand_env(char *input, t_list *envll)
 			input++;
 		}
 	}
+	quotes('\0', "reset");
 	return (res.s);
 }
 

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/29 20:16:37 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 20:26:44 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		prompt = expand_env(buffer, envll);
-		// prompt = "echo $HOME '$HOME' \"$HOME\" \"'$HOME'\" '\"$HOME\"'";
 		args = input_parser(prompt);
 		if (args)
 			run_cmds(args, envll);
