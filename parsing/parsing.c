@@ -31,7 +31,7 @@ void	split_by_space(char *input, char ***split)
 				|| (quotes('\0', NULL) == 2 && *input == '\''))
 				cmd_assign(&cmd, *input);
 		}
-		else if (*input == ' ')
+		else if (ft_iswhitespace(*input))
 			handle_space(&cmd, split, &cmd_idx, q);
 		else
 			cmd_assign(&cmd, *input);
