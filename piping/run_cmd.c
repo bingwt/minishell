@@ -6,152 +6,189 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/11 14:51:21 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/03 17:41:27 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_table(t_arg args, t_list *envll)
-{
-	char	*cmd;
+ int	exebuns(char *cmd, char **args, t_list *envll)
+ {
+	 if (!cmd)
+		 return (0);
+	 if (!strcmp(cmd, "echo"))
+		 ft_echo(args);
+	 else if (!strcmp(cmd, "cd"))
+		 ft_cd(args, envll);
+	 else if (!strcmp(cmd, "pwd"))
+		 printf("%s\n", ft_pwd());
+	 else if (!strcmp(cmd, "export"))
+		 ft_export(args, &envll);
+	 else if (!strcmp(cmd, "unset"))
+		 ft_unset(args, &envll);
+	 else if (!strcmp(cmd, "env"))
+		 ft_env(envll);
+	 else if (!strcmp(cmd, "exit"))
+		 ft_exit(args);
+// 	 else if (rabbithole(cmd, args, envll))
+// 	 	return (1);
+ 	else
+ 		return (0);
+ 	return (1);
+ }
 
-	cmd = ft_strsjoin(args.cmd);
-	//cmd = ft_strjoin_strs(args.cmd);
-	//printf("%s\n", cmd);
-	if (!ft_strcmp(args.cmd[0], "echo"))
-		ft_echo(cmd + 4);
-	else if (!ft_strcmp(args.cmd[0], "cd"))
-		ft_cd(cmd + 2, envll);
-	else if (!ft_strcmp(args.cmd[0], "pwd"))
-		printf("%s\n", ft_pwd());
-	else if (!ft_strcmp(args.cmd[0], "export"))
-		ft_export(cmd, &envll);
-	else if (!ft_strcmp(args.cmd[0], "unset"))
-		ft_unset(cmd, &envll);
-	else if (!ft_strcmp(args.cmd[0], "env"))
-		ft_env(envll);
-	else if (!ft_strcmp(args.cmd[0], "minibing"))
-		minibing();
-	else if (!ft_strcmp("exit", args.cmd[0]))
-		exit(0);
-	else
+//int	builtin_table(t_arg args, t_list *envll)
+//{
+//	char	*cmd;
+//
+//	cmd = ft_strsjoin(args.cmd);
+//	if (!ft_strcmp(args.cmd[0], "echo"))
+//		ft_echo(args.cmd);
+//	else if (!ft_strcmp(args.cmd[0], "cd"))
+//		ft_cd(args.cmd, envll);
+//	else if (!ft_strcmp(args.cmd[0], "pwd"))
+//		printf("%s\n", ft_pwd());
+//	else if (!ft_strcmp(args.cmd[0], "export"))
+//		ft_export(args.cmd, &envll);
+//	else if (!ft_strcmp(args.cmd[0], "unset"))
+//		ft_unset(args.cmd, &envll);
+//	else if (!ft_strcmp(args.cmd[0], "env"))
+//		ft_env(envll);
+//	else if (!ft_strcmp("exit", args.cmd[0]))
+//		ft_exit(args.cmd);
+//	//	{
+//	//		ft_lstclear(&envll, free);
+//	//		if (ft_strlen(cmd) > 4)
+//	//			ft_exit(cmd + 4);
+//	//		ft_exit(0);
+//	//	}
+//	else
+//	{
+//		free(cmd);
+//		return (0);
+//	}
+//	free(cmd);
+//	return (1);
+//}
+
+static t_arg	heredoc_queue(t_arg args, int *hd_fd)
+{
+	char	*temp;
+
+	temp = NULL;
+	while (1)
 	{
-		free(cmd);
-		return (0);
+		temp = get_next_line(hd_fd[0]);
+		if (temp)
+		{
+			free(temp);
+			temp = NULL;
+			args.heredoc = 0;
+			break ;
+		}
 	}
-	free(cmd);
-	return (1);
+	return (args);
 }
 
-void	open_heredoc(char *eof, int last, int *io)
+t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 {
-	int	fd[2];
+	int		fd[2];
 
-	if (last)
+	if (hd_fd && args.heredoc)
+		args = heredoc_queue(args, hd_fd);
+	if (i == args.in_i - 2)
 	{
-		if (pipe(fd) < 0)
-			perror("pipe");
-		*io = fd[0];
-		ft_heredoc(eof, fd[1]);
+		pipe(fd);
+		dup2(fd[0], args.io[0]);
+		ft_heredoc(args.in[i], fd[1]);
+		close(fd[1]);
+		if (hd_fd)
+			write(hd_fd[1], "\n", 1);
 	}
 	else
-		ft_heredoc(eof, -1);
+		ft_heredoc(args.in[i], -1);
+	return (args);
 }
 
-t_arg	open_files(t_arg args)
+t_arg	open_files(t_arg args, int *hd_fd)
 {
+	int	cock;
 	int	i;
 
 	i = 0;
 	while (i < args.in_i - 1)
 	{
 		if (!ft_strcmp(args.in[i++], "<"))
-			args.io[0] = open(args.in[i], O_RDONLY);
+		{
+			cock = open(args.in[i++], O_RDONLY);
+			if (cock == -1)
+			{
+				perror("shit");
+				args.io[0] = -1;
+				return (args);
+			}
+			else
+				dup2(cock, args.io[0]);
+		}
 		else
-			open_heredoc(args.in[i], args.last, &args.io[0]);
-		if (args.io[0] == -1)
-			perror("open");
-		i++;
+			args = open_heredoc(args, i++, hd_fd);
 	}
 	i = 0;
 	while (i < args.out_i - 1)
 	{
 		if (!ft_strcmp(args.out[i++], ">>"))
-			args.io[1] = open(args.out[i++], APPEND, 0644);
+		{
+			cock = open(args.out[i++], APPEND, 0644);
+			if (cock < -1)
+			{
+				perror("shit");
+				args.io[1] = -1;
+				return (args);
+			}
+			else
+				dup2(cock, args.io[1]);
+		}
 		else
-			args.io[1] = open(args.out[i++], TRUNC, 0644);
-		if (args.io[1] == -1)
-			perror("open");
+		{
+			cock = open(args.out[i++], TRUNC, 0644);
+			if (cock == -1)
+			{
+				perror("shit");
+				args.io[1] = -1;
+				return (args);
+			}
+			else
+				dup2(cock, args.io[1]);
+		}
 	}
 	return (args);
-}
-
-void	dup_pipes(t_arg args, int *pipe)
-{
-	if (args.io[0] != STDIN_FILENO)
-	{
-		if (dup2(args.io[0], STDIN_FILENO) < 0)
-			perror("dup2");
-	}
-	if (args.io[1] != STDOUT_FILENO)
-	{
-		if (dup2(args.io[1], STDOUT_FILENO) < 0)
-			perror("dup2");
-	}
-	if (args.io[0] != pipe[0])
-		if (close(pipe[0]))
-			perror("dup2");
-	if (args.io[1] != pipe[1])
-		if (close(pipe[1]))
-			perror("dup2");
 }
 
 void	run_cmds(t_arg *args, t_list *envll)
 {
 	int		exit_status;
 	pid_t	pid;
-	char	**envp;
 
-	envp = list_to_array(envll);
 	if (args[0].last)
-		run_single(args, envp, envll);
+		run_single(args, envll);
 	else
 	{
 		pid = fork();
 		if (pid < 0)
 		{
 			perror("fork");
-			ft_free_split(&envp);
 			return ;
 		}
 		if (pid == 0)
 		{
 			signal(SIGINT, sigint_child);
 			signal(SIGQUIT, SIG_DFL);
-			minishell_piping(args, envp, envll);
+			iterative_piping(args, envll);
 		}
 		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_IGN);
 		waitpid(pid, &exit_status, 0);
 		signal(SIGINT, sigint_parent);
 		signal(SIGQUIT, SIG_DFL);
-		//ft_free_split(&envp);
-		//set errno from exitstatus;
 	}
 }
-//
-//int	main(int argc, char **argv, char **envp)
-//{
-//	(void)	argc;
-//	char	*str;
-//	t_list	*envll;
-//	t_arg	*args;
-//	str = malloc(ft_strlen(argv[1]) + 1);
-//	str = strcpy(str, argv[1]);
-//	args = input_parser(str);
-//	envll = NULL;
-//	array_to_list(&envll, envp);
-//	run_cmds(args, envp, envll);
-//	return (0);
-//}

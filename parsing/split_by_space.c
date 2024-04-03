@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:47:50 by xlow              #+#    #+#             */
-/*   Updated: 2024/02/28 21:38:06 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 20:39:16 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,18 @@ void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q)
 		cmd_assign(cmd, ' ');
 }
 
-char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
+void	cleanup_space(t_string *cmd, char ***split, int *cmd_idx)
 {
 	if (cmd->i)
 		*split = split_assign(*split, cmd_idx, cmd->s);
 	else
 		free(cmd->s);
 	*split = split_assign(*split, cmd_idx, NULL);
-	return (*split);
+	if (!**split)
+	{
+		free(*split);
+		*split = NULL;
+	}
 }
 /*
 void	split_by_space(char *input, char ***split)

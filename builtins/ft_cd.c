@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/03/11 14:52:10 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/02 17:49:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,48 +31,54 @@
 
 static void	cd_shortcut(const char *path, t_list *envll)
 {
-	char	*temp;
+	char	**temp;
 
-	temp = ft_strre((char *) path, "~", getenv("HOME"));
+	temp = ft_calloc(3, sizeof(char *));
+	temp[0] = "cd";
+	temp[1] = ft_strre((char *) path, "~", getenv("HOME"));
 	ft_cd(temp, envll);
+	free(temp[1]);
 	free(temp);
 }
 
 static void	set_oldpwd(char **cwd, char **oldpwd, t_list *envll)
 {
-	char	*temp;
+	char	**temp;
 
-	temp = ft_strjoin("export PWD=", *cwd);
+	temp = ft_calloc(3, sizeof(char *));
+	temp[0] = "export";
+	temp[1] = ft_strjoin("PWD=", *cwd);
 	ft_export(temp, &envll);
-	free(temp);
-	temp = ft_strjoin("export OLDPWD=", *oldpwd);
+	free(temp[1]);
+	temp[1] = ft_strjoin("OLDPWD=", *oldpwd);
 	ft_export(temp, &envll);
-	free(temp);
+	free(temp[1]);
 	free(*oldpwd);
 	free(*cwd);
+	free(temp);
 }
 
-void	ft_cd(const char *path, t_list *envll)
+void	ft_cd(char **args, t_list *envll)
 {
 	char	*oldpwd;
 	char	*cwd;
 
-	if (!*path)
+	if (ft_strslen(args) > 2)
+	{
+		handle_error("cd", TOO_MANY_ARGS);
+		return ;
+	}
+	if (!args[1] || ft_strchr(args[1], '~'))
 	{
 		cd_shortcut("~", envll);
 		return ;
 	}
-	if (ft_strchr(path, '~'))
-	{
-		cd_shortcut(path, envll);
-		return ;
-	}
 	oldpwd = ft_pwd();
-	if (chdir(path))
+	if (chdir(args[1]))
 	{
 		free(oldpwd);
-		ft_printf_fd(2, "minibing: cd: ");
-		perror(path);
+		ft_putstr_fd("minibing: cd: ", 2);
+		perror(args[1]);
 		get_exit_status(unshift_exitcode(1));
 		return ;
 	}

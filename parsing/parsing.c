@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/11 16:38:26 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 20:32:22 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,36 @@ void	split_by_space(char *input, char ***split)
 			cmd_assign(&cmd, *input);
 		input++;
 	}
+	quotes('\0', "reset");
 	cleanup_space(&cmd, split, &cmd_idx);
 }
 
-static t_arg	*echo_spaces(t_arg *args)
-{
-	int	i;
-	int	j;
+// static t_arg	*echo_spaces(t_arg *args)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	j = 2;
-	while (1)
-	{
-		if (args[i].cmd && !ft_strcmp(args[i].cmd[0], "echo"))
-		{
-			while (args[i].cmd_i > 2 && args[i].cmd[j])
-			{
-				args[i].cmd[j] = ft_strjoin_free(" ",
-						args[i].cmd[j], args[i].cmd[j]);
-				j++;
-			}
-		}
-		if (args[i].last)
-			break ;
-		i++;
-		j = 2;
-	}
-	return (args);
-}
+// 	i = 0;
+// 	j = 2;
+// 	while (1)
+// 	{
+// 		if (args[i].cmd && !ft_strcmp(args[i].cmd[0], "echo"))
+// 		{
+// 			while (args[i].cmd_i > 2 && args[i].cmd[j])
+// 			{
+// 				args[i].cmd[j] = ft_strjoin_free(" ",
+// 						args[i].cmd[j], args[i].cmd[j]);
+// 				j++;
+// 			}
+// 		}
+// 		if (args[i].last)
+// 			break ;
+// 		i++;
+// 		j = 2;
+// 	}
+// 	args = heredoc_order(args);
+// 	return (args);
+// }
 
 static void	free_pipe_split(char ***pipe_split)
 {
@@ -104,7 +106,6 @@ t_arg	*input_parser(char *input)
 	free_pipe_split(pipe_split);
 	if (!args)
 		return (NULL);
-	args = echo_spaces(args);
 	return (args);
 }
 
@@ -123,7 +124,6 @@ void	free_args(t_arg *args)
 	ft_free_split(&args[i].in);
 	ft_free_split(&args[i].out);
 	ft_free_split(&args[i].cmd);
-	i = 0;
 	free(args);
 }
 
@@ -139,6 +139,7 @@ int	main(int argc, char **argv)
 		return (0);
 	while (!args[i].last)
 	{
+
 		while (args[i].in[j])
 		{
 			printf("In %d: %s\n", j, args[i].in[j]);
@@ -156,9 +157,11 @@ int	main(int argc, char **argv)
 			printf("Cmd %d: %s\n", j, args[i].cmd[j]);
 			j++;
 		}
+		printf("Heredoc order for %d, %d", i, args[i].heredoc);
 		j = 0;
 		i++;
 	}
+	printf("Heredoc order for %d, %d", i, args[i].heredoc);
 	free_args(args);
 	return (0);
 }
