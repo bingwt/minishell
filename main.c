@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/04/03 20:26:44 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/04 18:54:31 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		prompt = expand_env(buffer, envll);
 		args = input_parser(prompt);
 		if (args)
-			run_cmds(args, envll);
+			run_cmds(args, &envll);
 		if (args)
 			free_args(args);
 		free(buffer);

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/03 20:39:38 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/04 18:58:51 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,14 @@ void	cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 // RUN_CMD
 char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
-int		exebuns(char *cmd, char **args, t_list *envll);
-void	run_cmds(t_arg *args, t_list *envll);
+int		exebuns(char *cmd, char **args, t_list **envll);
+void	run_cmds(t_arg *args, t_list **envll);
 t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
-void	run_single(t_arg *args, t_list *envll);
-void	iterative_piping(t_arg *args, t_list *envll);
+void	run_single(t_arg *args, t_list **envll);
+void	iterative_piping(t_arg *args, t_list **envll);
 
 // DUPS
 t_arg	*child_dup(t_arg *args, int *new_fd, int i, int *hd_fd);

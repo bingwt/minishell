@@ -6,28 +6,28 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/03 17:41:27 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/04 18:56:37 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
- int	exebuns(char *cmd, char **args, t_list *envll)
+ int	exebuns(char *cmd, char **args, t_list **envll)
  {
 	 if (!cmd)
 		 return (0);
 	 if (!strcmp(cmd, "echo"))
 		 ft_echo(args);
 	 else if (!strcmp(cmd, "cd"))
-		 ft_cd(args, envll);
+		 ft_cd(args, *envll);
 	 else if (!strcmp(cmd, "pwd"))
 		 printf("%s\n", ft_pwd());
 	 else if (!strcmp(cmd, "export"))
-		 ft_export(args, &envll);
+		 ft_export(args, envll);
 	 else if (!strcmp(cmd, "unset"))
-		 ft_unset(args, &envll);
+		 ft_unset(args, envll);
 	 else if (!strcmp(cmd, "env"))
-		 ft_env(envll);
+		 ft_env(*envll);
 	 else if (!strcmp(cmd, "exit"))
 		 ft_exit(args);
 // 	 else if (rabbithole(cmd, args, envll))
@@ -164,7 +164,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 	return (args);
 }
 
-void	run_cmds(t_arg *args, t_list *envll)
+void	run_cmds(t_arg *args, t_list **envll)
 {
 	int		exit_status;
 	pid_t	pid;

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/03 20:57:31 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/04 19:01:00 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	is_dir(t_arg *args, int i)
 		exit(handle_error(args[i].cmd[0], NO_FILE));
 }
 
-static void	execute(t_arg *args, char **envp, t_list *envll, int i)
+static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 {
 	char		*path;
 
@@ -57,7 +57,7 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
 		execve(args[i].cmd[0], args[i].cmd, envp);
-	path = get_path(args[i].cmd[0], envll);
+	path = get_path(args[i].cmd[0], *envll);
 	if (!path)
 	{
 		if (strchr(args[i].cmd[0], '/'))
@@ -73,7 +73,7 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	exit(1);
 }
 
-void	run_single(t_arg *args, t_list *envll)
+void	run_single(t_arg *args, t_list **envll)
 {
 	pid_t	pid;
 	int		status;
@@ -91,7 +91,7 @@ void	run_single(t_arg *args, t_list *envll)
 	{
 		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_DFL);
-		execute(args, list_to_array(envll), envll, 0);
+		execute(args, list_to_array(*envll), envll, 0);
 	}
 	signal(SIGINT, sigint_child);
 	signal(SIGQUIT, SIG_IGN);
@@ -101,7 +101,7 @@ void	run_single(t_arg *args, t_list *envll)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
+static void	iterative_body(t_arg *args, t_list **envll, int *hd_fd)
 {
 	int		i;
 	int		new_fd[3];
@@ -116,7 +116,7 @@ static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
 		if (!pid)
 		{
 			args = child_dup(args, new_fd, i, hd_fd);
-			execute(args, list_to_array(envll), envll, i);
+			execute(args, list_to_array(*envll), envll, i);
 		}
 		else
 		{
@@ -130,7 +130,7 @@ static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
 	}
 }
 
-void	iterative_piping(t_arg *args, t_list *envll)
+void	iterative_piping(t_arg *args, t_list **envll)
 {
 	int		hd_fd[2];
 	int		exit_status;
