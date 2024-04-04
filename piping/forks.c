@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/03 17:42:47 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/03 20:57:31 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 
 	if (!args[i].cmd[0])
 		exit(0);
-	printf("arg: %s\n", args[i].cmd[0]);
+//	printf("arg: %s\n", args[i].cmd[0]);
 	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
