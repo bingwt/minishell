@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/03 20:32:22 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/04 17:33:35 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_arg	*input_parser(char *input)
 	free_pipe_split(pipe_split);
 	if (!args)
 		return (NULL);
+	args = heredoc_order(args);
 	return (args);
 }
 
