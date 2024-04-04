@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/04/02 15:25:30 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/04 16:23:57 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 void	print_env(t_list **envll)
 {
 	t_list	*env;
+	char	*content;
+	char	*end;
 	char	**var;
 	int		i;
 
 	env = *envll;
 	while (env)
 	{
-		var = ft_split((char *) env->content, '=');
-		if (!ft_strchr((char *) env->content, '='))
+		content = (char *) env->content;
+		end = ft_strchr(content, '=');
+		var = ft_calloc(3, sizeof(char *));
+		var[0] = ft_substr(content, 0, end - content);
+		var[1] = ft_substr(end, 1, ft_strlen(end));
+		if (!ft_strchr(content, '='))
 			printf("declare -x %s\n", var[0]);
 		else if (!var[1])
 			printf("declare -x %s=\"\"\n", var[0]);
