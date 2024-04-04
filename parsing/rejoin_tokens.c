@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:51:29 by xlow              #+#    #+#             */
-/*   Updated: 2024/03/18 18:26:17 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/04 19:45:14 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,20 @@ t_arg	*heredoc_order(t_arg *args)
 {
 	int	i;
 	int	j;
+	int	first;
 
-	i = 1;
+	first = 0;
+	i = 0;
 	j = -1;
-	while (!args[0].last && !args[i].last)
+	while (!args[i].last)
 	{
 		while (++j < args[i].in_i)
 		{
 			if (!ft_strcmp(args[i].in[j], "<<"))
 			{
-				args[i].heredoc = 1;
+				if (first)
+					args[i].heredoc = 1;
+				first = 1;
 				break ;
 			}
 		}
@@ -66,7 +70,7 @@ t_arg	*heredoc_order(t_arg *args)
 		i++;
 	}
 	while (++j < args[i].in_i)
-		if (!ft_strcmp(args[i].in[j], "<<"))
+		if (!ft_strcmp(args[i].in[j], "<<") && first)
 			args[i].heredoc = 1;
 	return (args);
 }
