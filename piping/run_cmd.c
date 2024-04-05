@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/04 18:56:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 22:20:05 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 		if (!ft_strcmp(args.out[i++], ">>"))
 		{
 			cock = open(args.out[i++], APPEND, 0644);
-			if (cock < -1)
+			if (cock == -1)
 			{
 				perror("shit");
 				args.io[1] = -1;
