@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/04/04 16:23:57 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 23:18:49 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_env(t_list **envll)
 			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
 		}
 		env = env->next;
-		free_strs(var);
+		ft_free_split(&var);
 	}
 }
 
@@ -105,7 +105,7 @@ void	export_var(char *cmd, t_list **envll)
 	if (!valid_token(token))
 		return ;
 	env = find_token(token, env);
-	free_strs(args);
+	ft_free_split(&args);
 	if (env)
 	{
 		if (!ft_strchr(cmd, '='))
