@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 23:51:59 by btan              #+#    #+#             */
-/*   Updated: 2024/04/03 16:06:18 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 13:22:17 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 int	handle_status(t_errors error)
 {
-	if (error == NOT_VALID_ID || error == TOO_MANY_ARGS)
+	if (error == NOT_VALID_ID || error == TOO_MANY_ARGS \
+		|| error == NO_PERMS_OPEN)
 		return (1);
 	if (error == UNCLOSED_QUOTES || error == INVALID_EXIT \
 		|| error == UNEXPECTED_TOKEN || error == CMD_NOT_FOUND)
 		return (2);
-	if (error == NO_PERMS || error == IS_DIR)
+	if (error == NO_PERMS_EXEC || error == IS_DIR)
 		return (126);
 	if (error == CMD_NOT_FOUND || error == NO_FILE)
 		return (127);
@@ -42,7 +43,7 @@ int	handle_error(char *vars, t_errors error)
 		ft_printf_fd(2, "exit: %s: numeric argument required\n", vars);
 	if (error == UNEXPECTED_TOKEN)
 		ft_printf_fd(2, "syntax error near unexpected token `%s'\n", vars);
-	if (error == NO_PERMS)
+	if (error == NO_PERMS_OPEN || error == NO_PERMS_EXEC)
 		ft_printf_fd(2, "%s: Permission denied\n", vars);
 	if (error == IS_DIR)
 		ft_printf_fd(2, "%s: Is a directory\n", vars);

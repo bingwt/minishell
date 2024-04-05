@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/04 18:58:51 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 13:20:59 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ typedef enum e_errors
 {
 	NOT_VALID_ID,
 	TOO_MANY_ARGS,
+	NO_PERMS_OPEN,
 	UNCLOSED_QUOTES,
 	INVALID_EXIT,
 	UNEXPECTED_TOKEN,
-	NO_PERMS,
+	NO_PERMS_EXEC,
 	IS_DIR,
 	NO_FILE,
 	CMD_NOT_FOUND

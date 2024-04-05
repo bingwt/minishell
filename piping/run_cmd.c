@@ -123,8 +123,9 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			cock = open(args.out[i++], APPEND, 0644);
 			if (cock == -1)
 			{
-				perror("shit");
-				args.io[1] = -1;
+				//perror("shit");
+				handle_error(args.in[i - 1], NO_PERMS_OPEN);
+				args.io[0] = -1;
 				break ;
 			}
 			else
@@ -135,7 +136,8 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			cock = open(args.out[i++], TRUNC, 0644);
 			if (cock == -1)
 			{
-				perror("shit");
+				//perror("shit");
+				handle_error(args.out[i - 1], NO_PERMS_OPEN);
 				args.io[1] = -1;
 				break ;
 			}
@@ -151,9 +153,10 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			cock = open(args.in[i++], O_RDONLY);
 			if (cock == -1)
 			{
-				perror("shit");
-				args.io[0] = -1;
-				break ;
+				//perror("shit");
+				handle_error(args.out[i - 1], NO_PERMS_OPEN);
+				args.io[1] = -1;
+        break ;
 			}
 			else
 				dup2(cock, args.io[0]);
