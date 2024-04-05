@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:23:35 by btan              #+#    #+#             */
-/*   Updated: 2024/04/04 19:09:28 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/05 12:55:38 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_heredoc(char	*eof, int fd)
 
 	while (1)
 	{
+		sighandler_heredoc();
 		buffer = readline("heredoc> ");
 		if (!buffer || !ft_strcmp(buffer, eof))
 			return ;

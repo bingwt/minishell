@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/04 19:01:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 11:56:29 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,19 @@ void	run_single(t_arg *args, t_list **envll)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, sigint_child);
-		signal(SIGQUIT, SIG_DFL);
+		//signal(SIGINT, sigint_child);
+		//signal(SIGQUIT, SIG_DFL);
+		sighandler_child();
 		execute(args, list_to_array(*envll), envll, 0);
 	}
-	signal(SIGINT, sigint_child);
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGINT, sigint_child);
+	//signal(SIGQUIT, SIG_IGN);
+	sighandler_wait();
 	waitpid(pid, &status, 0);
 	get_exit_status(status);
-	signal(SIGINT, sigint_parent);
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGINT, sigint_parent);
+	//signal(SIGQUIT, SIG_IGN);
+	sighandler_parent();
 }
 
 static void	iterative_body(t_arg *args, t_list **envll, int *hd_fd)
