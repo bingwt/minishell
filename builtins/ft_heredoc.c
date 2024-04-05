@@ -6,22 +6,33 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:23:35 by btan              #+#    #+#             */
-/*   Updated: 2024/04/05 12:55:38 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 16:19:37 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	sigint_heredoc(int sig)
+{
+	close(0);
+	write(1, "\n", 1);
+	get_exit_status(unshift_exitcode(130));
+	signal(sig, sigint_parent);
+}
+
 void	ft_heredoc(char	*eof, int fd)
 {
 	char	*buffer;
 
+	signal(SIGINT, sigint_heredoc);
 	while (1)
 	{
-		sighandler_heredoc();
 		buffer = readline("heredoc> ");
 		if (!buffer || !ft_strcmp(buffer, eof))
+		{
+			signal(SIGINT, sigint_parent);
 			return ;
+		}
 		if (fd >= 0)
 		{
 			write(fd, buffer, ft_strlen(buffer));
@@ -29,6 +40,7 @@ void	ft_heredoc(char	*eof, int fd)
 		}
 		free(buffer);
 	}
+	signal(SIGINT, sigint_parent);
 }
 //
 //int	main(int argc, char **argv)

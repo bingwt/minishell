@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/05 12:55:24 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 16:03:59 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	sigint_child(int sig);
 void	sighandler_child(void);
 void	sighandler_wait(void);
 void	sighandler_parent(void);
-void	sighandler_heredoc(void);
 
 // PROMPT
 char	*init_prompt(t_list *envll);
