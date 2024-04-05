@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/05 13:11:39 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 13:22:52 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			if (cock == -1)
 			{
 				//perror("shit");
-				handle_error(args.in[i - 1], NO_PERMS);
+				handle_error(args.in[i - 1], NO_PERMS_OPEN);
 				args.io[0] = -1;
 				return (args);
 			}
@@ -143,7 +143,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			if (cock < -1)
 			{
 				//perror("shit");
-				handle_error(args.out[i - 1], NO_PERMS);
+				handle_error(args.out[i - 1], NO_PERMS_OPEN);
 				args.io[1] = -1;
 				return (args);
 			}
@@ -156,7 +156,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			if (cock == -1)
 			{
 				//perror("shit");
-				handle_error(args.out[i - 1], NO_PERMS);
+				handle_error(args.out[i - 1], NO_PERMS_OPEN);
 				args.io[1] = -1;
 				return (args);
 			}

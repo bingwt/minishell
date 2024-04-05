@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/04 19:01:00 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 13:39:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,24 @@ static char	*get_path(char *cmd, t_list *envll)
 	return (program_path);
 }
 
-void	is_dir(t_arg *args, int i)
+int	is_dir(char *path)
+{
+	struct stat s_statbuf;
+
+	if (stat(path, &s_statbuf))
+		return (0);
+	return (S_ISDIR(s_statbuf.st_mode));
+}
+
+void	dir_check(t_arg *args, int i)
 {
 	if (!access(args[i].cmd[0], F_OK))
-		exit(handle_error(args[i].cmd[0], IS_DIR));
+	{
+		if (is_dir(args[i].cmd[0]))
+			exit(handle_error(args[i].cmd[0], IS_DIR));
+		else
+			exit(handle_error(args[i].cmd[0], NO_PERMS_EXEC));
+	}
 	else
 		exit(handle_error(args[i].cmd[0], NO_FILE));
 }
@@ -61,7 +75,7 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 	if (!path)
 	{
 		if (strchr(args[i].cmd[0], '/'))
-			is_dir(args, i);
+			dir_check(args, i);
 		handle_error(args[i].cmd[0], CMD_NOT_FOUND);
 		free_args(args);
 		exit(127);
