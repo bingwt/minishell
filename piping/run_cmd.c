@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/05 22:20:05 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/05 22:37:29 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,24 +116,6 @@ t_arg	open_files(t_arg args, int *hd_fd)
 	int	i;
 
 	i = 0;
-	while (i < args.in_i - 1)
-	{
-		if (!ft_strcmp(args.in[i++], "<"))
-		{
-			cock = open(args.in[i++], O_RDONLY);
-			if (cock == -1)
-			{
-				perror("shit");
-				args.io[0] = -1;
-				return (args);
-			}
-			else
-				dup2(cock, args.io[0]);
-		}
-		else
-			args = open_heredoc(args, i++, hd_fd);
-	}
-	i = 0;
 	while (i < args.out_i - 1)
 	{
 		if (!ft_strcmp(args.out[i++], ">>"))
@@ -143,7 +125,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			{
 				perror("shit");
 				args.io[1] = -1;
-				return (args);
+				break ;
 			}
 			else
 				dup2(cock, args.io[1]);
@@ -155,11 +137,29 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			{
 				perror("shit");
 				args.io[1] = -1;
-				return (args);
+				break ;
 			}
 			else
 				dup2(cock, args.io[1]);
 		}
+	}
+	i = 0;
+	while (i < args.in_i - 1)
+	{
+		if (!ft_strcmp(args.in[i++], "<"))
+		{
+			cock = open(args.in[i++], O_RDONLY);
+			if (cock == -1)
+			{
+				perror("shit");
+				args.io[0] = -1;
+				break ;
+			}
+			else
+				dup2(cock, args.io[0]);
+		}
+		else
+			args = open_heredoc(args, i++, hd_fd);
 	}
 	return (args);
 }
