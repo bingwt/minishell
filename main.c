@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/03/16 02:30:20 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/04 18:54:31 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	char	**test_args;
+
+	test_args = ft_calloc(4, sizeof(char *));
+	test_args[0] = "export";
 	int		io[2];
 	char	*prompt;
 	char	*buffer;
@@ -26,6 +30,16 @@ int	main(int argc, char **argv, char **envp)
 	array_to_list(&envll, envp);
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
+	// expand_all("echo '$HOME' \"$HOME\"", envll);
+	// expand_all("echo $wfsa", envll);
+	//expand_env("echo $HOME", envll);
+	// test_args[1] = "test=something";
+	// test_args[2] = "test2=somethingelse";
+//	test_args[1] = "test=something";
+//	ft_export(test_args, &envll);
+//	test_args[0] = "unset";
+//	test_args[1] = "test";
+//	ft_unset(test_args, &envll);
 	set_shlvl(&envll);
 	while (1)
 	{
@@ -50,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		prompt = expand_env(buffer, envll);
 		args = input_parser(prompt);
 		if (args)
-			run_cmds(args, envll);
+			run_cmds(args, &envll);
 		if (args)
 			free_args(args);
 		free(buffer);

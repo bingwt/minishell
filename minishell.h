@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/03/17 01:40:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/04 18:58:51 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <sys/stat.h>
 
 # define HERE_DOC 578
 # define TRUNC 577
@@ -38,11 +39,25 @@ typedef struct s_arg
 	int		in_i;
 	int		out_i;
 	int		cmd_i;
+	int		heredoc;
 	int		io[2];
 	char	**in;
 	char	**out;
 	char	**cmd;
 }	t_arg;
+
+typedef enum e_errors
+{
+	NOT_VALID_ID,
+	TOO_MANY_ARGS,
+	UNCLOSED_QUOTES,
+	INVALID_EXIT,
+	UNEXPECTED_TOKEN,
+	NO_PERMS,
+	IS_DIR,
+	NO_FILE,
+	CMD_NOT_FOUND
+}	t_errors;
 
 // LIBFT
 char	**ft_strsplit(char *str, char *token);
@@ -64,28 +79,25 @@ char	*init_prompt(t_list *envll);
 char	**list_to_array(t_list *lst);
 int		ft_strslen(char **strs);
 char	*expand_env(char *str, t_list *envll);
+char 	*expand_all(char *str, t_list *envll);
 void	array_to_list(t_list **lst, char **envp);
 void	set_shlvl(t_list **envll);
 
 // BUILTINS
-void	ft_echo(const char *str);
-void	ft_cd(const char *path, t_list *envll);
+void	ft_echo(char **args);
+void	ft_cd(char **args, t_list *envll);
 char	*ft_pwd(void);
 void	ft_env(t_list *envp);
-void	ft_export(char *cmd, t_list **envll);
-void	ft_unset(char *cmd, t_list **envll);
-void	ft_exit(char *str);
+void	ft_export(char **args, t_list **envll);
+void	ft_unset(char **args, t_list **envll);
+void	ft_exit(char **args);
 void	minibing(void);
-
-// EXECUTE
-char	*get_path(char *cmd, t_list *envll);
-void	run_cmd(char *cmd, t_list *envll);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
 
 // HANDLE_ERRORS
-int		handle_error(char *vars, char *error);
+int		handle_error(char *vars, t_errors error);
 int		get_exit_status(int status);
 int		unshift_exitcode(int status);
 
@@ -98,6 +110,7 @@ t_arg	*input_parser(char *input);
 char	*inject_space(char *input);
 
 // REJOIN_TOKENS
+t_arg	*heredoc_order(t_arg *args);
 t_arg	*rejoin_tokens(char ***in);
 
 // SPLIT_BY_PIPE
@@ -108,21 +121,21 @@ int		quotes(char c, char *reset);
 void	cmd_assign(t_string *cmd, char input);
 void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q);
 char	**split_assign(char **split, int *cmd_idx, char *insert);
-char	**cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
+void	cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 
 // RUN_CMD
 char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
-void	run_cmds(t_arg *args, t_list *envll);
-void	dup_pipes(t_arg args, int *pipe);
-void	open_heredoc(char *eof, int last, int io);
-t_arg	open_files(t_arg args);
+int		exebuns(char *cmd, char **args, t_list **envll);
+void	run_cmds(t_arg *args, t_list **envll);
+t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
+t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
-void	run_single(t_arg *args, char **envp, t_list *envll);
-void	iterative_piping(t_arg *args, t_list *envll);
+void	run_single(t_arg *args, t_list **envll);
+void	iterative_piping(t_arg *args, t_list **envll);
 
 // DUPS
-t_arg	*child_dup(t_arg *args, int *new, int old, int i);
+t_arg	*child_dup(t_arg *args, int *new_fd, int i, int *hd_fd);
 
 #endif

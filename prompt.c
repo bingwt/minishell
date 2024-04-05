@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:59:25 by btan              #+#    #+#             */
-/*   Updated: 2024/03/01 16:22:15 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/04 19:44:11 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*init_prompt(t_list *envll)
 	char	*prompt;
 
 	userhost = get_user();
+	if (!userhost)
+		return (ft_strdup("minibing> "));
 	temp = ft_pwd();
 	pwd = ft_strjoin(temp, "$\001\e[0m\002 ");
 	home = expand_env("$HOME", envll);
