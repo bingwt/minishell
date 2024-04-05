@@ -52,9 +52,9 @@ t_arg	*heredoc_order(t_arg *args)
 	int	first;
 
 	first = 0;
-	i = 0;
+	i = -1;
 	j = -1;
-	while (!args[i].last)
+	while (!args[++i].last)
 	{
 		while (++j < args[i].in_i)
 		{
@@ -67,7 +67,6 @@ t_arg	*heredoc_order(t_arg *args)
 			}
 		}
 		j = -1;
-		i++;
 	}
 	while (++j < args[i].in_i)
 		if (!ft_strcmp(args[i].in[j], "<<") && first)

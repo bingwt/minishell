@@ -40,7 +40,7 @@ static int	valid_pipe(char **in)
 	{
 		if (!ft_strcmp(in[i], "|"))
 		{
-			if (!in[i + 1] || ft_strcmp(in[i], "|")
+			if (!in[i + 1] || !ft_strcmp(in[i + 1], "|")
 				|| ft_strchr(in[i - 1], '>') || ft_strchr(in[i - 1], '<'))
 			{
 				//perror("pipe");
