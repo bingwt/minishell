@@ -102,6 +102,7 @@ char	*expand_env(char *input, t_list *envll)
 			input++;
 		}
 	}
+	free(token.s);
 	quotes('\0', "reset");
 	return (res.s);
 }
