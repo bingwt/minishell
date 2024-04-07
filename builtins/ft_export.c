@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 15:17:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 17:49:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	export_var(char *cmd, t_list **envll)
 	{
 		if (!ft_strchr(cmd, '='))
 			return ;
+		if (env->content)
+			free(env->content);
 		env->content = ft_strdup(cmd);
 		return ;
 	}

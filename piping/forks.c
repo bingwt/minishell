@@ -66,7 +66,7 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 
 	if (!args[i].cmd[0])
 		exit(0);
-	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
+	if (exebuns(args, i, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
 		execve(args[i].cmd[0], args[i].cmd, envp);
@@ -96,7 +96,7 @@ void	run_single(t_arg *args, t_list **envll)
 		return ;
 	dup2(args[0].io[0], 0);
 	dup2(args[0].io[1], 1);
-	if (exebuns(args[0].cmd[0], args[0].cmd, envll))
+	if (exebuns(args, 0, envll))
 		return ;
 	pid = fork();
 	if (pid == 0)

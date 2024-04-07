@@ -88,11 +88,12 @@ void	set_shlvl(t_list **envll);
 // BUILTINS
 void	ft_echo(char **args);
 void	ft_cd(char **args, t_list *envll);
-char	*ft_pwd(void);
+char	*get_cwd(void);
+void	ft_pwd(void);
 void	ft_env(t_list *envp);
 void	ft_export(char **args, t_list **envll);
 void	ft_unset(char **args, t_list **envll);
-void	ft_exit(char **args);
+void	ft_exit(t_arg *args, int i, t_list **envll);
 void	minibing(void);
 
 // HEREDOC
@@ -132,7 +133,7 @@ t_arg	*no_toing(t_arg *args);
 // RUN_CMD
 char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
-int		exebuns(char *cmd, char **args, t_list **envll);
+int		exebuns(t_arg *arg, int i, t_list **envll);
 void	run_cmds(t_arg *args, t_list **envll);
 t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
