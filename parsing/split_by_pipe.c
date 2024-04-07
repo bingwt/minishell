@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:00:11 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/04 19:46:21 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:58:58 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ static int	valid_pipe(char **in)
 	i = 1;
 	if (!ft_strcmp(in[0], "|"))
 	{
-		perror("pipe");
+		handle_error("|", UNEXPECTED_TOKEN);
 		return (0);
 	}
 	while (in[i])
 	{
 		if (!ft_strcmp(in[i], "|"))
 		{
-			if (!in[i + 1] || ft_strcmp(in[i], "|")
+			if (!in[i + 1] || !ft_strcmp(in[i + 1], "|")
 				|| ft_strchr(in[i - 1], '>') || ft_strchr(in[i - 1], '<'))
 			{
-				perror("pipe");
+				handle_error("|", UNEXPECTED_TOKEN);
 				return (0);
 			}
 		}

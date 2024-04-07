@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:21:46 by btan              #+#    #+#             */
-/*   Updated: 2024/04/02 17:51:47 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:00:54 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,20 @@
 //	exit(status);
 //}
 
-void	ft_exit(char **args)
+void	ft_exit(t_arg *arg, int i, t_list **envll)
 {
-	int	status;
+	char	**args;
+	int		status;
 
+	args = arg[i].cmd;
 	status = 0;
 	printf("exit\n");
 	if (!args[1])
+	{
+		free_args(arg);
+		ft_lstclear(envll, free);
 		exit(0);
+	}
 	if (ft_isalnum(args[1][0]) || args[1][0] == '-' || args[1][0] == '+')
 	{
 		while (args[1][++status])
@@ -73,5 +79,7 @@ void	ft_exit(char **args)
 		handle_error(args[0], TOO_MANY_ARGS);
 		return ;
 	}
+	free_args(arg);
+	ft_lstclear(envll, free);
 	exit(status);
 }

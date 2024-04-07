@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/05 11:56:29 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,26 @@ static char	*get_path(char *cmd, t_list *envll)
 	return (program_path);
 }
 
-void	is_dir(t_arg *args, int i)
+int	is_dir(char *path)
+{
+	struct stat	s_statbuf;
+
+	if (stat(path, &s_statbuf))
+		return (0);
+	return (S_ISDIR(s_statbuf.st_mode));
+}
+
+void	dir_check(t_arg *args, int i)
 {
 	if (!access(args[i].cmd[0], F_OK))
-		exit(handle_error(args[i].cmd[0], IS_DIR));
+	{
+		if (is_dir(args[i].cmd[0]))
+			exit(handle_error(args[i].cmd[0], IS_DIR));
+		else
+			exit(handle_error(args[i].cmd[0], NO_PERMS_EXEC));
+	}
 	else
-		exit(handle_error(args[i].cmd[0], NO_FILE));
+		exit(handle_error(args[i].cmd[0], NO_FILE_EXEC));
 }
 
 static void	execute(t_arg *args, char **envp, t_list **envll, int i)
@@ -52,8 +66,7 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 
 	if (!args[i].cmd[0])
 		exit(0);
-//	printf("arg: %s\n", args[i].cmd[0]);
-	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
+	if (exebuns(args, i, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
 		execve(args[i].cmd[0], args[i].cmd, envp);
@@ -61,7 +74,7 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 	if (!path)
 	{
 		if (strchr(args[i].cmd[0], '/'))
-			is_dir(args, i);
+			dir_check(args, i);
 		handle_error(args[i].cmd[0], CMD_NOT_FOUND);
 		free_args(args);
 		exit(127);
@@ -83,8 +96,7 @@ void	run_single(t_arg *args, t_list **envll)
 		return ;
 	dup2(args[0].io[0], 0);
 	dup2(args[0].io[1], 1);
-	//if (builtin_table(args[0], envll))
-	if (exebuns(args[0].cmd[0], args[0].cmd, envll))
+	if (exebuns(args, 0, envll))
 		return ;
 	pid = fork();
 	if (pid == 0)

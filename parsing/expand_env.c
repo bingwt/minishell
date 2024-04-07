@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 16:08:51 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/03 18:02:25 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 16:59:25 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*assign_new_token(t_string token, t_list *envll)
 	else if (!ft_strcmp(token.s, "$"))
 		new_token = "$";
 	else if (!ft_strncmp(token.s, "$?", 2))
-		new_token = ft_itoa(get_exit_status(-1));
+		new_token = "$?";
 	else
 		new_token = "";
 	return (new_token);
@@ -54,26 +54,26 @@ static t_string	get_token(t_string token, char **input, t_list *envll)
 {
 	char	*new_token;
 
-	cmd_assign(&token, **input);
-	(*input)++;
+	cmd_assign(&token, *(*input)++);
 	while (ft_isalnum(**input) || **input == '_' || **input == '?')
 	{
 		if (**input == '?' && token.i == 1)
 		{
-			cmd_assign(&token, **input);
-			(*input)++;
+			cmd_assign(&token, *(*input)++);
 			break ;
 		}
 		else if (**input == '?')
 			break ;
-		cmd_assign(&token, **input);
-		(*input)++;
+		cmd_assign(&token, *(*input)++);
 		if (ft_isdigit(token.s[1]) && token.i == 2)
 			break ;
 	}
 	new_token = assign_new_token(token, envll);
 	free(token.s);
-	token.s = ft_strdup(new_token);
+	if (!ft_strcmp(new_token, "$?"))
+		token.s = ft_itoa(get_exit_status(-1));
+	else
+		token.s = ft_strdup(new_token);
 	return (token);
 }
 
@@ -97,11 +97,9 @@ char	*expand_env(char *input, t_list *envll)
 			res.i = ft_strlen(res.s);
 		}
 		else
-		{
-			cmd_assign(&res, *input);
-			input++;
-		}
+			cmd_assign(&res, *(input++));
 	}
+	free(token.s);
 	quotes('\0', "reset");
 	return (res.s);
 }

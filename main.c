@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/04/04 18:54:31 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 16:58:25 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**test_args;
 
-	test_args = ft_calloc(4, sizeof(char *));
-	test_args[0] = "export";
 	int		io[2];
 	char	*prompt;
 	char	*buffer;
@@ -68,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		if (args)
 			free_args(args);
 		free(buffer);
+		free(prompt);
 	}
 	ft_lstclear(&envll, free);
 	return (0);

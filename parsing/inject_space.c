@@ -32,14 +32,19 @@ static int	valid_redir(char *input)
 
 static void	assign_meta(t_string *res, int q, char curr, char next)
 {
-	if (!q && (curr == '<' || curr == '>' || curr == '|')
+	if (!q && (curr == '<' || curr == '>')
 		&& next != '<' && next != '>')
 	{
 		cmd_assign(res, curr);
 		cmd_assign(res, ' ');
 	}
-	else if (!q && curr != '<' && curr != '>' && curr != '|'
+	else if (!q && curr != '<' && curr != '>'
 		&& (next == '<' || next == '>' || next == '|'))
+	{
+		cmd_assign(res, curr);
+		cmd_assign(res, ' ');
+	}
+	else if (!q && curr == '|')
 	{
 		cmd_assign(res, curr);
 		cmd_assign(res, ' ');

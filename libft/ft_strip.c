@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin_strs.c                                  :+:      :+:    :+:   */
+/*   ft_strip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/07 20:22:17 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 20:22:18 by xlow             ###   ########.fr       */
+/*   Created: 2024/04/07 20:15:39 by xlow              #+#    #+#             */
+/*   Updated: 2024/04/07 20:39:27 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin_strs(char **strs)
+char	*ft_strip(char *s, char c)
 {
-	int		i;
-	char	*res;
+	int			i;
+	t_string	res;
 
 	i = 0;
-	if (!strs || ft_squarelen(strs) < 2)
+	res.i = 0;
+	if (!s)
 		return (NULL);
-	res = ft_strdup(strs[i]);
-	i++;
-	while (strs[i])
+	res.s = ft_calloc(1, 1);
+	while (s[i])
 	{
-		res = ft_strjoin_free(res, strs[i], res);
+		if (s[i] != c)
+		{
+			res.s = ft_realloc(res.s, res.i + 1, res.i + 2);
+			res.s[res.i] = s[i];
+			res.i++;
+		}
 		i++;
 	}
-	return (res);
+	return (res.s);
 }
