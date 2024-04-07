@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-int exebuns(t_arg *arg, int i, t_list **envll)
+int	exebuns(t_arg *arg, int i, t_list **envll)
 {
-	char *cmd;
-	char **args;
+	char	*cmd;
+	char	**args;
 
 	cmd = arg[i].cmd[0];
 	args = arg[i].cmd;
@@ -35,50 +35,14 @@ int exebuns(t_arg *arg, int i, t_list **envll)
 		ft_env(*envll);
 	else if (!strcmp(cmd, "exit"))
 		ft_exit(arg, i, envll);
-	// 	 else if (rabbithole(cmd, args, envll))
-	// 	 	return (1);
 	else
 		return (0);
 	return (1);
 }
 
-// int	builtin_table(t_arg args, t_list *envll)
-//{
-//	char	*cmd;
-//
-//	cmd = ft_strsjoin(args.cmd);
-//	if (!ft_strcmp(args.cmd[0], "echo"))
-//		ft_echo(args.cmd);
-//	else if (!ft_strcmp(args.cmd[0], "cd"))
-//		ft_cd(args.cmd, envll);
-//	else if (!ft_strcmp(args.cmd[0], "pwd"))
-//		printf("%s\n", ft_pwd());
-//	else if (!ft_strcmp(args.cmd[0], "export"))
-//		ft_export(args.cmd, &envll);
-//	else if (!ft_strcmp(args.cmd[0], "unset"))
-//		ft_unset(args.cmd, &envll);
-//	else if (!ft_strcmp(args.cmd[0], "env"))
-//		ft_env(envll);
-//	else if (!ft_strcmp("exit", args.cmd[0]))
-//		ft_exit(args.cmd);
-//	//	{
-//	//		ft_lstclear(&envll, free);
-//	//		if (ft_strlen(cmd) > 4)
-//	//			ft_exit(cmd + 4);
-//	//		ft_exit(0);
-//	//	}
-//	else
-//	{
-//		free(cmd);
-//		return (0);
-//	}
-//	free(cmd);
-//	return (1);
-// }
-
-static t_arg heredoc_queue(t_arg args, int *hd_fd)
+static t_arg	heredoc_queue(t_arg args, int *hd_fd)
 {
-	char *temp;
+	char	*temp;
 
 	temp = NULL;
 	while (1)
@@ -89,15 +53,15 @@ static t_arg heredoc_queue(t_arg args, int *hd_fd)
 			free(temp);
 			temp = NULL;
 			args.heredoc = 0;
-			break;
+			break ;
 		}
 	}
 	return (args);
 }
 
-t_arg open_heredoc(t_arg args, int i, int *hd_fd)
+t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 {
-	int fd[2];
+	int	fd[2];
 
 	if (hd_fd && args.heredoc)
 		args = heredoc_queue(args, hd_fd);
@@ -173,10 +137,10 @@ t_arg open_files(t_arg args, int *hd_fd)
 	return (args);
 }
 
-void run_cmds(t_arg *args, t_list **envll)
+void	run_cmds(t_arg *args, t_list **envll)
 {
-	int exit_status;
-	pid_t pid;
+	int		exit_status;
+	pid_t	pid;
 
 	args = no_toing(args);
 	if (args[0].last)
