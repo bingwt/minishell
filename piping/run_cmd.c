@@ -186,14 +186,17 @@ void run_cmds(t_arg *args, t_list **envll)
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, sigint_child);
-			signal(SIGQUIT, SIG_DFL);
+			//signal(SIGINT, sigint_child);
+			//signal(SIGQUIT, SIG_DFL);
+			sighandler_child();
 			iterative_piping(args, envll);
 		}
-		signal(SIGINT, sigint_child);
-		signal(SIGQUIT, SIG_IGN);
+		//signal(SIGINT, sigint_child);
+		//signal(SIGQUIT, SIG_IGN);
+		sighandler_wait();
 		waitpid(pid, &exit_status, 0);
-		signal(SIGINT, sigint_parent);
-		signal(SIGQUIT, SIG_DFL);
+		//signal(SIGINT, sigint_parent);
+		//signal(SIGQUIT, SIG_DFL);
+		sighandler_parent();
 	}
 }

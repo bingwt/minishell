@@ -101,16 +101,19 @@ void	run_single(t_arg *args, t_list **envll)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, sigint_child);
-		signal(SIGQUIT, SIG_DFL);
+		//signal(SIGINT, sigint_child);
+		//signal(SIGQUIT, SIG_DFL);
+		sighandler_child();
 		execute(args, list_to_array(*envll), envll, 0);
 	}
-	signal(SIGINT, sigint_child);
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGINT, sigint_child);
+	//signal(SIGQUIT, SIG_IGN);
+	sighandler_wait();
 	waitpid(pid, &status, 0);
 	get_exit_status(status);
-	signal(SIGINT, sigint_parent);
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGINT, sigint_parent);
+	//signal(SIGQUIT, SIG_IGN);
+	sighandler_parent();
 }
 
 static void	iterative_body(t_arg *args, t_list **envll, int *hd_fd)
