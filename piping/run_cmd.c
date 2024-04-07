@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/05 22:37:29 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 14:26:36 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,11 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			if (cock == -1)
 			{
 				//perror("shit");
-				handle_error(args.out[i - 1], NO_PERMS_OPEN);
+				//if (!access(args.in[i - 1], F_OK))
+				if (is_dir(args.in[i - 1]))
+					handle_error(args.in[i - 1], NO_PERMS_OPEN);
+				else
+					handle_error(args.in[i - 1], NO_FILE);
 				args.io[1] = -1;
         break ;
 			}

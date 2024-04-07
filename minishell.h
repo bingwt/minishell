@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/05 13:20:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 14:48:06 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef enum e_errors
 	NO_PERMS_EXEC,
 	IS_DIR,
 	NO_FILE,
+	NO_FILE_EXEC,
 	CMD_NOT_FOUND
 }	t_errors;
 
@@ -133,6 +134,7 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
+int		is_dir(char *path);
 void	run_single(t_arg *args, t_list **envll);
 void	iterative_piping(t_arg *args, t_list **envll);
 
