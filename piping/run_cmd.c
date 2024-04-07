@@ -178,16 +178,12 @@ void run_cmds(t_arg *args, t_list **envll)
 	int exit_status;
 	pid_t pid;
 
+	args = no_toing(args);
 	if (args[0].last)
 		run_single(args, envll);
 	else
 	{
 		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
-			return;
-		}
 		if (pid == 0)
 		{
 			signal(SIGINT, sigint_child);

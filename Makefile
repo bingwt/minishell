@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/04/05 23:16:40 by xlow             ###   ########.fr        #
+#    Updated: 2024/04/07 21:01:30 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS = signals.c \
 	   parsing/split_by_space.c \
 	   parsing/parsing.c \
 	   parsing/expand_env.c \
+	   parsing/toing.c \
 	   piping/forks.c \
 	   piping/ft_strsjoin.c \
 	   piping/run_cmd.c \
