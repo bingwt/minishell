@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 14:26:36 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 20:33:13 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,16 +173,12 @@ void	run_cmds(t_arg *args, t_list **envll)
 	int		exit_status;
 	pid_t	pid;
 
+	args = no_toing(args);
 	if (args[0].last)
 		run_single(args, envll);
 	else
 	{
 		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
-			return ;
-		}
 		if (pid == 0)
 		{
 			signal(SIGINT, sigint_child);

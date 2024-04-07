@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 14:48:06 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:00:31 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	*inject_space(char *input);
 // REJOIN_TOKENS
 t_arg	*heredoc_order(t_arg *args);
 t_arg	*rejoin_tokens(char ***in);
+t_arg	*no_toing(t_arg *arg);
 
 // SPLIT_BY_PIPE
 char	***split_by_pipe(char **in);
@@ -124,6 +125,9 @@ void	cmd_assign(t_string *cmd, char input);
 void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q);
 char	**split_assign(char **split, int *cmd_idx, char *insert);
 void	cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
+
+// TOING
+t_arg	*no_toing(t_arg *args);
 
 // RUN_CMD
 char	*ft_strsjoin(char **strs);

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:20 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 19:42:47 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 20:40:55 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	split_by_space(char *input, char ***split)
 			q = quotes(*input, NULL);
 			if (!quotes('\0', NULL))
 				cmd_assign(&cmd, '\a');
-			if ((q == 1 && *input == '\"') || (q == 2 && *input == '\''))
+			if ((quotes('\0', NULL) == 1 && *input == '\"')
+				|| (quotes('\0', NULL) == 2 && *input == '\''))
 				cmd_assign(&cmd, *input);
 		}
 		else if (ft_iswhitespace(*input))
