@@ -27,7 +27,6 @@ SRCS = signals.c \
 	   builtins/ft_unset.c \
 	   builtins/ft_exit.c \
 	   builtins/ft_heredoc.c \
-	   builtins/minibing.c \
 	   parsing/inject_space.c \
 	   parsing/rejoin_tokens.c \
 	   parsing/split_by_pipe.c \

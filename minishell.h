@@ -94,7 +94,6 @@ void	ft_env(t_list *envp);
 void	ft_export(char **args, t_list **envll);
 void	ft_unset(char **args, t_list **envll);
 void	ft_exit(t_arg *args, int i, t_list **envll);
-void	minibing(void);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
