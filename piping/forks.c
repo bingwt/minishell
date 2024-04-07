@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 14:51:59 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_path(char *cmd, t_list *envll)
 
 int	is_dir(char *path)
 {
-	struct stat s_statbuf;
+	struct stat	s_statbuf;
 
 	if (stat(path, &s_statbuf))
 		return (0);
@@ -66,7 +66,6 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 
 	if (!args[i].cmd[0])
 		exit(0);
-//	printf("arg: %s\n", args[i].cmd[0]);
 	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
@@ -97,7 +96,6 @@ void	run_single(t_arg *args, t_list **envll)
 		return ;
 	dup2(args[0].io[0], 0);
 	dup2(args[0].io[1], 1);
-	//if (builtin_table(args[0], envll))
 	if (exebuns(args[0].cmd[0], args[0].cmd, envll))
 		return ;
 	pid = fork();
