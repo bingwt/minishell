@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+static int	handle_quotes(t_string *cmd, char input)
+{
+	int	q;
+
+	q = quotes(input, NULL);
+	if (!quotes('\0', NULL))
+		cmd_assign(cmd, '\a');
+	if ((quotes('\0', NULL) == 1 && input == '\"')
+		|| (quotes('\0', NULL) == 2 && input == '\''))
+		cmd_assign(cmd, input);
+	return (q);
+}
+
 void	split_by_space(char *input, char ***split)
 {
 	int			q;
@@ -25,14 +38,7 @@ void	split_by_space(char *input, char ***split)
 	while (*input)
 	{
 		if (*input == '\'' || *input == '\"')
-		{
-			q = quotes(*input, NULL);
-			if (!quotes('\0', NULL))
-				cmd_assign(&cmd, '\a');
-			if ((quotes('\0', NULL) == 1 && *input == '\"')
-				|| (quotes('\0', NULL) == 2 && *input == '\''))
-				cmd_assign(&cmd, *input);
-		}
+			q = handle_quotes(&cmd, *input);
 		else if (ft_iswhitespace(*input))
 			handle_space(&cmd, split, &cmd_idx, q);
 		else
@@ -42,33 +48,6 @@ void	split_by_space(char *input, char ***split)
 	quotes('\0', "reset");
 	cleanup_space(&cmd, split, &cmd_idx);
 }
-
-// static t_arg	*echo_spaces(t_arg *args)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	j = 2;
-// 	while (1)
-// 	{
-// 		if (args[i].cmd && !ft_strcmp(args[i].cmd[0], "echo"))
-// 		{
-// 			while (args[i].cmd_i > 2 && args[i].cmd[j])
-// 			{
-// 				args[i].cmd[j] = ft_strjoin_free(" ",
-// 						args[i].cmd[j], args[i].cmd[j]);
-// 				j++;
-// 			}
-// 		}
-// 		if (args[i].last)
-// 			break ;
-// 		i++;
-// 		j = 2;
-// 	}
-// 	args = heredoc_order(args);
-// 	return (args);
-// }
 
 static void	free_pipe_split(char ***pipe_split)
 {

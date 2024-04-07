@@ -94,7 +94,6 @@ void	ft_env(t_list *envp);
 void	ft_export(char **args, t_list **envll);
 void	ft_unset(char **args, t_list **envll);
 void	ft_exit(t_arg *args, int i, t_list **envll);
-void	minibing(void);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
@@ -139,9 +138,12 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
-int		is_dir(char *path);
 void	run_single(t_arg *args, t_list **envll);
 void	iterative_piping(t_arg *args, t_list **envll);
+
+// DIR_CHECK
+int		is_dir(char *path);
+void	dir_check(t_arg *args, int i);
 
 // DUPS
 t_arg	*child_dup(t_arg *args, int *new_fd, int i, int *hd_fd);
