@@ -47,7 +47,6 @@ void	sighandler_wait(void)
 {
 	signal(SIGINT, sigint_child);
 	signal(SIGQUIT, sigquit_child);
-
 }
 
 void	sighandler_parent(void)

@@ -16,7 +16,6 @@ char	*get_cwd(void)
 {
 	char	*path;
 
-
 	path = malloc(PATH_MAX + 1 * (sizeof(char)));
 	if (!path)
 		return (NULL);
