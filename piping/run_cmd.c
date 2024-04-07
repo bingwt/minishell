@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 14:26:36 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 18:11:05 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	 else if (!strcmp(cmd, "cd"))
 		 ft_cd(args, *envll);
 	 else if (!strcmp(cmd, "pwd"))
-		 printf("%s\n", ft_pwd());
+		 ft_pwd();
 	 else if (!strcmp(cmd, "export"))
 		 ft_export(args, envll);
 	 else if (!strcmp(cmd, "unset"))

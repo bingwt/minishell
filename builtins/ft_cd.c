@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:59:10 by btan              #+#    #+#             */
-/*   Updated: 2024/04/02 17:49:46 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 18:13:10 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_cd(char **args, t_list *envll)
 		cd_shortcut("~", envll);
 		return ;
 	}
-	oldpwd = ft_pwd();
+	oldpwd = get_cwd();
 	if (chdir(args[1]))
 	{
 		free(oldpwd);
@@ -82,6 +82,6 @@ void	ft_cd(char **args, t_list *envll)
 		get_exit_status(unshift_exitcode(1));
 		return ;
 	}
-	cwd = ft_pwd();
+	cwd = get_cwd();
 	set_oldpwd(&cwd, &oldpwd, envll);
 }
