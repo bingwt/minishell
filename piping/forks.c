@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 22:57:29 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ void	iterative_piping(t_arg *args, t_list **envll)
 	iterative_body(args, envll, hd_fd);
 	while (waitpid(-1, &exit_status, 0) != -1)
 		;
+	ft_lstclear(envll, free);
+	free_args(args);
 	exit(exit_status);
 }
 /*
