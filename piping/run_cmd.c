@@ -6,38 +6,43 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 18:11:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:00:27 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
- int	exebuns(char *cmd, char **args, t_list **envll)
- {
-	 if (!cmd)
-		 return (0);
-	 if (!strcmp(cmd, "echo"))
-		 ft_echo(args);
-	 else if (!strcmp(cmd, "cd"))
-		 ft_cd(args, *envll);
-	 else if (!strcmp(cmd, "pwd"))
-		 ft_pwd();
-	 else if (!strcmp(cmd, "export"))
-		 ft_export(args, envll);
-	 else if (!strcmp(cmd, "unset"))
-		 ft_unset(args, envll);
-	 else if (!strcmp(cmd, "env"))
-		 ft_env(*envll);
-	 else if (!strcmp(cmd, "exit"))
-		 ft_exit(args);
-// 	 else if (rabbithole(cmd, args, envll))
-// 	 	return (1);
- 	else
- 		return (0);
- 	return (1);
- }
+int exebuns(t_arg *arg, int i, t_list **envll)
+{
+	char *cmd;
+	char **args;
 
-//int	builtin_table(t_arg args, t_list *envll)
+	cmd = arg[i].cmd[0];
+	args = arg[i].cmd;
+	if (!cmd)
+		return (0);
+	if (!strcmp(cmd, "echo"))
+		ft_echo(args);
+	else if (!strcmp(cmd, "cd"))
+		ft_cd(args, *envll);
+	else if (!strcmp(cmd, "pwd"))
+		ft_pwd();
+	else if (!strcmp(cmd, "export"))
+		ft_export(args, envll);
+	else if (!strcmp(cmd, "unset"))
+		ft_unset(args, envll);
+	else if (!strcmp(cmd, "env"))
+		ft_env(*envll);
+	else if (!strcmp(cmd, "exit"))
+		ft_exit(arg, i, envll);
+	// 	 else if (rabbithole(cmd, args, envll))
+	// 	 	return (1);
+	else
+		return (0);
+	return (1);
+}
+
+// int	builtin_table(t_arg args, t_list *envll)
 //{
 //	char	*cmd;
 //
@@ -69,11 +74,11 @@
 //	}
 //	free(cmd);
 //	return (1);
-//}
+// }
 
-static t_arg	heredoc_queue(t_arg args, int *hd_fd)
+static t_arg heredoc_queue(t_arg args, int *hd_fd)
 {
-	char	*temp;
+	char *temp;
 
 	temp = NULL;
 	while (1)
@@ -84,15 +89,15 @@ static t_arg	heredoc_queue(t_arg args, int *hd_fd)
 			free(temp);
 			temp = NULL;
 			args.heredoc = 0;
-			break ;
+			break;
 		}
 	}
 	return (args);
 }
 
-t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
+t_arg open_heredoc(t_arg args, int i, int *hd_fd)
 {
-	int		fd[2];
+	int fd[2];
 
 	if (hd_fd && args.heredoc)
 		args = heredoc_queue(args, hd_fd);
@@ -110,10 +115,10 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 	return (args);
 }
 
-t_arg	open_files(t_arg args, int *hd_fd)
+t_arg open_files(t_arg args, int *hd_fd)
 {
-	int	cock;
-	int	i;
+	int cock;
+	int i;
 
 	i = 0;
 	while (i < args.out_i - 1)
@@ -125,7 +130,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			{
 				handle_error(args.out[i - 1], NO_PERMS_OPEN);
 				args.io[0] = -1;
-				break ;
+				break;
 			}
 			else
 				dup2(cock, args.io[1]);
@@ -137,7 +142,7 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			{
 				handle_error(args.out[i - 1], NO_PERMS_OPEN);
 				args.io[1] = -1;
-				break ;
+				break;
 			}
 			else
 				dup2(cock, args.io[1]);
@@ -151,13 +156,13 @@ t_arg	open_files(t_arg args, int *hd_fd)
 			cock = open(args.in[i++], O_RDONLY);
 			if (cock == -1)
 			{
-				//if (!access(args.in[i - 1], F_OK))
+				// if (!access(args.in[i - 1], F_OK))
 				if (is_dir(args.in[i - 1]))
 					handle_error(args.in[i - 1], NO_PERMS_OPEN);
 				else
 					handle_error(args.in[i - 1], NO_FILE);
 				args.io[1] = -1;
-        break ;
+				break;
 			}
 			else
 				dup2(cock, args.io[0]);
@@ -168,10 +173,10 @@ t_arg	open_files(t_arg args, int *hd_fd)
 	return (args);
 }
 
-void	run_cmds(t_arg *args, t_list **envll)
+void run_cmds(t_arg *args, t_list **envll)
 {
-	int		exit_status;
-	pid_t	pid;
+	int exit_status;
+	pid_t pid;
 
 	if (args[0].last)
 		run_single(args, envll);
@@ -181,7 +186,7 @@ void	run_cmds(t_arg *args, t_list **envll)
 		if (pid < 0)
 		{
 			perror("fork");
-			return ;
+			return;
 		}
 		if (pid == 0)
 		{
