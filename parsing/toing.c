@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 20:44:52 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 21:02:22 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 01:55:58 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ static char	**strip_args(char **strs)
 t_arg	*no_toing(t_arg *args)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (!args[i].last)
 	{
 		args[i].cmd = strip_args(args[i].cmd);
