@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:23:35 by btan              #+#    #+#             */
-/*   Updated: 2024/04/04 19:09:28 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 15:39:04 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@ void	ft_heredoc(char	*eof, int fd)
 	while (1)
 	{
 		buffer = readline("heredoc> ");
-		if (!buffer || !ft_strcmp(buffer, eof))
+		if (!buffer)
 			return ;
+		if (!ft_strcmp(buffer, eof))
+		{
+			free(buffer);
+			return ;
+		}
 		if (fd >= 0)
 		{
 			write(fd, buffer, ft_strlen(buffer));

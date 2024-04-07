@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/03/29 19:41:43 by xlow             ###   ########.fr        #
+#    Updated: 2024/04/05 23:16:40 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ SRCS = signals.c \
 	   builtins/ft_exit.c \
 	   builtins/ft_heredoc.c \
 	   builtins/minibing.c \
-	   execute.c \
 	   parsing/inject_space.c \
 	   parsing/rejoin_tokens.c \
 	   parsing/split_by_pipe.c \

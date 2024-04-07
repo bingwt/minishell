@@ -41,7 +41,7 @@ void	print_env(t_list **envll)
 			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
 		}
 		env = env->next;
-		free_strs(var);
+		ft_free_split(&var);
 	}
 	get_exit_status(unshift_exitcode(0));
 }
@@ -97,7 +97,7 @@ void	export_var(char *cmd, t_list **envll)
 	if (valid_token(token))
 		return ;
 	env = find_token(token, env);
-	free_strs(args);
+	ft_free_split(&args);
 	if (env)
 	{
 		if (!ft_strchr(cmd, '='))
