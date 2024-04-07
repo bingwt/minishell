@@ -31,10 +31,8 @@ static char	**strip_args(char **strs)
 t_arg	*no_toing(t_arg *args)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (!args[i].last)
 	{
 		args[i].cmd = strip_args(args[i].cmd);
