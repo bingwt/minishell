@@ -38,6 +38,7 @@ SRCS = signals.c \
 	   piping/ft_strsjoin.c \
 	   piping/run_cmd.c \
 	   piping/dups.c \
+	   piping/dir_check.c \
 	   main.c
 
 CC = cc
