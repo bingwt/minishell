@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:49:52 by btan              #+#    #+#             */
-/*   Updated: 2024/03/16 11:58:53 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/05 16:06:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,24 @@ void	sigint_child(int sig)
 	signal(sig, sigint_parent);
 }
 
+void	sigquit_child(int sig)
+{
+	write(2, "Quit (core dumped)", 18);
+	write(1, "\n", 1);
+	get_exit_status(unshift_exitcode(131));
+	signal(sig, SIG_DFL);
+}
+
 void	sighandler_child(void)
 {
 	signal(SIGINT, sigint_child);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, sigquit_child);
 }
 
 void	sighandler_wait(void)
 {
 	signal(SIGINT, sigint_child);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sigquit_child);
 }
 
 void	sighandler_parent(void)

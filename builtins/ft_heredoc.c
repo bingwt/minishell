@@ -12,18 +12,25 @@
 
 #include "minishell.h"
 
+void	sigint_heredoc(int sig)
+{
+	close(0);
+	write(1, "\n", 1);
+	get_exit_status(unshift_exitcode(130));
+	signal(sig, sigint_parent);
+}
+
 void	ft_heredoc(char	*eof, int fd)
 {
 	char	*buffer;
 
+	signal(SIGINT, sigint_heredoc);
 	while (1)
 	{
 		buffer = readline("heredoc> ");
-		if (!buffer)
-			return ;
-		if (!ft_strcmp(buffer, eof))
+		if (!buffer || !ft_strcmp(buffer, eof))
 		{
-			free(buffer);
+			signal(SIGINT, sigint_parent);
 			return ;
 		}
 		if (fd >= 0)
@@ -33,6 +40,7 @@ void	ft_heredoc(char	*eof, int fd)
 		}
 		free(buffer);
 	}
+	signal(SIGINT, sigint_parent);
 }
 //
 //int	main(int argc, char **argv)
