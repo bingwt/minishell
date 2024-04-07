@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/04/02 15:25:30 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 17:49:46 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 void	print_env(t_list **envll)
 {
 	t_list	*env;
+	char	*content;
+	char	*end;
 	char	**var;
 	int		i;
 
 	env = *envll;
 	while (env)
 	{
-		var = ft_split((char *) env->content, '=');
-		if (!ft_strchr((char *) env->content, '='))
+		content = (char *) env->content;
+		end = ft_strchr(content, '=');
+		var = ft_calloc(3, sizeof(char *));
+		var[0] = ft_substr(content, 0, end - content);
+		var[1] = ft_substr(end, 1, ft_strlen(end));
+		if (!ft_strchr(content, '='))
 			printf("declare -x %s\n", var[0]);
 		else if (!var[1])
 			printf("declare -x %s=\"\"\n", var[0]);
@@ -35,34 +41,26 @@ void	print_env(t_list **envll)
 			printf("declare -x %s=\"%s\"\n", var[0], var[1]);
 		}
 		env = env->next;
-		free_strs(var);
+		ft_free_split(&var);
 	}
+	get_exit_status(unshift_exitcode(0));
 }
 
 int	valid_token(char *token)
 {
 	if (!token)
-	{
-		handle_error("=", NOT_VALID_ID);
-		return (0);
-	}
+		return (handle_error("=", NOT_VALID_ID));
 	if (ft_isalpha(*token) || *token == '_')
 		token++;
 	else
-	{
-		handle_error(token, NOT_VALID_ID);
-		return (0);
-	}
+		return (handle_error(token, NOT_VALID_ID));
 	while (*token)
 	{
 		if (!ft_isalnum(*token) && *token != '_')
-		{
-			handle_error(token, NOT_VALID_ID);
-			return (0);
-		}
+			return (handle_error(token, NOT_VALID_ID));
 		token++;
 	}
-	return (1);
+	return (get_exit_status(unshift_exitcode(0)));
 }
 
 static t_list	*find_token(char *token, t_list *env)
@@ -96,14 +94,16 @@ void	export_var(char *cmd, t_list **envll)
 	env = *envll;
 	args = ft_split(cmd, '=');
 	token = args[0];
-	if (!valid_token(token))
+	if (valid_token(token))
 		return ;
 	env = find_token(token, env);
-	free_strs(args);
+	ft_free_split(&args);
 	if (env)
 	{
 		if (!ft_strchr(cmd, '='))
 			return ;
+		if (env->content)
+			free(env->content);
 		env->content = ft_strdup(cmd);
 		return ;
 	}

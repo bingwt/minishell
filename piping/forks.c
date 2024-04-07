@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/03 17:42:47 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,43 @@ static char	*get_path(char *cmd, t_list *envll)
 	return (program_path);
 }
 
-void	is_dir(t_arg *args, int i)
+int	is_dir(char *path)
 {
-	if (!access(args[i].cmd[0], F_OK))
-		exit(handle_error(args[i].cmd[0], IS_DIR));
-	else
-		exit(handle_error(args[i].cmd[0], NO_FILE));
+	struct stat	s_statbuf;
+
+	if (stat(path, &s_statbuf))
+		return (0);
+	return (S_ISDIR(s_statbuf.st_mode));
 }
 
-static void	execute(t_arg *args, char **envp, t_list *envll, int i)
+void	dir_check(t_arg *args, int i)
+{
+	if (!access(args[i].cmd[0], F_OK))
+	{
+		if (is_dir(args[i].cmd[0]))
+			exit(handle_error(args[i].cmd[0], IS_DIR));
+		else
+			exit(handle_error(args[i].cmd[0], NO_PERMS_EXEC));
+	}
+	else
+		exit(handle_error(args[i].cmd[0], NO_FILE_EXEC));
+}
+
+static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 {
 	char		*path;
 
 	if (!args[i].cmd[0])
 		exit(0);
-	printf("arg: %s\n", args[i].cmd[0]);
-	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
+	if (exebuns(args, i, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
 		execve(args[i].cmd[0], args[i].cmd, envp);
-	path = get_path(args[i].cmd[0], envll);
+	path = get_path(args[i].cmd[0], *envll);
 	if (!path)
 	{
 		if (strchr(args[i].cmd[0], '/'))
-			is_dir(args, i);
+			dir_check(args, i);
 		handle_error(args[i].cmd[0], CMD_NOT_FOUND);
 		free_args(args);
 		exit(127);
@@ -73,7 +86,7 @@ static void	execute(t_arg *args, char **envp, t_list *envll, int i)
 	exit(1);
 }
 
-void	run_single(t_arg *args, t_list *envll)
+void	run_single(t_arg *args, t_list **envll)
 {
 	pid_t	pid;
 	int		status;
@@ -83,15 +96,14 @@ void	run_single(t_arg *args, t_list *envll)
 		return ;
 	dup2(args[0].io[0], 0);
 	dup2(args[0].io[1], 1);
-	//if (builtin_table(args[0], envll))
-	if (exebuns(args[0].cmd[0], args[0].cmd, envll))
+	if (exebuns(args, 0, envll))
 		return ;
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, sigint_child);
 		signal(SIGQUIT, SIG_DFL);
-		execute(args, list_to_array(envll), envll, 0);
+		execute(args, list_to_array(*envll), envll, 0);
 	}
 	signal(SIGINT, sigint_child);
 	signal(SIGQUIT, SIG_IGN);
@@ -101,7 +113,7 @@ void	run_single(t_arg *args, t_list *envll)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
+static void	iterative_body(t_arg *args, t_list **envll, int *hd_fd)
 {
 	int		i;
 	int		new_fd[3];
@@ -116,7 +128,7 @@ static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
 		if (!pid)
 		{
 			args = child_dup(args, new_fd, i, hd_fd);
-			execute(args, list_to_array(envll), envll, i);
+			execute(args, list_to_array(*envll), envll, i);
 		}
 		else
 		{
@@ -130,7 +142,7 @@ static void	iterative_body(t_arg *args, t_list *envll, int *hd_fd)
 	}
 }
 
-void	iterative_piping(t_arg *args, t_list *envll)
+void	iterative_piping(t_arg *args, t_list **envll)
 {
 	int		hd_fd[2];
 	int		exit_status;

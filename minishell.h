@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/03 20:39:38 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 21:58:37 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@ typedef enum e_errors
 {
 	NOT_VALID_ID,
 	TOO_MANY_ARGS,
+	NO_PERMS_OPEN,
 	UNCLOSED_QUOTES,
 	INVALID_EXIT,
 	UNEXPECTED_TOKEN,
-	NO_PERMS,
+	NO_PERMS_EXEC,
 	IS_DIR,
 	NO_FILE,
+	NO_FILE_EXEC,
 	CMD_NOT_FOUND
 }	t_errors;
 
@@ -79,18 +81,19 @@ char	*init_prompt(t_list *envll);
 char	**list_to_array(t_list *lst);
 int		ft_strslen(char **strs);
 char	*expand_env(char *str, t_list *envll);
-char 	*expand_all(char *str, t_list *envll);
+char	*expand_all(char *str, t_list *envll);
 void	array_to_list(t_list **lst, char **envp);
 void	set_shlvl(t_list **envll);
 
 // BUILTINS
 void	ft_echo(char **args);
 void	ft_cd(char **args, t_list *envll);
-char	*ft_pwd(void);
+char	*get_cwd(void);
+void	ft_pwd(void);
 void	ft_env(t_list *envp);
 void	ft_export(char **args, t_list **envll);
 void	ft_unset(char **args, t_list **envll);
-void	ft_exit(char **args);
+void	ft_exit(t_arg *args, int i, t_list **envll);
 void	minibing(void);
 
 // HEREDOC
@@ -112,6 +115,7 @@ char	*inject_space(char *input);
 // REJOIN_TOKENS
 t_arg	*heredoc_order(t_arg *args);
 t_arg	*rejoin_tokens(char ***in);
+t_arg	*no_toing(t_arg *arg);
 
 // SPLIT_BY_PIPE
 char	***split_by_pipe(char **in);
@@ -123,17 +127,21 @@ void	handle_space(t_string *cmd, char ***split, int *cmd_idx, int q);
 char	**split_assign(char **split, int *cmd_idx, char *insert);
 void	cleanup_space(t_string *cmd, char ***split, int *cmd_idx);
 
+// TOING
+t_arg	*no_toing(t_arg *args);
+
 // RUN_CMD
 char	*ft_strsjoin(char **strs);
 int		builtin_table(t_arg args, t_list *envll);
-int		exebuns(char *cmd, char **args, t_list *envll);
-void	run_cmds(t_arg *args, t_list *envll);
+int		exebuns(t_arg *arg, int i, t_list **envll);
+void	run_cmds(t_arg *args, t_list **envll);
 t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
-void	run_single(t_arg *args, t_list *envll);
-void	iterative_piping(t_arg *args, t_list *envll);
+int		is_dir(char *path);
+void	run_single(t_arg *args, t_list **envll);
+void	iterative_piping(t_arg *args, t_list **envll);
 
 // DUPS
 t_arg	*child_dup(t_arg *args, int *new_fd, int i, int *hd_fd);
