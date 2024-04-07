@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:00:36 by btan              #+#    #+#             */
-/*   Updated: 2024/04/05 23:18:49 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 15:17:05 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,24 @@ void	print_env(t_list **envll)
 		env = env->next;
 		ft_free_split(&var);
 	}
+	get_exit_status(unshift_exitcode(0));
 }
 
 int	valid_token(char *token)
 {
 	if (!token)
-	{
-		handle_error("=", NOT_VALID_ID);
-		return (0);
-	}
+		return (handle_error("=", NOT_VALID_ID));
 	if (ft_isalpha(*token) || *token == '_')
 		token++;
 	else
-	{
-		handle_error(token, NOT_VALID_ID);
-		return (0);
-	}
+		return (handle_error(token, NOT_VALID_ID));
 	while (*token)
 	{
 		if (!ft_isalnum(*token) && *token != '_')
-		{
-			handle_error(token, NOT_VALID_ID);
-			return (0);
-		}
+			return (handle_error(token, NOT_VALID_ID));
 		token++;
 	}
-	return (1);
+	return (get_exit_status(unshift_exitcode(0)));
 }
 
 static t_list	*find_token(char *token, t_list *env)
@@ -102,7 +94,7 @@ void	export_var(char *cmd, t_list **envll)
 	env = *envll;
 	args = ft_split(cmd, '=');
 	token = args[0];
-	if (!valid_token(token))
+	if (valid_token(token))
 		return ;
 	env = find_token(token, env);
 	ft_free_split(&args);

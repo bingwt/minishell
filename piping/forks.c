@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/05 13:39:46 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/07 14:51:59 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	dir_check(t_arg *args, int i)
 			exit(handle_error(args[i].cmd[0], NO_PERMS_EXEC));
 	}
 	else
-		exit(handle_error(args[i].cmd[0], NO_FILE));
+		exit(handle_error(args[i].cmd[0], NO_FILE_EXEC));
 }
 
 static void	execute(t_arg *args, char **envp, t_list **envll, int i)

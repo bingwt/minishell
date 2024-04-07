@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:55:23 by btan              #+#    #+#             */
-/*   Updated: 2024/04/05 23:19:38 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/07 15:19:21 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	unset_var(char *cmd, t_list **envll)
 		env->next = env->next->next;
 		ft_lstdelone(var, free);
 	}
+	get_exit_status(unshift_exitcode(0));
 	return ;
 }
 
