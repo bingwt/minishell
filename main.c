@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:26:33 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/08 18:26:35 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 22:46:59 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 	}
 	ft_lstclear(&envll, free);
+	close(io[0]);
+	close(io[1]);
 	return (0);
 }
