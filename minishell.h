@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 21:58:37 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 15:50:09 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	free_args(t_arg *args);
 t_arg	*input_parser(char *input);
 
 // INJECT_SPACE
+int		valid_redir(char **input);
 char	*inject_space(char *input);
 
 // REJOIN_TOKENS

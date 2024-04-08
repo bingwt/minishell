@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:00:11 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 21:58:58 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 15:49:31 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	***split_by_pipe(char **in)
 	i = 0;
 	c = 0;
 	r = 0;
-	if (!valid_pipe(in))
+	if (!valid_pipe(in) || !valid_redir(in))
 		return (free_input(in));
 	cmd = NULL;
 	res = ft_calloc(count_pipe(in) + 2, 8);
