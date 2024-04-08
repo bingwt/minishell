@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/05 11:56:29 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/08 22:46:58 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 	if (exebuns(args[i].cmd[0], args[i].cmd, envll))
 		exit(0);
 	if (!access(args[i].cmd[0], X_OK))
+	{
+		signal(SIGQUIT, SIG_DFL);
 		execve(args[i].cmd[0], args[i].cmd, envp);
+	}
 	path = get_path(args[i].cmd[0], *envll);
 	if (!path)
 	{

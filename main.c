@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/04/04 18:54:31 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/08 22:26:25 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	t_arg	*args;
 	t_list	*envll;
 
-	signal(SIGINT, sigint_parent);
-	signal(SIGQUIT, SIG_IGN);
+//	signal(SIGINT, sigint_parent);
+//	signal(SIGQUIT, SIG_IGN);
+	sighandler_parent();
 	envll = NULL;
 	array_to_list(&envll, envp);
 	io[0] = dup(STDIN_FILENO);
