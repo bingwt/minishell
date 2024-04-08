@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 18:16:04 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 	}
 	execve(path, args[i].cmd, envp);
 	free_args(args);
-	ft_free_split(&envp);
-	perror("execve");
-	exit(1);
+	ft_lstclear(envll, free);
+	free(envp);
+	handle_error("", CMD_NOT_FOUND);
+	free(path);
+	exit(127);
 }
 
 void	run_single(t_arg *args, t_list **envll)
