@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:16 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/08 16:37:12 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 18:24:38 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	valid_redir(char **input)
 	{
 		if (!ft_strchr(input[i], '\a'))
 		{
-			if (ft_strnstr(input[i], "<<<", ft_strlen(input[i])) ||
-				ft_strnstr(input[i], ">>>", ft_strlen(input[i])) ||
-				ft_strnstr(input[i], "<>", ft_strlen(input[i])) ||
-				ft_strnstr(input[i], "><", ft_strlen(input[i])))
+			if (ft_strnstr(input[i], "<<<", ft_strlen(input[i]))
+				|| ft_strnstr(input[i], ">>>", ft_strlen(input[i]))
+				|| ft_strnstr(input[i], "<>", ft_strlen(input[i]))
+				|| ft_strnstr(input[i], "><", ft_strlen(input[i])))
 			{
 				handle_error(input[i], UNEXPECTED_TOKEN);
 				return (0);
