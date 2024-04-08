@@ -6,7 +6,7 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:16 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/08 15:51:20 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/08 15:58:33 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ int	valid_redir(char **input)
 	i = 0;
 	while (input[i])
 	{
-		if (!ft_strcmp(input[i], "<<<") || !ft_strcmp(input[i], ">>>"))
+		if (!ft_strcmp(input[i], "<<<") || !ft_strcmp(input[i], ">>>")
+			|| !ft_strcmp(input[i], "<>") || !ft_strcmp(input[i], "><"))
+		{
+			handle_error(input[i], UNEXPECTED_TOKEN);
 			return (0);
-		if (!ft_strcmp(input[i], "<>") || !ft_strcmp(input[i], "><"))
-			return (0);
+		}
 		i++;
 	}
 	return (1);
