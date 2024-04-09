@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 02:40:25 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 02:40:32 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/10 02:55:16 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static int	minibing(t_list **envll)
 	}
 	prompt = expand_env(buffer, *envll);
 	args = input_parser(prompt);
+	free(prompt);
 	if (args)
 		run_cmds(args, envll);
 	if (args)
 		free_args(args);
 	free(buffer);
-	free(prompt);
 	return (1);
 }
 
