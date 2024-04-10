@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 02:40:25 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 19:20:37 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 01:28:50 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,11 @@ static int	minibing(t_list **envll)
 
 int	main(int argc, char **argv, char **envp)
 {
-	struct sigaction	s_sa;
 	int		io[2];
 	t_list	*envll;
 
 	(void) argc, (void) argv;
-	ft_memset(&s_sa, 0, sizeof(s_sa));
-	s_sa.sa_handler = sig_handler;
-	sigaction(SIGINT, &s_sa, NULL);
-//	signal(SIGINT, sig_handler);
+	signal(SIGINT, sigint_parent);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
 	array_to_list(&envll, envp);

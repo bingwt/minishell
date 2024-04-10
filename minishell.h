@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 19:22:39 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 01:57:27 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		ft_iswhitespace(int c);
 
 // SIGNALS
 void	free_strs(char **strs);
-void	sig_handler(int sig);
+int		sig_handler(int sig);
 void	sigint_parent(int sig);
 void	sigint_child(int sig);
 void	sigquit_child(int sig);
