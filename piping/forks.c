@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/10 20:08:42 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 01:03:02 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 void	run_single(t_arg *args, t_list **envll)
 {
 	pid_t	pid;
+	int		sig;
 	int		status;
 
 	status = 0;
@@ -82,7 +83,9 @@ void	run_single(t_arg *args, t_list **envll)
 	{
 		//signal(SIGINT, sigint_child);
 		//signal(SIGQUIT, SIG_DFL);
-		sighandler_child();
+	//	sighandler_child();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		execute(args, list_to_array(*envll), envll, 0);
 	}
 	//signal(SIGINT, sigint_child);
@@ -92,11 +95,23 @@ void	run_single(t_arg *args, t_list **envll)
 //	signal(SIGINT, sig_wait);
 	//signal(SIGQUIT, sig_wait);
 	waitpid(pid, &status, 0);
-	if (!WIFEXITED(status))
-		if (WEXITSTATUS(status) == 0)
-			get_exit_status(status);
-	get_exit_status(status);
-	signal(SIGINT, sigint_parent);
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			get_exit_status(unshift_exitcode(130));
+	else if (sig == SIGQUIT)
+	{
+		printf("Quit\n");
+		get_exit_status(unshift_exitcode(131));
+	}
+	else
+	{
+		printf("Child terminated by signal %d\n", sig);
+		get_exit_status(status);
+	}
+}
+//	signal(SIGINT, sigint_parent);
 	//signal(SIGQUIT, SIG_IGN);
 	//sighandler_parent();
 }
