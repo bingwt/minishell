@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/10 13:54:22 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,16 @@ void	run_single(t_arg *args, t_list **envll)
 		execute(args, list_to_array(*envll), envll, 0);
 	}
 	//signal(SIGINT, sigint_child);
-	//signal(SIGQUIT, SIG_IGN);
-	sighandler_wait();
+//	signal(SIGINT, SIG_IGN);
+//	signal(SIGQUIT, SIG_IGN);
+	//sighandler_wait();
+	signal(SIGINT, sig_wait);
+	//signal(SIGQUIT, sig_wait);
 	waitpid(pid, &status, 0);
 	get_exit_status(status);
-	//signal(SIGINT, sigint_parent);
+	signal(SIGINT, sigint_parent);
 	//signal(SIGQUIT, SIG_IGN);
-	sighandler_parent();
+	//sighandler_parent();
 }
 
 static void	iterative_body(t_arg *args, t_list **envll, int *hd_fd)

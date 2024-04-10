@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 21:58:37 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/10 12:28:57 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ int		ft_iswhitespace(int c);
 void	free_strs(char **strs);
 void	sigint_parent(int sig);
 void	sigint_child(int sig);
+void	sigquit_child(int sig);
 void	sighandler_child(void);
 void	sighandler_wait(void);
+void	sig_wait(int sig);
 void	sighandler_parent(void);
 
 // PROMPT

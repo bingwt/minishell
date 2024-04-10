@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:49:52 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 03:26:08 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/10 13:53:43 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,41 @@ void	sigint_parent(int sig)
 
 void	sigint_child(int sig)
 {
+	(void) sig;
+	signal(SIGINT, SIG_DFL);
 	write(1, "\n", 1);
 	get_exit_status(unshift_exitcode(130));
-	signal(sig, sigint_parent);
 }
 
 void	sigquit_child(int sig)
 {
 	(void) sig;
+	signal(SIGQUIT, SIG_DFL);
 	write(2, "Quit\n", 5);
 	get_exit_status(unshift_exitcode(131));
-	exit(131);
 //	signal(sig, SIG_DFL);
 }
 
 void	sighandler_child(void)
 {
 	signal(SIGINT, sigint_child);
-	signal(SIGQUIT, sigquit_child);
+//	signal(SIGQUIT, sigquit_child);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	sighandler_wait(void)
 {
 	signal(SIGINT, sigint_child);
 	signal(SIGQUIT, sigquit_child);
+}
+
+void	sig_wait(int sig)
+{
+	if (sig == SIGINT)
+		write(1, "\n", 1);
+	if (sig == SIGQUIT)
+		printf("Quit\n");
+	signal(sig, SIG_IGN);
 }
 
 void	sighandler_parent(void)
