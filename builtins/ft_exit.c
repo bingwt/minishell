@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:21:46 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 02:47:40 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 02:48:08 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_exit(t_arg *arg, int i, t_list **envll)
 	{
 		free_args(arg);
 		ft_lstclear(envll, free);
-		exit(0);
+		//exit(0);
+		exit(get_exit_status(-1));
 	}
 	if (ft_isalnum(args[1][0]) || args[1][0] == '-' || args[1][0] == '+')
 	{
