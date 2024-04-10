@@ -6,11 +6,22 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:49:52 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 13:53:43 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/10 19:23:01 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	sig_handler(int sig)
+{
+	(void) sig;
+	//printf("sig: %d\n", sig);
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	get_exit_status(unshift_exitcode(130));
+}
 
 void	sigint_parent(int sig)
 {
@@ -27,7 +38,6 @@ void	sigint_child(int sig)
 	(void) sig;
 	signal(SIGINT, SIG_DFL);
 	write(1, "\n", 1);
-	get_exit_status(unshift_exitcode(130));
 }
 
 void	sigquit_child(int sig)

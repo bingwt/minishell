@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 02:40:25 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 03:43:39 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/10 19:20:37 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,6 @@ static int	minibing(t_list **envll)
 	return (1);
 }
 
-void	sig_handler(int sig)
-{
-	(void) sig;
-	//printf("sig: %d\n", sig);
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	s_sa;
@@ -59,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_memset(&s_sa, 0, sizeof(s_sa));
 	s_sa.sa_handler = sig_handler;
 	sigaction(SIGINT, &s_sa, NULL);
-	//signal(SIGINT, sigint_parent);
+//	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
 	array_to_list(&envll, envp);

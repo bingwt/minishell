@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/10 13:54:22 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/10 20:08:42 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	run_single(t_arg *args, t_list **envll)
 	pid_t	pid;
 	int		status;
 
+	status = 0;
 	args[0] = open_files(args[0], NULL);
 	if (args[0].io[0] == -1 || args[0].io[1] == -1)
 		return ;
@@ -88,9 +89,12 @@ void	run_single(t_arg *args, t_list **envll)
 //	signal(SIGINT, SIG_IGN);
 //	signal(SIGQUIT, SIG_IGN);
 	//sighandler_wait();
-	signal(SIGINT, sig_wait);
+//	signal(SIGINT, sig_wait);
 	//signal(SIGQUIT, sig_wait);
 	waitpid(pid, &status, 0);
+	if (!WIFEXITED(status))
+		if (WEXITSTATUS(status) == 0)
+			get_exit_status(status);
 	get_exit_status(status);
 	signal(SIGINT, sigint_parent);
 	//signal(SIGQUIT, SIG_IGN);
