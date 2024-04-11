@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/11 02:01:13 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 09:58:31 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_arg open_files(t_arg args, int *hd_fd)
 			cock = open(args.out[i++], TRUNC, 0644);
 			if (cock == -1)
 			{
-				if (!access(args.in[i - 1], F_OK))
+				if (!access(args.out[i - 1], F_OK))
 					handle_error(args.out[i - 1], NO_PERMS_OPEN);
 				else
 					handle_error(args.out[i - 1], NO_FILE);
@@ -123,8 +123,8 @@ t_arg open_files(t_arg args, int *hd_fd)
 			cock = open(args.in[i++], O_RDONLY);
 			if (cock == -1)
 			{
-				// if (!access(args.in[i - 1], F_OK))
-				if (is_dir(args.in[i - 1]))
+				 if (!access(args.in[i - 1], F_OK))
+				//if (is_dir(args.in[i - 1]))
 					handle_error(args.in[i - 1], NO_PERMS_OPEN);
 				else
 					handle_error(args.in[i - 1], NO_FILE);
