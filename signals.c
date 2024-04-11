@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:49:52 by btan              #+#    #+#             */
-/*   Updated: 2024/04/11 02:03:36 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 10:05:44 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ int	sig_handler(int status)
 	if (WIFSIGNALED(status))
 	{
 		if (sig == SIGINT)
+		{
+			write(1, "\n", 1);
 			get_exit_status(unshift_exitcode(130));
+		}
 		if (sig == SIGQUIT)
 		{
 			write(1, "Quit\n", 5);
@@ -40,11 +43,4 @@ int	sig_handler(int status)
 		return (0);
 	}
 	return (1);
-}
-
-void	sig_wait(int sig)
-{
-	(void) sig;
-	write(1, "\n", 1);
-	signal(SIGINT, SIG_IGN);
 }

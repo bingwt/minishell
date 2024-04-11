@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/11 09:58:31 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 10:05:16 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	run_cmds(t_arg *args, t_list **envll)
 			signal(SIGQUIT, SIG_DFL);
 			iterative_piping(args, envll);
 		}
-		signal(SIGINT, sig_wait);
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
 		if (sig_handler(status))
 			get_exit_status(status);
