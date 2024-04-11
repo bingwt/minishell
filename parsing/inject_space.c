@@ -6,27 +6,38 @@
 /*   By: xlow <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:10:16 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/02 14:21:05 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/08 18:24:38 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	valid_redir(char *input)
+int	valid_redir(char **input)
 {
 	int	i;
 
-	i = 1;
-	if (!ft_strncmp(input, "<<<", 3) || !ft_strncmp(input, ">>>", 3))
-		return (0);
-	if (!ft_strncmp(input, "<>", 2) || !ft_strncmp(input, "><", 2))
-		return (0);
-	while (input[i] == ' ')
+	i = 0;
+	while (input[i])
+	{
+		if (!ft_strchr(input[i], '\a'))
+		{
+			if (ft_strnstr(input[i], "<<<", ft_strlen(input[i]))
+				|| ft_strnstr(input[i], ">>>", ft_strlen(input[i]))
+				|| ft_strnstr(input[i], "<>", ft_strlen(input[i]))
+				|| ft_strnstr(input[i], "><", ft_strlen(input[i])))
+			{
+				handle_error(input[i], UNEXPECTED_TOKEN);
+				return (0);
+			}
+			if ((ft_strchr(input[i], '<') || ft_strchr(input[i], '>'))
+				&& !input[i + 1])
+			{
+				handle_error(input[i], UNEXPECTED_TOKEN);
+				return (0);
+			}
+		}
 		i++;
-	if (i > 1 && (input[i] == '<' || input[i] == '>'))
-		return (0);
-	if (input[i] == '\0')
-		return (0);
+	}
 	return (1);
 }
 
@@ -65,12 +76,6 @@ char	*inject_space(char *input)
 	while (input[++i])
 	{
 		q = quotes(input[i], NULL);
-		if ((input[i] == '<' || input[i] == '>') && !valid_redir(input + i))
-		{
-			free(res.s);
-			handle_error(input, UNEXPECTED_TOKEN);
-			return (NULL);
-		}
 		assign_meta(&res, q, input[i], input[i + 1]);
 	}
 	if (quotes('\0', "reset"))

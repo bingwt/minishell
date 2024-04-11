@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 02:40:25 by btan              #+#    #+#             */
-/*   Updated: 2024/04/10 02:55:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 01:28:50 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 	}
 	ft_lstclear(&envll, free);
+	close(io[0]);
+	close(io[1]);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/07 21:59:51 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/11 12:20:43 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 	}
 	execve(path, args[i].cmd, envp);
 	free_args(args);
-	ft_free_split(&envp);
-	perror("execve");
-	exit(1);
+	ft_lstclear(envll, free);
+	free(envp);
+	handle_error("", CMD_NOT_FOUND);
+	free(path);
+	exit(127);
 }
 
 void	run_single(t_arg *args, t_list **envll)
@@ -69,6 +71,7 @@ void	run_single(t_arg *args, t_list **envll)
 	pid_t	pid;
 	int		status;
 
+	status = 0;
 	args[0] = open_files(args[0], NULL);
 	if (args[0].io[0] == -1 || args[0].io[1] == -1)
 		return ;
@@ -79,19 +82,14 @@ void	run_single(t_arg *args, t_list **envll)
 	pid = fork();
 	if (pid == 0)
 	{
-		//signal(SIGINT, sigint_child);
-		//signal(SIGQUIT, SIG_DFL);
-		sighandler_child();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		execute(args, list_to_array(*envll), envll, 0);
 	}
-	//signal(SIGINT, sigint_child);
-	//signal(SIGQUIT, SIG_IGN);
-	sighandler_wait();
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	get_exit_status(status);
-	//signal(SIGINT, sigint_parent);
-	//signal(SIGQUIT, SIG_IGN);
-	sighandler_parent();
+	if (sig_handler(status))
+		get_exit_status(status);
 }
 
 static void	iterative_body(t_arg *args, t_list **envll, int *hd_fd)

@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 21:58:37 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/11 01:57:27 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ int		ft_iswhitespace(int c);
 
 // SIGNALS
 void	free_strs(char **strs);
+int		sig_handler(int sig);
 void	sigint_parent(int sig);
 void	sigint_child(int sig);
+void	sigquit_child(int sig);
 void	sighandler_child(void);
 void	sighandler_wait(void);
+void	sig_wait(int sig);
 void	sighandler_parent(void);
 
 // PROMPT
@@ -109,6 +112,7 @@ void	free_args(t_arg *args);
 t_arg	*input_parser(char *input);
 
 // INJECT_SPACE
+int		valid_redir(char **input);
 char	*inject_space(char *input);
 
 // REJOIN_TOKENS
