@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/11 10:05:16 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 16:32:38 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,67 +76,6 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd)
 	}
 	else
 		ft_heredoc(args.in[i], -1);
-	return (args);
-}
-
-t_arg open_files(t_arg args, int *hd_fd)
-{
-	int cock;
-	int i;
-
-	i = 0;
-	while (i < args.out_i - 1)
-	{
-		if (!ft_strcmp(args.out[i++], ">>"))
-		{
-			cock = open(args.out[i++], APPEND, 0644);
-			if (cock == -1)
-			{
-				handle_error(args.out[i - 1], NO_PERMS_OPEN);
-				args.io[0] = -1;
-				break;
-			}
-			else
-				dup2(cock, args.io[1]);
-		}
-		else
-		{
-			cock = open(args.out[i++], TRUNC, 0644);
-			if (cock == -1)
-			{
-				if (!access(args.out[i - 1], F_OK))
-					handle_error(args.out[i - 1], NO_PERMS_OPEN);
-				else
-					handle_error(args.out[i - 1], NO_FILE);
-				args.io[1] = -1;
-				break;
-			}
-			else
-				dup2(cock, args.io[1]);
-		}
-	}
-	i = 0;
-	while (i < args.in_i - 1)
-	{
-		if (!ft_strcmp(args.in[i++], "<"))
-		{
-			cock = open(args.in[i++], O_RDONLY);
-			if (cock == -1)
-			{
-				 if (!access(args.in[i - 1], F_OK))
-				//if (is_dir(args.in[i - 1]))
-					handle_error(args.in[i - 1], NO_PERMS_OPEN);
-				else
-					handle_error(args.in[i - 1], NO_FILE);
-				args.io[1] = -1;
-				break;
-			}
-			else
-				dup2(cock, args.io[0]);
-		}
-		else
-			args = open_heredoc(args, i++, hd_fd);
-	}
 	return (args);
 }
 

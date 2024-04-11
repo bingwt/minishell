@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 19:24:27 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/11 12:20:43 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 18:11:28 by xlow             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static char	*get_path(char *cmd, t_list *envll)
 	char	**ptr;
 	char	*program;
 
+	program_path = NULL;
 	temp = expand_env("$PATH", envll);
 	path = ft_split(temp, ':');
 	free(temp);
@@ -54,6 +55,7 @@ static void	execute(t_arg *args, char **envp, t_list **envll, int i)
 		if (strchr(args[i].cmd[0], '/'))
 			dir_check(args, i);
 		handle_error(args[i].cmd[0], CMD_NOT_FOUND);
+		ft_lstclear(envll, free);
 		free_args(args);
 		exit(127);
 	}

@@ -6,7 +6,7 @@
 #    By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 19:26:56 by btan              #+#    #+#              #
-#    Updated: 2024/04/07 21:01:30 by xlow             ###   ########.fr        #
+#    Updated: 2024/04/11 16:32:24 by xlow             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS = signals.c \
 	   piping/run_cmd.c \
 	   piping/dups.c \
 	   piping/dir_check.c \
+	   piping/open_files.c \
 	   main.c
 
 CC = cc
