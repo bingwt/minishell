@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:28:28 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 21:58:37 by xlow             ###   ########.fr       */
+/*   Updated: 2024/04/11 01:57:27 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ int		ft_iswhitespace(int c);
 
 // SIGNALS
 void	free_strs(char **strs);
+int		sig_handler(int sig);
 void	sigint_parent(int sig);
 void	sigint_child(int sig);
+void	sigquit_child(int sig);
 void	sighandler_child(void);
 void	sighandler_wait(void);
+void	sig_wait(int sig);
 void	sighandler_parent(void);
 
 // PROMPT
@@ -94,7 +97,6 @@ void	ft_env(t_list *envp);
 void	ft_export(char **args, t_list **envll);
 void	ft_unset(char **args, t_list **envll);
 void	ft_exit(t_arg *args, int i, t_list **envll);
-void	minibing(void);
 
 // HEREDOC
 void	ft_heredoc(char	*eof, int fd);
@@ -110,6 +112,7 @@ void	free_args(t_arg *args);
 t_arg	*input_parser(char *input);
 
 // INJECT_SPACE
+int		valid_redir(char **input);
 char	*inject_space(char *input);
 
 // REJOIN_TOKENS
@@ -139,9 +142,12 @@ t_arg	open_heredoc(t_arg args, int i, int *hd_fd);
 t_arg	open_files(t_arg args, int *hd_fd);
 
 // FORKS
-int		is_dir(char *path);
 void	run_single(t_arg *args, t_list **envll);
 void	iterative_piping(t_arg *args, t_list **envll);
+
+// DIR_CHECK
+int		is_dir(char *path);
+void	dir_check(t_arg *args, int i);
 
 // DUPS
 t_arg	*child_dup(t_arg *args, int *new_fd, int i, int *hd_fd);

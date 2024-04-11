@@ -5,68 +5,62 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 19:27:32 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 16:58:25 by xlow             ###   ########.fr       */
+/*   Created: 2024/04/10 02:40:25 by btan              #+#    #+#             */
+/*   Updated: 2024/04/11 01:28:50 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+static int	minibing(t_list **envll)
 {
-
-	int		io[2];
 	char	*prompt;
 	char	*buffer;
 	t_arg	*args;
+
+	prompt = init_prompt(*envll);
+	buffer = readline(prompt);
+	free(prompt);
+	if (buffer && *buffer)
+		add_history(buffer);
+	if (!buffer)
+	{
+		printf("exit\n");
+		return (0);
+	}
+	prompt = expand_env(buffer, *envll);
+	args = input_parser(prompt);
+	free(prompt);
+	if (args)
+		run_cmds(args, envll);
+	if (args)
+		free_args(args);
+	free(buffer);
+	return (1);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	int		io[2];
 	t_list	*envll;
 
+	(void) argc, (void) argv;
 	signal(SIGINT, sigint_parent);
 	signal(SIGQUIT, SIG_IGN);
 	envll = NULL;
 	array_to_list(&envll, envp);
+	set_shlvl(&envll);
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
-	// expand_all("echo '$HOME' \"$HOME\"", envll);
-	// expand_all("echo $wfsa", envll);
-	//expand_env("echo $HOME", envll);
-	// test_args[1] = "test=something";
-	// test_args[2] = "test2=somethingelse";
-//	test_args[1] = "test=something";
-//	ft_export(test_args, &envll);
-//	test_args[0] = "unset";
-//	test_args[1] = "test";
-//	ft_unset(test_args, &envll);
-	set_shlvl(&envll);
 	while (1)
 	{
-		prompt = init_prompt(envll);
-		if (dup2(io[0], STDIN_FILENO) < 0 || dup2(io[1], STDOUT_FILENO) < 0)
-				perror("Dup");
-		if (argc == 2)
-		{
-			printf("%s mode\n", argv[1]);
-			buffer = readline("minibing> ");
-		}
-		else
-			buffer = readline(prompt);
-		free(prompt);
-		if (buffer && *buffer)
-			add_history(buffer);
-		if (!buffer)
-		{
-			printf("exit\n");
+		dup2(io[0], STDIN_FILENO);
+		dup2(io[1], STDOUT_FILENO);
+		if (!minibing(&envll))
 			break ;
-		}
-		prompt = expand_env(buffer, envll);
-		args = input_parser(prompt);
-		if (args)
-			run_cmds(args, &envll);
-		if (args)
-			free_args(args);
-		free(buffer);
-		free(prompt);
 	}
 	ft_lstclear(&envll, free);
+	close(io[0]);
+	close(io[1]);
 	return (0);
 }

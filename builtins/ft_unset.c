@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:55:23 by btan              #+#    #+#             */
-/*   Updated: 2024/04/07 15:19:21 by btan             ###   ########.fr       */
+/*   Updated: 2024/04/11 17:27:29 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,18 @@
 static t_list	*find_var(char *token, t_list *env)
 {
 	char	*content;
+	char	**vars;
 
 	while (env)
 	{
 		content = (char *) env->content;
-		if (!ft_strncmp(token, content, ft_strchr(content, '=') - content))
+		vars = ft_split(content, '=');
+		if (!ft_strcmp(token, vars[0]))
 			break ;
 		env = env->next;
+		ft_free_split(&vars);
 	}
+	ft_free_split(&vars);
 	return (env);
 }
 
