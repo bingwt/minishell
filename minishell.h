@@ -112,6 +112,7 @@ void	free_args(t_arg *args);
 t_arg	*input_parser(char *input);
 
 // INJECT_SPACE
+int		valid_redir(char **input);
 char	*inject_space(char *input);
 
 // REJOIN_TOKENS

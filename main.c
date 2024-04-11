@@ -60,5 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 	}
 	ft_lstclear(&envll, free);
+	close(io[0]);
+	close(io[1]);
 	return (0);
 }
