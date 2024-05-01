@@ -6,7 +6,7 @@
 /*   By: btan <btan@student.42singapore.sg>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:18:24 by xlow              #+#    #+#             */
-/*   Updated: 2024/04/11 16:32:38 by xlow             ###   ########.fr       */
+/*   Updated: 2024/05/01 21:49:55 by btan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ int	exebuns(t_arg *arg, int i, t_list **envll)
 	args = arg[i].cmd;
 	if (!cmd)
 		return (0);
-	if (!strcmp(cmd, "echo"))
+	if (!ft_strcmp(cmd, "echo"))
 		ft_echo(args);
-	else if (!strcmp(cmd, "cd"))
+	else if (!ft_strcmp(cmd, "cd"))
 		ft_cd(args, *envll);
-	else if (!strcmp(cmd, "pwd"))
+	else if (!ft_strcmp(cmd, "pwd"))
 		ft_pwd();
-	else if (!strcmp(cmd, "export"))
+	else if (!ft_strcmp(cmd, "export"))
 		ft_export(args, envll);
-	else if (!strcmp(cmd, "unset"))
+	else if (!ft_strcmp(cmd, "unset"))
 		ft_unset(args, envll);
-	else if (!strcmp(cmd, "env"))
+	else if (!ft_strcmp(cmd, "env"))
 		ft_env(*envll);
-	else if (!strcmp(cmd, "exit"))
+	else if (!ft_strcmp(cmd, "exit"))
 		ft_exit(arg, i, envll);
 	else
 		return (0);
